@@ -20,7 +20,7 @@ A single-page site that walks a user up a six-rung AI capability ladder. The use
 2. **Vibe coding**: Lovable, v0, Bolt. Shipping a UI by describing it.
 3. **Coding agents**: Claude Code, Cursor. Editing real code by chatting.
 4. **APIs**: calling Claude directly from your own code.
-5. **Knowledge systems**: giving Claude persistent context. Memory, retrieval, skills.
+5. **Knowledge systems**: giving Claude persistent context. Memory, retrieval, **skills**. This rung is where "skills as superpowers" becomes concrete — the rung 5 brief MUST explain that a skill is not just knowledge, it is injected behaviour. Prompting changes one conversation; memory changes what Claude knows; a skill changes what Claude *does*, every time it's invoked. The repo itself ships `.claude/skills/` to demonstrate this — clone the repo and you inherit the working agent, not just the app.
 6. **Integrated systems**: agents that read, write, and act across tools (Gmail, Calendar, Slack, your DB).
 
 ## Card anatomy
@@ -122,6 +122,19 @@ ai-ladder/
 │   ├── Rung.tsx                # One card
 │   ├── ContextInput.tsx        # Top textarea
 │   └── StreamedOutput.tsx      # Renders streamed tokens
+├── .claude/
+│   └── skills/                 # Ships with the repo. See .claude/skills/README.md
+│       ├── README.md
+│       ├── simplest-path/      # Project-bespoke
+│       ├── sweeping-the-codebase/
+│       ├── bugfix/
+│       ├── hygiene/
+│       ├── brainstorming/      # From superpowers (MIT, attribution in LICENSE-superpowers)
+│       ├── writing-plans/
+│       ├── test-driven-development/
+│       ├── verification-before-completion/
+│       └── systematic-debugging/
+├── LICENSE-superpowers         # Attribution for superpowers skills
 └── docs/
     └── superpowers/
         └── specs/
