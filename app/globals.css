@@ -33,6 +33,7 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 body {
@@ -164,7 +165,7 @@ body {
 
 /* ---------------- LAYOUT ---------------- */
 main {
-  max-width: 760px;
+  max-width: 840px;
   margin: 0 auto;
   padding: 0 32px;
   position: relative;
@@ -172,8 +173,12 @@ main {
 
 /* ---------------- HERO ---------------- */
 .hero {
-  padding-top: 22vh;
-  padding-bottom: 18vh;
+  padding-top: 18vh;
+  padding-bottom: 6vh;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .hero .eyebrow {
   font-family: var(--mono);
@@ -181,7 +186,7 @@ main {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 28px;
+  margin-bottom: 36px;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -192,29 +197,50 @@ main {
   background: var(--accent);
   border-radius: 50%;
 }
-.hero h1 {
+
+/* manifesto: the demoted "Six rungs. One climb. Pick yours." block, sits below the ladder as extra reading */
+.manifesto {
+  padding: 16vh 0 14vh 0;
+  border-top: 1px solid var(--rule-strong);
+}
+.manifesto .eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.manifesto .eyebrow .step {
+  color: var(--accent);
+}
+.manifesto h2 {
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(56px, 8vw, 104px);
-  line-height: 0.96;
+  font-size: clamp(48px, 6.6vw, 88px);
+  line-height: 0.98;
   letter-spacing: -0.015em;
-  margin: 0 0 36px 0;
+  margin: 0 0 32px 0;
   color: var(--ink);
+  text-wrap: balance;
 }
-.hero h1 em {
+.manifesto h2 em {
   font-style: italic;
   color: var(--accent);
 }
-.hero .lede {
+.manifesto .lede {
   font-family: var(--body);
   font-size: 22px;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--ink-soft);
-  max-width: 620px;
-  margin: 0 0 56px 0;
+  max-width: 640px;
+  margin: 0;
   text-wrap: pretty;
 }
-.hero .lede .small-caps {
+.manifesto .lede .small-caps {
   font-variant: small-caps;
   letter-spacing: 0.06em;
   color: var(--muted);
@@ -224,8 +250,42 @@ main {
 .context {
   border-top: 1px solid var(--rule-strong);
   border-bottom: 1px solid var(--rule-strong);
-  padding: 28px 0 26px 0;
+  padding: 36px 0 32px 0;
   margin-bottom: 24px;
+}
+.context-question {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(40px, 5.6vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0 0 32px 0;
+  text-wrap: balance;
+  max-width: 760px;
+}
+.context-question em {
+  font-style: italic;
+  color: var(--accent);
+}
+.context-cue {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 22px;
+}
+.context-cue a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--rule-strong);
+  padding-bottom: 1px;
+  transition: color 160ms, border-color 160ms;
+}
+.context-cue a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 .context-label {
   font-family: var(--mono);
@@ -608,7 +668,7 @@ main {
   }
 }
 
-/* ---------------- RUNG 5 — INVERSION ---------------- */
+/* ---------------- RUNG 5 / INVERSION ---------------- */
 .rung-5 {
   background: var(--ink);
   color: var(--paper);
@@ -618,7 +678,7 @@ main {
   border-top: 0;
 }
 .rung-5 .inner {
-  max-width: 760px;
+  max-width: 840px;
   margin: 0 auto;
   padding: 0 32px;
 }

@@ -7,7 +7,7 @@ export type InspoItem = {
 
 /**
  * Public, widely-known projects people built (or shipped) at each rung.
- * Think of this as Dribbble for AI work — see what's possible, then go make
+ * Think of this as Dribbble for AI work: see what's possible, then go make
  * your own. Keep entries to four-ish per rung so the page stays editorial,
  * not a directory dump.
  */
@@ -17,14 +17,14 @@ export const inspiration: Record<string, InspoItem[]> = {
       tool: "Anthropic",
       title: "Prompt Library",
       blurb:
-        "Curated, named prompts you can copy and adapt — from cosmic keystrokes to PII scrubber.",
+        "Curated, named prompts you can copy and adapt, from cosmic keystrokes to PII scrubber.",
       url: "https://docs.claude.com/en/resources/prompt-library/library",
     },
     {
       tool: "DAIR.AI",
       title: "Prompt Engineering Guide",
       blurb:
-        "The most-cited open guide on how to structure prompts — zero-shot, few-shot, chain-of-thought.",
+        "The most-cited open guide on how to structure prompts: zero-shot, few-shot, chain-of-thought.",
       url: "https://www.promptingguide.ai",
     },
     {
@@ -62,7 +62,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       tool: "StackBlitz",
       title: "Bolt.new",
       blurb:
-        "Prompt-to-app in the browser. Includes the dev server, the file tree, the deploy — no terminal.",
+        "Prompt-to-app in the browser. Includes the dev server, the file tree, the deploy. No terminal.",
       url: "https://bolt.new",
     },
     {
@@ -141,7 +141,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       tool: "Anthropic",
       title: "Agent Skills",
       blurb:
-        "The official skills system — tiny Markdown files that change what Claude does when their trigger fires.",
+        "The official skills system: tiny Markdown files that change what Claude does when their trigger fires.",
       url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
     },
     {
@@ -193,7 +193,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       tool: "Anthropic",
       title: "Computer Use",
       blurb:
-        "Claude operating a real desktop — clicks, scrolls, types. The frontier of agents with hands.",
+        "Claude operating a real desktop: clicks, scrolls, types. The frontier of agents with hands.",
       url: "https://www.anthropic.com/news/developing-computer-use",
     },
   ],

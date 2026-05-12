@@ -10,7 +10,7 @@ const STEPS = [
   {
     rung: 1,
     what:
-      "Open Claude.ai and re-do your last meeting follow-up email — but ask it to find what you didn't say.",
+      "Open Claude.ai and re-do your last meeting follow-up email, but ask it to find what you didn't say.",
     where: "20 min · claude.ai",
   },
   {
@@ -71,22 +71,10 @@ export default function Home() {
             <span className="swatch" />
             A field guide to what you can actually do with AI · Issue 01
           </div>
-          <h1>
-            Six rungs.
-            <br />
-            One <em>climb</em>.
-            <br />
-            Pick yours.
-          </h1>
-          <p className="lede">
-            Most people stop at rung one and think the elevator is broken.{" "}
-            <span className="small-caps">The AI Ladder</span> shows you one vivid thing
-            you could be doing at each of the six rungs above where you are — written
-            for the work you actually do — and asks you to take one small step.
-          </p>
-
           <ContextInput value={context} onChange={setContext} />
         </section>
+
+        <div id="ladder-intro" />
 
         {rungs.map((r) => (
           <Rung key={r.id} rung={r} getContext={() => contextRef.current} />
@@ -106,17 +94,29 @@ export default function Home() {
           </p>
           <div className="step-list">
             {STEPS.map((s) => (
-              <a
-                key={s.rung}
-                className="step-row"
-                href={`#rung-${s.rung}`}
-              >
+              <a key={s.rung} className="step-row" href={`#rung-${s.rung}`}>
                 <div className="n">↑ Rung 0{s.rung}</div>
                 <div className="what">{s.what}</div>
                 <div className="where">{s.where}</div>
               </a>
             ))}
           </div>
+        </section>
+
+        <section className="manifesto" id="why">
+          <div className="eyebrow">
+            <span className="step">§ Why this exists</span>
+            <span>The longer story</span>
+          </div>
+          <h2>
+            Six rungs. One <em>climb</em>. Pick yours.
+          </h2>
+          <p className="lede">
+            Most people stop at rung one and think the elevator is broken.{" "}
+            <span className="small-caps">The AI Ladder</span> shows you one vivid thing
+            you could be doing at each of the six rungs above where you are, written
+            for the work you actually do, and asks you to take one small step.
+          </p>
         </section>
       </main>
 

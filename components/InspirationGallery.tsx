@@ -9,7 +9,7 @@ export function InspirationGallery({ rungId }: Props) {
   return (
     <section className="inspo">
       <div className="inspo-label">
-        <span>⌁ Inspiration — what others have built at this rung</span>
+        <span>⌁ Inspiration · what others have built at this rung</span>
         <span className="what">(steal liberally)</span>
       </div>
       <div className="inspo-grid">

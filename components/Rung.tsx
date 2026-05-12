@@ -137,7 +137,7 @@ export function Rung({ rung, getContext }: Props) {
             <div>
               <div className="rung-meta" style={{ marginBottom: 18 }}>
                 <span style={{ color: "var(--accent)" }}>
-                  ⌁ Your skill shelf — a few examples
+                  ⌁ Your skill shelf · a few examples
                 </span>
               </div>
               <div className="skills-stack">
@@ -181,7 +181,7 @@ export function Rung({ rung, getContext }: Props) {
 
       {rung.seedExample && (
         <div className="seed">
-          <div className="seed-label">Seed example — generic</div>
+          <div className="seed-label">Seed example · generic</div>
           <div className="seed-text">{rung.seedExample}</div>
         </div>
       )}

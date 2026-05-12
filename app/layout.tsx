@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI Ladder — a personalised guide",
+  title: "AI Ladder · a personalised guide",
   description:
-    "Six rungs. One climb. Pick yours. A field guide to what you can actually do with AI — written for the work you do.",
+    "Six rungs. One climb. Pick yours. A field guide to what you can actually do with AI, written for the work you do.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
