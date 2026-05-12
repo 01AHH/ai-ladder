@@ -5,25 +5,40 @@ type Props = {
   onChange: (v: string) => void;
 };
 
+const SUGGESTIONS = [
+  { label: "paediatric nurse, Lagos", fill: "I'm a paediatric nurse running a small clinic in Lagos." },
+  { label: "PM, logistics", fill: "I'm a product manager at a B2B logistics startup." },
+  { label: "solo ceramics shop", fill: "I run a one-person Etsy shop selling handmade ceramics." },
+  { label: "history teacher", fill: "I'm a high-school history teacher in rural Vermont." },
+];
+
 export function ContextInput({ value, onChange }: Props) {
+  const filed = value.trim().length > 0;
   return (
-    <section id="context-input" className="mx-auto max-w-2xl px-6 pt-16 pb-12">
-      <h1 className="text-3xl font-semibold tracking-tight">AI Ladder</h1>
-      <p className="mt-2 text-stone-600">
-        Six rungs. See one vivid example tailored to you, then take one small step.
-      </p>
-      <label className="mt-8 block">
-        <span className="text-sm font-medium text-stone-800">
-          Tell Claude about you. What do you do, what do you care about, what are you stuck on?
-        </span>
-        <textarea
+    <div className="context" id="context-input">
+      <div className="context-label">
+        <span>§ Tell us who you are</span>
+        <span className={`who${filed ? " filed" : ""}`}>{filed ? "filed" : "unread"}</span>
+      </div>
+      <div className="context-input">
+        <span className="marker">¶</span>
+        <input
+          type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          rows={4}
-          className="mt-2 w-full resize-y rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none"
-          placeholder="I'm a real estate agent who hates spreadsheets..."
+          placeholder="I'm a real estate agent in Sydney…"
+          autoComplete="off"
+          spellCheck={false}
         />
-      </label>
-    </section>
+      </div>
+      <div className="context-hint">
+        <span>try —</span>
+        {SUGGESTIONS.map((s) => (
+          <button key={s.label} onClick={() => onChange(s.fill)}>
+            {s.label}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
