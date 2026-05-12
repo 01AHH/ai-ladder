@@ -8,6 +8,7 @@ dist
 build
 *.log
 next-env.d.ts
+tsconfig.tsbuildinfo
 
 # Claude Code local-only settings (per-machine, not for public repo)
 .claude/settings.local.json
