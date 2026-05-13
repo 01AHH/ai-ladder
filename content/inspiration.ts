@@ -1,8 +1,15 @@
+export type InspoMedia =
+  | { kind: "image"; src: string; alt: string; ratio?: number }
+  | { kind: "video"; src: string; ratio?: number; poster?: string }
+  | { kind: "youtube"; id: string }
+  | { kind: "loom"; id: string };
+
 export type InspoItem = {
   tool: string;
   title: string;
   blurb: string;
   url: string;
+  media?: InspoMedia;
 };
 
 /**

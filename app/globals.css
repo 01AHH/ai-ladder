@@ -607,31 +607,32 @@ main {
   color: var(--accent);
 }
 .inspo-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
+  column-count: 3;
+  column-gap: 14px;
 }
 .inspo-card {
-  background: var(--paper);
+  display: block;
+  break-inside: avoid;
+  margin: 0 0 14px;
   padding: 18px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
   text-decoration: none;
   color: inherit;
-  transition: background 160ms, color 160ms;
+  transition: background 160ms, color 160ms, border-color 160ms;
 }
 .inspo-card:hover {
   background: var(--paper-2);
+  border-color: var(--rule-strong);
 }
 .inspo-card .tool {
+  display: block;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
+  margin-bottom: 8px;
 }
 .inspo-card .title {
   font-family: var(--display);
@@ -641,6 +642,7 @@ main {
   display: flex;
   align-items: baseline;
   gap: 8px;
+  margin-bottom: 8px;
 }
 .inspo-card .title .ext {
   font-family: var(--display);
@@ -657,14 +659,41 @@ main {
   transform: translate(2px, -2px);
 }
 .inspo-card .blurb {
+  display: block;
   font-family: var(--body);
   font-size: 15px;
   line-height: 1.45;
   color: var(--muted);
 }
-@media (max-width: 640px) {
+.inspo-media {
+  position: relative;
+  width: calc(100% + 40px);
+  margin: -18px -20px 14px;
+  background: var(--ink);
+  overflow: hidden;
+}
+.inspo-media img,
+.inspo-media video,
+.inspo-media iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  object-fit: cover;
+}
+.inspo-card[data-has-media="true"] {
+  padding-top: 0;
+}
+@media (max-width: 900px) {
   .inspo-grid {
-    grid-template-columns: 1fr;
+    column-count: 2;
+  }
+}
+@media (max-width: 540px) {
+  .inspo-grid {
+    column-count: 1;
   }
 }
 
@@ -821,21 +850,22 @@ main {
 .rung-5 .inspo-label {
   color: rgba(241, 235, 222, 0.55);
 }
-.rung-5 .inspo-grid {
-  background: rgba(241, 235, 222, 0.16);
-  border-color: rgba(241, 235, 222, 0.16);
-}
 .rung-5 .inspo-card {
   background: var(--ink);
+  border-color: rgba(241, 235, 222, 0.16);
 }
 .rung-5 .inspo-card:hover {
   background: rgba(241, 235, 222, 0.04);
+  border-color: rgba(241, 235, 222, 0.32);
 }
 .rung-5 .inspo-card .title {
   color: var(--paper);
 }
 .rung-5 .inspo-card .blurb {
   color: rgba(241, 235, 222, 0.6);
+}
+.rung-5 .inspo-media {
+  background: rgba(241, 235, 222, 0.06);
 }
 
 .rung-5 .climax-mark {
