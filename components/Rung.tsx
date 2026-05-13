@@ -122,7 +122,7 @@ export function Rung({ rung, getContext }: Props) {
 
   const meta = (
     <div className="rung-meta">
-      <span className="step">↑ Rung {rung.number} of {TOTAL}</span>
+      <span className="step">↑ Step {rung.number} of {TOTAL}</span>
       <span>{rung.tagline}</span>
       <span>{rung.time}</span>
     </div>
@@ -199,7 +199,7 @@ export function Rung({ rung, getContext }: Props) {
             <div className="climax-stamp">Where the agent gets opinions</div>
             <h2 className="rung-numeral">{String(rung.number).padStart(2, "0")}</h2>
             <div className="rung-meta" style={{ marginTop: 12 }}>
-              <span className="step">↑ Rung {rung.number} of {TOTAL}</span>
+              <span className="step">↑ Step {rung.number} of {TOTAL}</span>
               <span>{rung.tagline}</span>
             </div>
             <h3 className="rung-name">

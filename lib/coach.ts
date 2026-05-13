@@ -28,7 +28,7 @@ export function varsFromRung(rung: Rung, userContext: string, nextRung: Rung | n
   const bridge =
     nextRung && rung.bridgeTarget
       ? `${nextRung.name}. ${rung.bridgeTarget.hook}`
-      : "null (this is the last rung, use the closing line specified in the prompt)";
+      : "null (this is the last step, use the closing line specified in the prompt)";
 
   return {
     user_context: userContext.trim(),

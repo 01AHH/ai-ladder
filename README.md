@@ -1,17 +1,17 @@
 # AI Ladder
 
-Eight rungs. See one vivid example of what's possible at each level of AI capability, personalised to you, then take one small step.
+Eight steps. See one vivid example of what's possible at each level of AI capability, personalised to you, then take the next small one.
 
-## The rungs
+## The steps
 
-1. **Prompting** — using Claude.ai or ChatGPT well
-2. **Vibe coding** — Lovable, v0, Bolt
-3. **Coding agents** — Claude Code, Cursor
-4. **Skills** — markdown files that change what the agent *does*, every time
-5. **Memory** — CLAUDE.md, /memory, the facts you stop re-explaining
-6. **Repo structure** — the working substrate, home for skills and memory
-7. **APIs** — calling Claude directly from your own code
-8. **Integrated systems** — agents that read, write, act across tools
+1. **Prompting**: using Claude.ai or ChatGPT well
+2. **Vibe coding**: Lovable, v0, Bolt
+3. **Coding agents**: Claude Code, Cursor
+4. **Skills**: markdown files that change what the agent *does*, every time
+5. **Memory**: CLAUDE.md, /memory, the facts you stop re-explaining
+6. **Repo structure**: the working substrate, home for skills and memory
+7. **APIs**: calling Claude directly from your own code
+8. **Integrated systems**: agents that read, write, act across tools
 
 ## Running locally
 
@@ -27,9 +27,9 @@ Open http://localhost:3000.
 
 ## The repo is the content
 
-Clone this repo and you get more than a Next.js app — you get the working agent. See [`.claude/skills/`](./.claude/skills) for the nine skills that ship with it. Open the repo in [Claude Code](https://claude.com/claude-code) and they load automatically.
+Clone this repo and you get more than a Next.js app. You get the working agent. See [`.claude/skills/`](./.claude/skills) for the nine skills that ship with it. Open the repo in [Claude Code](https://claude.com/claude-code) and they load automatically.
 
-This is rung 4 made concrete: a skill is not just knowledge, it's injected behaviour. Prompting changes one conversation. Memory (rung 5) changes what Claude *knows*. A skill changes what Claude *does*, every time the trigger fires.
+This is step 4 made concrete: a skill is not just knowledge, it's injected behaviour. Prompting changes one conversation. Memory (step 5) changes what Claude *knows*. A skill changes what Claude *does*, every time the trigger fires.
 
 ## Stack
 
@@ -40,14 +40,14 @@ Next.js 15 App Router · TypeScript · Tailwind · [`@anthropic-ai/sdk`](https:/
 ```
 app/             # page + streaming API route
 components/      # ContextInput, Rung, StreamedOutput
-content/rungs.ts # eight rung definitions
-content/essays/  # long-form essays attached to specific rungs
+content/rungs.ts # eight step definitions
+content/essays/  # long-form essays attached to specific steps
 prompts/coach.md # system prompt
 lib/             # prompt loader, rate limit
-.claude/skills/  # ships with the repo — see README inside
+.claude/skills/  # ships with the repo, see README inside
 docs/            # design spec + implementation plan
 ```
 
 ## License
 
-MIT for the app code. Skills under `.claude/skills/` copied from [superpowers](https://github.com/obra/superpowers) (MIT, Jesse Vincent) — see `LICENSE-superpowers`.
+MIT for the app code. Skills under `.claude/skills/` copied from [superpowers](https://github.com/obra/superpowers) (MIT, Jesse Vincent). See `LICENSE-superpowers`.
