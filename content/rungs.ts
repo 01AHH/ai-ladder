@@ -112,7 +112,7 @@ export const rungs: Rung[] = [
     tagline: "The second brain · markdown as memory",
     time: "~a weekend",
     definition:
-      "You stop pasting context into the chat window and start writing it into files. A folder of markdown becomes the place the model *lives*, not the place you *visit*. Every workflow, every rule, every person, every decision gets a file. The AI walks the graph the way you would. The next conversation begins smarter than the last one because the substrate is doing the work.",
+      "You stop pasting context into the chat window and start writing it into files. A folder of markdown becomes the place the model *lives*, not the place you *visit*. Every workflow, every rule, every person, every decision gets a file. The AI walks the graph the way you would. The next conversation begins smarter than the last one because the substrate is doing the work.\n\nThis is also where the compounding starts. The repo is memory: instead of re-explaining your business, your edge cases, your way of thinking at the start of every conversation, it's already there. Claude stops being a stranger you have to brief and starts being a colleague who was in the room last time. Each session builds on the last. The faster you document, the less you re-explain — and the less you re-explain, the faster you document. I'll be honest: before this rung, I was an AI sceptic. This is the rung where I first felt the change.",
     seedExample:
       '"Move every rule, persona, and SOP into a /memory folder. Watch what the model on its second visit can do."',
     tools: ["CLAUDE.md", "/prompts", "/docs", "markdown"],
