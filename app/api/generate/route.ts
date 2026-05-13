@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       const encoder = new TextEncoder();
       try {
         const response = client.messages.stream({
-          model: "claude-sonnet-4-6",
+          model: "claude-haiku-4-5-20251001",
           max_tokens: 1024,
           system,
           messages: [{ role: "user", content: "Generate the walkthrough now." }],
