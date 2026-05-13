@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { rungs } from "@/content/rungs";
 import { ContextInput } from "@/components/ContextInput";
 import { Rung } from "@/components/Rung";
-import { LeftRail } from "@/components/LeftRail";
+import { Bridge } from "@/components/Bridge";
+import { RungIndex } from "@/components/RungIndex";
+import { LadderViz } from "@/components/LadderViz";
 
 const STEPS = [
   {
@@ -51,91 +53,201 @@ const STEPS = [
   },
 ];
 
+const SCENE_LABELS: Record<string, string> = {
+  hero: "Start",
+  prompting: "Prompting",
+  vibe: "Vibe coding",
+  agents: "Coding agents",
+  repo: "Repo structure",
+  apis: "APIs",
+  climax: "Skills",
+  integrated: "Integrated",
+  step: "Step",
+};
+
+const SCENE_NUMS: Record<string, string> = {
+  hero: "00",
+  prompting: "01",
+  vibe: "02",
+  agents: "03",
+  repo: "04",
+  apis: "05",
+  climax: "06",
+  integrated: "07",
+  step: "08",
+};
+
 export default function Home() {
   const [context, setContext] = useState("");
   const contextRef = useRef(context);
   contextRef.current = context;
 
+  const [activeScene, setActiveScene] = useState("hero");
+
+  // Scroll-driven scene class on <body>. Pick the bg-element whose center
+  // is closest to viewport center; toggle body class for the palette morph.
+  useEffect(() => {
+    function update() {
+      const els = document.querySelectorAll<HTMLElement>("[data-scene-key]");
+      const center = window.innerHeight * 0.4;
+      let best: HTMLElement | null = null;
+      let bestDist = Infinity;
+      els.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const mid = rect.top + rect.height / 2;
+        if (
+          rect.top < window.innerHeight * 0.6 &&
+          rect.bottom > window.innerHeight * 0.2
+        ) {
+          const dist = Math.abs(mid - center);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = el;
+          }
+        }
+      });
+      if (best) {
+        const key = (best as HTMLElement).dataset.sceneKey;
+        if (key && key !== activeScene) setActiveScene(key);
+      }
+    }
+    update();
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", update);
+      cancelAnimationFrame(raf);
+    };
+  }, [activeScene]);
+
+  // Apply scene class to body so the palette tokens morph globally.
+  useEffect(() => {
+    const cls = `scene-${activeScene}`;
+    document.body.classList.forEach((c) => {
+      if (c.startsWith("scene-") && c !== cls) {
+        document.body.classList.remove(c);
+      }
+    });
+    if (!document.body.classList.contains(cls)) {
+      document.body.classList.add(cls);
+    }
+  }, [activeScene]);
+
   return (
     <>
-      <LeftRail />
-
       <header className="topbar">
         <div className="mark">
-          AI · LADDER<span className="dot"> .</span>
+          THE&nbsp;AI&nbsp;LADDER<span className="dot">.</span>
         </div>
-        <div className="meta">
-          <span>SEVEN RUNGS</span>
-          <span>ONE STEP</span>
-          <span>EST. 2026</span>
+        <div className="scene-readout">
+          <span className="n">{SCENE_NUMS[activeScene] ?? "00"}</span>
+          <span className="sep">/</span>
+          <span>07</span>
+          <span className="label">{SCENE_LABELS[activeScene] ?? "Start"}</span>
         </div>
       </header>
 
+      <LadderViz activeKey={activeScene} />
+
       <main>
-        <section className="hero" id="hero">
-          <div className="eyebrow">
-            <span className="swatch" />
-            A field guide to what you can actually do with AI · Issue 01
-          </div>
-          <ContextInput value={context} onChange={setContext} />
-        </section>
+        <section className="scene hero" id="hero" data-scene-key="hero">
+          <div className="scene-inner">
+            <div className="eyebrow">
+              <span className="pip" />
+              A field guide to what you can actually do with AI
+            </div>
 
-        <div id="ladder-intro" />
+            <h1>
+              Seven rungs.<br />
+              One <em>climb</em>.<br />
+              Pick yours.
+            </h1>
 
-        {rungs.map((r) => (
-          <Rung key={r.id} rung={r} getContext={() => contextRef.current} />
-        ))}
+            <p className="lede">
+              Most people stop at rung one and assume the elevator is broken.{" "}
+              <strong>The AI Ladder</strong> shows you one vivid thing you could
+              be doing at every rung above where you are. Written for the work
+              you actually do. Five minutes, then a single concrete step you
+              could take this week.
+            </p>
 
-        <section className="one-step" id="onestep">
-          <div className="rung-meta" style={{ marginBottom: 18 }}>
-            <span className="step">⌂ Now pick one</span>
-            <span>Smallest possible next move</span>
-          </div>
-          <h2>
-            The whole point is the <em>step</em>, not the ladder.
-          </h2>
-          <p>
-            Pick one of these. Block twenty minutes for it this week. The ladder is
-            only useful if you put your foot on it.
-          </p>
-          <div className="step-list">
-            {STEPS.map((s) => (
-              <a key={s.rung} className="step-row" href={`#rung-${s.rung}`}>
-                <div className="n">↑ Rung 0{s.rung}</div>
-                <div className="what">{s.what}</div>
-                <div className="where">{s.where}</div>
-              </a>
-            ))}
+            <ContextInput value={context} onChange={setContext} />
+
+            <RungIndex />
+
+            <div className="scroll-hint">
+              <span>Or just scroll</span>
+              <span className="arr">↓</span>
+            </div>
           </div>
         </section>
 
-        <section className="manifesto" id="why">
-          <div className="eyebrow">
-            <span className="step">§ Why this exists</span>
-            <span>The longer story</span>
+        {rungs.map((r, i) => {
+          const prevRung = rungs[i - 1];
+          return (
+            <div key={r.id}>
+              {prevRung && (
+                <Bridge
+                  uptag={prevRung.bridgeUptag}
+                  line={prevRung.socraticBridge}
+                  sceneKey={prevRung.sceneKey}
+                />
+              )}
+              <Rung rung={r} getContext={() => contextRef.current} />
+            </div>
+          );
+        })}
+
+        {/* Bridge from last rung into the Step scene */}
+        <Bridge
+          uptag={rungs[rungs.length - 1].bridgeUptag}
+          line={rungs[rungs.length - 1].socraticBridge}
+          sceneKey={rungs[rungs.length - 1].sceneKey}
+        />
+
+        <section className="scene step" id="step" data-scene-key="step">
+          <div className="scene-inner">
+            <div className="step-eyebrow">
+              <span>⌂ The whole point</span>
+            </div>
+            <h2>
+              The point is the <em>step</em>, not the ladder.
+            </h2>
+            <p className="step-lede">
+              Pick one. Block twenty minutes for it this week. The ladder is
+              only useful if you put your foot on it.
+            </p>
+            <div className="step-list">
+              {STEPS.map((s) => (
+                <a key={s.rung} className="step-row" href={`#rung-${s.rung}`}>
+                  <div className="n">↑ Rung 0{s.rung}</div>
+                  <div className="what">{s.what}</div>
+                  <div className="where">{s.where}</div>
+                </a>
+              ))}
+            </div>
           </div>
-          <h2>
-            Seven rungs. One <em>climb</em>. Pick yours.
-          </h2>
-          <p className="lede">
-            Most people stop at rung one and think the elevator is broken.{" "}
-            <span className="small-caps">The AI Ladder</span> shows you one vivid thing
-            you could be doing at each of the seven rungs above where you are, written
-            for the work you actually do, and asks you to take one small step.
-          </p>
         </section>
       </main>
 
       <footer className="site">
         <div className="colophon">
-          Set in Instrument Serif &amp; JetBrains Mono on warm paper. Composed in one
-          page, one column, one ladder. No tracking. No newsletter signup. Open source
-          on <a href="https://github.com/01AHH/ai-ladder">GitHub</a>, MIT licensed. Fork
-          it, bring your own <a href="https://console.anthropic.com/">Anthropic key</a>,
-          make it yours.
+          Set in Instrument Serif, Inter &amp; JetBrains Mono on warm paper.
+          Composed in one page, one column, one ladder. No tracking. No
+          newsletter signup. Open source on{" "}
+          <a href="https://github.com/01AHH/ai-ladder">GitHub</a>, MIT licensed.
+          Fork it, bring your own{" "}
+          <a href="https://console.anthropic.com/">Anthropic key</a>, make it
+          yours.
         </div>
         <div className="wink">
-          the repo is the content<span className="dot"> .</span>
+          the repo is the content<span className="dot">.</span>
         </div>
       </footer>
     </>

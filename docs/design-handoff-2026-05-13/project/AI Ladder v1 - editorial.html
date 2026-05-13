@@ -1,0 +1,1391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI Ladder — a personalised guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --paper: #F1EBDE;
+    --paper-2: #E8E0CF;
+    --ink: #1A1612;
+    --ink-soft: #2A241E;
+    --muted: #7A6F60;
+    --rule: rgba(26, 22, 18, 0.16);
+    --rule-strong: rgba(26, 22, 18, 0.42);
+    --accent: #C7421E;
+    --accent-ink: #B53A18;
+
+    --display: "Instrument Serif", "Source Serif 4", Georgia, serif;
+    --body: "Source Serif 4", Georgia, serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 18px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    /* very faint paper grain */
+    background-image:
+      radial-gradient(rgba(26,22,18,0.025) 1px, transparent 1px),
+      radial-gradient(rgba(26,22,18,0.018) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 2px;
+  }
+
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  /* ---------------- LEFT RAIL ---------------- */
+  .rail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 88px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    pointer-events: none;
+    transition: color 240ms ease;
+  }
+  .rail .rail-track {
+    position: relative;
+    width: 1px;
+    height: 60vh;
+    background: var(--rule-strong);
+  }
+  .rail .rail-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    background: var(--accent);
+    transition: height 60ms linear;
+  }
+  .rail .rail-tick {
+    position: absolute;
+    left: -28px;
+    width: 56px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translateY(-50%);
+    pointer-events: auto;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .rail .rail-tick .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper);
+    flex-shrink: 0;
+    margin-left: 23px;
+    transition: all 200ms ease;
+  }
+  .rail .rail-tick .num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    transition: color 200ms ease;
+  }
+  .rail .rail-tick.active .dot {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.15);
+  }
+  .rail .rail-tick.active .num {
+    color: var(--accent);
+  }
+  .rail.dark { color: var(--paper); }
+  .rail.dark .rail-track { background: rgba(241, 235, 222, 0.22); }
+  .rail.dark .rail-tick .dot { background: var(--ink); border-color: rgba(241, 235, 222, 0.35); }
+  .rail.dark .rail-tick .num { color: rgba(241, 235, 222, 0.55); }
+  .rail.dark .rail-tick.active .dot { background: var(--accent); border-color: var(--accent); }
+
+  /* ---------------- TOP NAV ---------------- */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 22px 36px 22px 88px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: linear-gradient(to bottom, var(--paper) 60%, rgba(241, 235, 222, 0));
+    pointer-events: none;
+  }
+  .topbar .mark { color: var(--ink); }
+  .topbar .mark .dot { color: var(--accent); }
+  .topbar .meta { display: flex; gap: 28px; }
+
+  /* ---------------- LAYOUT ---------------- */
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px 0 32px;
+    position: relative;
+  }
+
+  /* ---------------- HERO ---------------- */
+  .hero {
+    padding-top: 22vh;
+    padding-bottom: 18vh;
+  }
+  .hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero .eyebrow .swatch {
+    width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(56px, 8vw, 104px);
+    line-height: 0.96;
+    letter-spacing: -0.015em;
+    margin: 0 0 36px 0;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero .lede {
+    font-family: var(--body);
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin: 0 0 56px 0;
+    text-wrap: pretty;
+  }
+  .hero .lede .small-caps {
+    font-variant: small-caps;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+
+  /* ---------------- CONTEXT INPUT ---------------- */
+  .context {
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 28px 0 26px 0;
+    margin-bottom: 24px;
+  }
+  .context-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .context-label .who {
+    color: var(--ink);
+  }
+  .context-input {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .context-input .marker {
+    font-family: var(--display);
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .context-input input {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(24px, 3.4vw, 34px);
+    color: var(--ink);
+    padding: 4px 0;
+    line-height: 1.2;
+  }
+  .context-input input::placeholder {
+    color: var(--muted);
+    opacity: 0.6;
+  }
+  .context-hint {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 16px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .context-hint button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0;
+    border-bottom: 1px dashed var(--rule-strong);
+    transition: color 160ms;
+  }
+  .context-hint button:hover { color: var(--accent); }
+
+  /* ---------------- RUNG SECTION ---------------- */
+  .rung {
+    padding: 18vh 0 18vh 0;
+    border-top: 1px solid var(--rule);
+    position: relative;
+  }
+  .rung:first-of-type { border-top: 0; padding-top: 4vh; }
+
+  .rung-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 36px;
+  }
+  .rung-numeral {
+    font-family: var(--display);
+    font-size: clamp(120px, 18vw, 220px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin: 0;
+    transition: color 220ms ease;
+  }
+  .rung-numeral .slash {
+    font-size: 0.34em;
+    color: var(--muted);
+    vertical-align: 0.55em;
+    margin: 0 0.12em;
+    font-family: var(--mono);
+    letter-spacing: 0;
+  }
+  .rung:hover .rung-numeral { color: var(--accent); }
+  .rung-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    gap: 18px;
+    margin-top: 6px;
+  }
+  .rung-meta .step { color: var(--accent); }
+
+  .rung-name {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(38px, 5.4vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 12px 0 32px 0;
+    color: var(--ink);
+  }
+  .rung-name em { font-style: italic; }
+
+  .rung-def {
+    font-family: var(--body);
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 580px;
+    margin: 0 0 44px 0;
+    text-wrap: pretty;
+  }
+  .rung-def::first-letter {
+    font-family: var(--display);
+    font-size: 1.6em;
+    line-height: 0.9;
+    float: left;
+    margin: 6px 8px 0 -2px;
+    color: var(--accent);
+  }
+
+  .seed {
+    border-left: 2px solid var(--accent);
+    padding: 6px 0 6px 18px;
+    margin-bottom: 40px;
+    max-width: 540px;
+  }
+  .seed-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .seed-text {
+    font-family: var(--body);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .generate {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    padding: 14px 0 14px 0;
+    cursor: pointer;
+    border-bottom: 1px solid var(--ink);
+    transition: all 180ms ease;
+  }
+  .generate:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .generate .arrow {
+    font-family: var(--display);
+    font-size: 18px;
+    font-style: italic;
+    transition: transform 220ms ease;
+  }
+  .generate:hover .arrow { transform: translateX(4px); }
+  .generate[data-state="streaming"] { color: var(--muted); border-color: var(--muted); cursor: default; }
+  .generate[data-state="done"] { color: var(--muted); border-color: var(--rule); }
+  .generate[data-state="done"]:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Streamed output area */
+  .stream {
+    margin-top: 36px;
+    padding: 22px 0 0 0;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    max-width: 620px;
+    min-height: 1px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+  .stream-header {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .stream-header .live {
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stream-header .live::before {
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .stream .caret {
+    display: inline-block;
+    width: 0.55em;
+    height: 1em;
+    background: var(--accent);
+    vertical-align: -0.15em;
+    margin-left: 2px;
+    animation: blink 1s steps(2) infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* ---------------- RUNG 5 — INVERSION ---------------- */
+  .rung-5 {
+    background: var(--ink);
+    color: var(--paper);
+    margin: 4vh -100vw;
+    padding: 18vh 100vw;
+    position: relative;
+    border-top: 0;
+  }
+  .rung-5 .inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .rung-5 .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: start;
+  }
+  .rung-5 .numeral-wrap {
+    position: relative;
+    margin-left: -120px;
+  }
+  .rung-5 .rung-numeral {
+    color: var(--paper);
+    font-size: clamp(220px, 30vw, 380px);
+    line-height: 0.82;
+    letter-spacing: -0.05em;
+    margin: 0;
+  }
+  .rung-5:hover .rung-numeral { color: var(--paper); }
+  .rung-5 .rung-numeral .slash { color: rgba(241,235,222,0.4); }
+  .rung-5 .rung-meta { color: rgba(241,235,222,0.55); margin-top: 18px; }
+  .rung-5 .rung-meta .step { color: var(--accent); }
+
+  .rung-5 .rung-name {
+    color: var(--accent);
+    font-size: clamp(46px, 6.2vw, 72px);
+    margin: 4px 0 28px 0;
+  }
+  .rung-5 .rung-def {
+    color: rgba(241, 235, 222, 0.88);
+    font-size: 21px;
+    margin-bottom: 36px;
+  }
+  .rung-5 .rung-def::first-letter {
+    color: var(--accent);
+  }
+
+  .rung-5 .crit {
+    font-family: var(--body);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--paper);
+    border-left: 2px solid var(--accent);
+    padding-left: 18px;
+    margin: 0 0 40px 0;
+    max-width: 520px;
+  }
+  .rung-5 .crit b {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .skills-stack {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .skill-card {
+    border: 1px solid rgba(241, 235, 222, 0.18);
+    padding: 18px 20px;
+    background: rgba(241, 235, 222, 0.03);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 16px;
+    align-items: baseline;
+    transition: border-color 180ms, background 180ms;
+  }
+  .skill-card:hover {
+    border-color: var(--accent);
+    background: rgba(199, 66, 30, 0.06);
+  }
+  .skill-card .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    grid-column: 1;
+  }
+  .skill-card .name {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--paper);
+    grid-column: 2;
+  }
+  .skill-card .trigger {
+    grid-column: 1 / 3;
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(241, 235, 222, 0.72);
+    margin-top: 4px;
+  }
+  .skill-card .trigger .when {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+
+  .rung-5 .generate {
+    color: var(--paper);
+    border-bottom-color: var(--paper);
+    margin-top: 36px;
+  }
+  .rung-5 .generate:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .rung-5 .stream {
+    border-top-color: rgba(241, 235, 222, 0.2);
+    color: var(--paper);
+  }
+
+  .rung-5 .climax-mark {
+    position: absolute;
+    top: 24px;
+    right: 36px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ---------------- FINAL CTA ---------------- */
+  .one-step {
+    padding: 22vh 0 18vh 0;
+    border-top: 1px solid var(--rule);
+  }
+  .one-step h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    margin: 0 0 28px 0;
+  }
+  .one-step h2 em { font-style: italic; color: var(--accent); }
+  .one-step p {
+    font-size: 21px;
+    color: var(--ink-soft);
+    max-width: 580px;
+    margin: 0 0 36px 0;
+  }
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--rule-strong);
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    margin-top: 30px;
+  }
+  .step-row {
+    background: var(--paper);
+    padding: 18px 4px;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: baseline;
+    gap: 20px;
+    cursor: pointer;
+    transition: background 160ms;
+  }
+  .step-row:hover { background: var(--paper-2); }
+  .step-row .n {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+  }
+  .step-row .what {
+    font-family: var(--display);
+    font-size: 22px;
+    line-height: 1.25;
+  }
+  .step-row:hover .what { color: var(--accent); }
+  .step-row .where {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ---------------- FOOTER ---------------- */
+  footer {
+    padding: 56px 36px 40px 88px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  footer .colophon {
+    max-width: 560px;
+    line-height: 1.65;
+  }
+  footer .wink {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: lowercase;
+    letter-spacing: 0;
+  }
+  footer .wink .dot {
+    color: var(--accent);
+  }
+
+  /* progress numbers in top right */
+  .progress-readout {
+    position: fixed;
+    top: 22px;
+    right: 36px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    z-index: 41;
+    text-align: right;
+    pointer-events: none;
+  }
+  .progress-readout .n {
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .progress-readout.dark { color: rgba(241,235,222,0.5); }
+  .progress-readout.dark .n { color: var(--paper); }
+
+  /* tweaks toggle button - hidden by default */
+  body.tweaks-on .tweaks-shell { display: block; }
+  .tweaks-shell { display: none; }
+
+  /* responsive */
+  @media (max-width: 780px) {
+    .rail { width: 60px; }
+    .rail .rail-tick { left: -22px; width: 44px; }
+    .rail .rail-tick .dot { margin-left: 14px; }
+    .topbar { padding-left: 60px; padding-right: 20px; }
+    footer { padding-left: 60px; padding-right: 20px; }
+    main { padding: 0 24px; }
+    .rung-5 .layout { grid-template-columns: 1fr; gap: 24px; }
+    .rung-5 .numeral-wrap { margin-left: -10px; }
+    .rung-5 .rung-numeral { font-size: 180px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LEFT RAIL -->
+<nav class="rail" id="rail" aria-label="Ladder progress">
+  <div class="rail-track">
+    <div class="rail-fill" id="railFill" style="height: 0%"></div>
+    <!-- ticks injected by JS -->
+  </div>
+</nav>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="mark">AI · LADDER<span class="dot"> .</span></div>
+  <div class="meta">
+    <span>SIX RUNGS</span>
+    <span>ONE STEP</span>
+    <span>EST. 2026</span>
+  </div>
+</header>
+
+<div class="progress-readout" id="progressReadout">
+  <div><span class="n" id="progNum">00</span> <span style="opacity:0.5">/</span> 06</div>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="hero" data-rung="0">
+    <div class="eyebrow">
+      <span class="swatch"></span>
+      A FIELD GUIDE TO WHAT YOU CAN ACTUALLY DO WITH AI · ISSUE 01
+    </div>
+    <h1>
+      Six rungs.<br />
+      One <em>climb</em>.<br />
+      Pick yours.
+    </h1>
+    <p class="lede">
+      Most people stop at rung one and think the elevator is broken.
+      <span class="small-caps">The AI Ladder</span> shows you one vivid thing you could be doing
+      at each of the six rungs above where you are — written for the work you actually do — and
+      asks you to take one small step.
+    </p>
+
+    <div class="context">
+      <div class="context-label">
+        <span>§ TELL US WHO YOU ARE</span>
+        <span class="who" id="whoStatus">unread</span>
+      </div>
+      <div class="context-input">
+        <span class="marker">¶</span>
+        <input
+          id="contextInput"
+          type="text"
+          placeholder="I'm a real estate agent in Sydney…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+      <div class="context-hint">
+        <span>try —</span>
+        <button data-fill="I'm a paediatric nurse running a small clinic in Lagos.">paediatric nurse, Lagos</button>
+        <button data-fill="I'm a product manager at a B2B logistics startup.">PM, logistics</button>
+        <button data-fill="I run a one-person Etsy shop selling handmade ceramics.">solo ceramics shop</button>
+        <button data-fill="I'm a high-school history teacher in rural Vermont.">history teacher</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RUNG 1 -->
+  <section class="rung" id="rung-1" data-rung="1">
+    <div class="rung-head">
+      <h2 class="rung-numeral">01<span class="slash">/</span><span style="font-size:0.34em;font-family:var(--mono);color:var(--muted);vertical-align:0.6em;">06</span></h2>
+      <div class="rung-meta">
+        <span class="step">↑ FIRST RUNG</span>
+        <span>THE CONVERSATION</span>
+        <span>~5 MIN TO START</span>
+      </div>
+    </div>
+    <h3 class="rung-name"><em>Prompting.</em></h3>
+    <p class="rung-def">
+      You open a chat window and ask for things. Claude.ai, ChatGPT. The model is doing all the work; you are
+      doing all the steering. This rung is sometimes dismissed as "just chatting," but a sharp prompt against
+      a frontier model is still the highest leverage-per-minute most people will ever encounter.
+    </p>
+    <div class="seed">
+      <div class="seed-label">SEED EXAMPLE — generic</div>
+      <div class="seed-text">"Summarise this PDF and pull out the three numbers I should be worried about."</div>
+    </div>
+    <button class="generate" data-rung="1">
+      Generate my example
+      <span class="arrow">→</span>
+    </button>
+    <div class="stream" id="stream-1" hidden></div>
+  </section>
+
+  <!-- RUNG 2 -->
+  <section class="rung" id="rung-2" data-rung="2">
+    <div class="rung-head">
+      <h2 class="rung-numeral">02<span class="slash">/</span><span style="font-size:0.34em;font-family:var(--mono);color:var(--muted);vertical-align:0.6em;">06</span></h2>
+      <div class="rung-meta">
+        <span class="step">↑ SECOND RUNG</span>
+        <span>SHIPPED SOFTWARE, NO COMPILER</span>
+        <span>~AN AFTERNOON</span>
+      </div>
+    </div>
+    <h3 class="rung-name"><em>Vibe coding.</em></h3>
+    <p class="rung-def">
+      You describe an app and a working web app comes out the other end — Lovable, v0, Bolt. You don't open
+      a terminal. You don't know what a package manager is. The output is a real URL, a real database,
+      a real thing on the internet. Some part of your brain that used to say "I'd need a developer for that"
+      goes quiet.
+    </p>
+    <div class="seed">
+      <div class="seed-label">SEED EXAMPLE — generic</div>
+      <div class="seed-text">"Make me a one-page site that takes RSVPs to a dinner party and texts me when someone replies."</div>
+    </div>
+    <button class="generate" data-rung="2">
+      Generate my example
+      <span class="arrow">→</span>
+    </button>
+    <div class="stream" id="stream-2" hidden></div>
+  </section>
+
+  <!-- RUNG 3 -->
+  <section class="rung" id="rung-3" data-rung="3">
+    <div class="rung-head">
+      <h2 class="rung-numeral">03<span class="slash">/</span><span style="font-size:0.34em;font-family:var(--mono);color:var(--muted);vertical-align:0.6em;">06</span></h2>
+      <div class="rung-meta">
+        <span class="step">↑ THIRD RUNG</span>
+        <span>PAIR-PROGRAMMING, ASYMMETRIC</span>
+        <span>~A WEEKEND</span>
+      </div>
+    </div>
+    <h3 class="rung-name"><em>Coding agents.</em></h3>
+    <p class="rung-def">
+      Claude Code, Cursor. You are still the author of the codebase, but the agent reads the whole repo,
+      writes patches, runs tests, and reports back. The relationship inverts: you spend more time reviewing
+      than typing. The model becomes the junior who never sleeps and never gets cranky about touching
+      legacy code.
+    </p>
+    <div class="seed">
+      <div class="seed-label">SEED EXAMPLE — generic</div>
+      <div class="seed-text">"Migrate this codebase from Pages Router to App Router and tell me what you couldn't translate."</div>
+    </div>
+    <button class="generate" data-rung="3">
+      Generate my example
+      <span class="arrow">→</span>
+    </button>
+    <div class="stream" id="stream-3" hidden></div>
+  </section>
+
+  <!-- RUNG 4 -->
+  <section class="rung" id="rung-4" data-rung="4">
+    <div class="rung-head">
+      <h2 class="rung-numeral">04<span class="slash">/</span><span style="font-size:0.34em;font-family:var(--mono);color:var(--muted);vertical-align:0.6em;">06</span></h2>
+      <div class="rung-meta">
+        <span class="step">↑ FOURTH RUNG</span>
+        <span>THE MODEL AS A LIBRARY CALL</span>
+        <span>~A WEEK</span>
+      </div>
+    </div>
+    <h3 class="rung-name"><em>APIs.</em></h3>
+    <p class="rung-def">
+      You call the model directly from your own code. A function in your codebase, fired from a webhook,
+      a cron, a click. Now the model is not a place you visit — it is a primitive in your stack, next to
+      Postgres and Stripe. You can put intelligence into anything that has a key and a network connection.
+    </p>
+    <div class="seed">
+      <div class="seed-label">SEED EXAMPLE — generic</div>
+      <div class="seed-text">"Every new support ticket gets read, classified, and tagged before a human sees it."</div>
+    </div>
+    <button class="generate" data-rung="4">
+      Generate my example
+      <span class="arrow">→</span>
+    </button>
+    <div class="stream" id="stream-4" hidden></div>
+  </section>
+
+  <!-- RUNG 5 — INVERSION -->
+  <section class="rung rung-5" id="rung-5" data-rung="5">
+    <div class="climax-mark">▲ THE LADDER PAYS OFF</div>
+    <div class="inner">
+      <div class="layout">
+        <div>
+          <div class="numeral-wrap">
+            <h2 class="rung-numeral">05</h2>
+          </div>
+          <div class="rung-meta">
+            <span class="step">↑ FIFTH RUNG</span>
+            <span>WHERE THE MODEL STARTS REMEMBERING YOU</span>
+          </div>
+          <h3 class="rung-name"><em>Knowledge systems.</em></h3>
+          <p class="rung-def">
+            Memory. Retrieval. <b style="color: var(--accent); font-weight: 500;">Skills.</b> Now the model is no longer a stranger at every door —
+            it carries your context, your house style, your standard operating procedure with it. A skill is
+            the punchline: a small, named bundle of instructions that <i>changes what the model does</i>,
+            every single time the trigger fires.
+          </p>
+          <p class="crit">
+            "A prompt is something you write once. <b>A skill is something the model does forever.</b>"
+          </p>
+        </div>
+
+        <div>
+          <div class="rung-meta" style="margin-bottom: 18px;">
+            <span style="color: var(--accent)">⌁ YOUR SKILL SHELF — A FEW EXAMPLES</span>
+          </div>
+          <div class="skills-stack">
+            <div class="skill-card">
+              <span class="tag">SKILL · 01</span>
+              <span class="name">house-style-writer</span>
+              <span class="trigger">
+                <span class="when">FIRES WHEN</span> you ask Claude to draft any external-facing copy — it lifts tone, banned words, and your three rhetorical tics from a single source file.
+              </span>
+            </div>
+            <div class="skill-card">
+              <span class="tag">SKILL · 02</span>
+              <span class="name">monday-digest</span>
+              <span class="trigger">
+                <span class="when">FIRES WHEN</span> you say "what happened last week" — it pulls Linear, Stripe, and Slack into the same three-paragraph brief, every time, in the same shape.
+              </span>
+            </div>
+            <div class="skill-card">
+              <span class="tag">SKILL · 03</span>
+              <span class="name">contract-redline</span>
+              <span class="trigger">
+                <span class="when">FIRES WHEN</span> a PDF lands in a folder — it flags clauses against your playbook and writes the email to your lawyer with the diff attached.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="generate" data-rung="5">
+        Generate my skill
+        <span class="arrow">→</span>
+      </button>
+      <div class="stream" id="stream-5" hidden></div>
+    </div>
+  </section>
+
+  <!-- RUNG 6 -->
+  <section class="rung" id="rung-6" data-rung="6">
+    <div class="rung-head">
+      <h2 class="rung-numeral">06<span class="slash">/</span><span style="font-size:0.34em;font-family:var(--mono);color:var(--muted);vertical-align:0.6em;">06</span></h2>
+      <div class="rung-meta">
+        <span class="step">↑ SIXTH RUNG</span>
+        <span>AGENTS WITH HANDS ON YOUR STACK</span>
+        <span>~A QUARTER</span>
+      </div>
+    </div>
+    <h3 class="rung-name"><em>Integrated systems.</em></h3>
+    <p class="rung-def">
+      Agents that read, write, and act across your real tools — Gmail, Calendar, Slack, your database,
+      your CRM. The model crosses out of the chat window and into the system of record. You are no longer
+      asking it to draft an email; you are asking it to send the email, file the reply, update the deal,
+      and move on. This rung is where most companies say "we have AI" and finally mean something concrete.
+    </p>
+    <div class="seed">
+      <div class="seed-label">SEED EXAMPLE — generic</div>
+      <div class="seed-text">"Read every reply in this thread, update the deal stage in HubSpot, and send a follow-up at 9am their time."</div>
+    </div>
+    <button class="generate" data-rung="6">
+      Generate my example
+      <span class="arrow">→</span>
+    </button>
+    <div class="stream" id="stream-6" hidden></div>
+  </section>
+
+  <!-- ONE STEP -->
+  <section class="one-step" id="onestep" data-rung="7">
+    <div class="rung-meta" style="margin-bottom: 18px;">
+      <span class="step">⌂ NOW PICK ONE</span>
+      <span>SMALLEST POSSIBLE NEXT MOVE</span>
+    </div>
+    <h2>The whole point is the <em>step</em>, not the ladder.</h2>
+    <p>
+      Pick one of these. Block twenty minutes for it this week. The ladder is only useful if you put your
+      foot on it.
+    </p>
+    <div class="step-list" id="stepList">
+      <!-- filled by JS based on highest-watched rung -->
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="colophon">
+    Set in Instrument Serif &amp; JetBrains Mono on warm paper.
+    Composed in one page, one column, one ladder. No tracking. No newsletter signup.
+  </div>
+  <div class="wink">the repo is the content<span class="dot"> .</span></div>
+</footer>
+
+<!-- TWEAKS shell (optional) -->
+<div class="tweaks-shell" id="tweaksShell"></div>
+
+<script>
+/* ============================================================
+   LADDER RAIL — fills as you scroll, ticks for each rung
+   ============================================================ */
+const RUNGS = [
+  { id: "hero",    label: "00" },
+  { id: "rung-1",  label: "01" },
+  { id: "rung-2",  label: "02" },
+  { id: "rung-3",  label: "03" },
+  { id: "rung-4",  label: "04" },
+  { id: "rung-5",  label: "05" },
+  { id: "rung-6",  label: "06" },
+];
+
+const railTrack = document.querySelector(".rail-track");
+const railFill = document.getElementById("railFill");
+
+// Inject tick marks
+RUNGS.forEach((r, i) => {
+  const pct = i / (RUNGS.length - 1);
+  const tick = document.createElement("a");
+  tick.href = "#" + r.id;
+  tick.className = "rail-tick";
+  tick.dataset.idx = i;
+  tick.style.top = (pct * 100) + "%";
+  tick.innerHTML = `<span class="num">${r.label}</span><span class="dot"></span>`;
+  railTrack.appendChild(tick);
+});
+
+const ticks = [...document.querySelectorAll(".rail-tick")];
+const rungEls = RUNGS.map(r => document.getElementById(r.id));
+const rung5El = document.getElementById("rung-5");
+const railEl = document.getElementById("rail");
+const progressEl = document.getElementById("progressReadout");
+const progNum = document.getElementById("progNum");
+
+function updateRail() {
+  const scrollY = window.scrollY;
+  const winH = window.innerHeight;
+  const docH = document.documentElement.scrollHeight - winH;
+  const pct = Math.min(1, Math.max(0, scrollY / docH));
+  railFill.style.height = (pct * 100) + "%";
+
+  // determine active rung — whichever section's top is closest to 35% viewport
+  let active = 0;
+  let bestDist = Infinity;
+  rungEls.forEach((el, i) => {
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const target = winH * 0.35;
+    const dist = Math.abs(rect.top - target);
+    if (rect.top < winH * 0.6 && dist < bestDist) {
+      bestDist = dist;
+      active = i;
+    }
+  });
+  ticks.forEach((t, i) => t.classList.toggle("active", i === active));
+  progNum.textContent = String(active).padStart(2, "0");
+
+  // dark mode rail when over rung 5
+  const r5rect = rung5El.getBoundingClientRect();
+  const overDark = r5rect.top < winH * 0.5 && r5rect.bottom > winH * 0.5;
+  railEl.classList.toggle("dark", overDark);
+  progressEl.classList.toggle("dark", overDark);
+}
+window.addEventListener("scroll", updateRail, { passive: true });
+window.addEventListener("resize", updateRail);
+updateRail();
+
+/* ============================================================
+   CONTEXT INPUT
+   ============================================================ */
+const contextInput = document.getElementById("contextInput");
+const whoStatus = document.getElementById("whoStatus");
+
+function setStatus() {
+  const v = contextInput.value.trim();
+  whoStatus.textContent = v ? "filed" : "unread";
+  whoStatus.style.color = v ? "var(--accent)" : "var(--ink)";
+}
+contextInput.addEventListener("input", setStatus);
+document.querySelectorAll("[data-fill]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    contextInput.value = btn.dataset.fill;
+    setStatus();
+    contextInput.focus();
+  });
+});
+
+/* ============================================================
+   STREAMED OUTPUT — typewriter effect
+   ============================================================ */
+
+// Pre-baked example vignettes per rung. Each is keyed by a role-flavour.
+// In production this comes from /api/generate streaming. We approximate
+// here by selecting a role bucket from the input string + typing it out.
+
+function detectRole(input) {
+  const s = (input || "").toLowerCase();
+  if (s.includes("real estate") || s.includes("realtor")) return "realtor";
+  if (s.includes("nurse") || s.includes("doctor") || s.includes("clinic") || s.includes("paediatric")) return "nurse";
+  if (s.includes("teacher") || s.includes("history") || s.includes("school") || s.includes("professor")) return "teacher";
+  if (s.includes("etsy") || s.includes("ceramics") || s.includes("shop") || s.includes("craft")) return "maker";
+  if (s.includes("product manager") || s.includes("pm ") || s.includes("logistics") || s.includes("startup")) return "pm";
+  if (s.includes("lawyer") || s.includes("legal") || s.includes("attorney")) return "lawyer";
+  return "default";
+}
+
+const VIGNETTES = {
+  realtor: {
+    1: `You paste a 38-page strata report into Claude. You ask: "Pretend you are a buyer's lawyer who hates surprises. What in here would make you tell your client to walk?" Forty seconds later you have a list of six things, ranked by severity, with the page numbers. You do this before every appraisal now. Your offers are sharper. Your reputation in the building is "she always knows about the lift sinking fund."`,
+    2: `On a Sunday morning you describe an app to Lovable: a public listings page for your own patch, with a "what is this place actually like" generator that pulls Council notes, school zones, and last-five-sales. Twenty minutes later it's live at your-name.lovable.app. By Tuesday two vendors have asked who built it.`,
+    3: `You point Claude Code at the WordPress site your previous assistant built. You say: "Find every place we hard-coded a phone number and route them through a single config." It does it. It also notices three broken redirects from your 2019 listings and offers to fix them. You spent the morning at an open inspection.`,
+    4: `Every new lead from your contact form runs through a Claude call that pulls the property address, looks up the last sale price and any DA history, and writes a draft 9am reply in your voice — including a question only that specific buyer would care about. You approve or edit. Your response time is now under an hour, every hour.`,
+    5: `You write one skill called "auction-eve-brief." From now on, the night before any auction you have on, Claude reads the campaign notes, all OFI sign-ins, and the comparable sales from the last 30 days, and produces a single page in your voice: likely price, who the underbidders will be, and the two sentences to open the auction with. Every time. You don't ask anymore.`,
+    6: `An agent watches your inbox, your CRM, and the REA portal. When a vendor enquiry arrives it qualifies it, books a callback in your calendar at a time that respects your school-run, drafts the SMS, and updates the pipeline stage. You spend Friday afternoons writing the email it cannot — the one to the family who didn't get the house.`,
+  },
+
+  nurse: {
+    1: `You ask Claude to translate a parent-education leaflet from English into Yoruba — but in the register a worried first-time mother would actually trust. You compare the result with your colleague who is a native speaker. You change two words. The leaflet gets used.`,
+    2: `You describe to Bolt a small tablet-friendly form: a child's weight, a temperature, a checklist of symptoms — and it spits out a triage colour and the next-step phone number. By Thursday morning your two assistants are using it on the door. Wait times drop by a third.`,
+    3: `You ask Claude Code to take the messy Excel spreadsheet of vaccination records that someone built in 2019 and turn it into a clean SQLite database with a search box and a printable card. It does. It also asks you whether you want a low-stock alert for vials. You say yes.`,
+    4: `An API call reads each new appointment SMS reply, classifies it as confirm / reschedule / cancel, and updates your schedule automatically. Cancellations free up slots; reschedules trigger a follow-up at a sensible time. The clinic phone rings less.`,
+    5: `You write a skill called "red-flag-screen." Any time you paste a child's symptom list into Claude, the skill silently runs your local triage criteria against it — the ones you and Dr. Adebayo wrote together — and surfaces the one thing you might miss at the end of a fourteen-hour day. It is not a replacement for you. It is the colleague who never gets tired.`,
+    6: `An agent connects your appointment system, your inventory, and the parent SMS channel. When vaccine stock drops below threshold it drafts the supplier order, when an appointment is missed it texts the parent a kinder follow-up than you'd write at 9pm, and when a child's growth chart bends it puts a note on tomorrow's clipboard.`,
+  },
+
+  pm: {
+    1: `You paste the latest customer call transcript into Claude and ask: "What is the customer actually upset about, beneath what they said?" The answer reframes your roadmap meeting. You stop building the feature they asked for; you start building the one they needed.`,
+    2: `You describe a customer-facing changelog page to v0. It gives you something better than what your designer was going to mock up next sprint. You ship it that night. The team treats this as either a threat or a gift — it is both.`,
+    3: `Cursor + Claude rewrite your janky internal admin tool from a two-day ticket into a one-afternoon PR. You review every diff. You also notice the agent has opinions about your folder structure that are quietly correct.`,
+    4: `An API call reads every support ticket as it comes in, tags it with feature area, severity, and whether it should be in your weekly roundup. Your CSAT dashboard now updates itself. Your ICs read the tag, not the ticket.`,
+    5: `You write a skill called "weekly-customer-pulse." Every Monday at 7am it reads all support tickets, sales call notes, and churn-risk flags from the past seven days and produces the exact one-page brief that you used to spend Sunday night assembling. The format never changes. The substance always does.`,
+    6: `An agent stitches your support tool, your roadmap tool, and your data warehouse. When five tickets cluster around the same root cause, it opens a Linear issue with the evidence attached and at-mentions the owner. You stop being the connective tissue. You start being the editor.`,
+  },
+
+  maker: {
+    1: `You photograph six new mugs and ask Claude to write product descriptions in the voice of your shop — slightly dry, a bit specific about the glaze. The copy is better than what you wrote at midnight last Tuesday. You schedule the listings in fifteen minutes.`,
+    2: `You describe a "studio open day" RSVP page to Lovable. You don't know what a domain is and don't have to. By Saturday the page has forty-one names on it and three of them brought their own mugs to be re-fired.`,
+    3: `You point Claude Code at your old Shopify theme and ask it to make the photos load faster on the phones your customers actually use. It does. It also notices your shipping calculator was charging Australians twice for tracked post.`,
+    4: `An API call reads every order as it comes in, generates a thank-you postcard in your voice that references the actual piece they bought, and queues it for Tuesday's post run. The postcards are the reason you have repeat customers.`,
+    5: `You write a skill called "etsy-style-keeper." Every product description, every shop announcement, every "thanks for your order" email runs through it. Your voice — the slightly dry, glaze-specific voice — is preserved even when you write at midnight, even when an assistant takes over for a fortnight.`,
+    6: `An agent watches your shop. When stock of the salt-glaze tumblers drops below four, it drafts a "back in three weeks" note and pauses the listing. When a 5-star review mentions colour, it adds the photo to your Instagram queue with a draft caption. You make pots. It makes the gallery.`,
+  },
+
+  teacher: {
+    1: `You paste the chapter on Reconstruction into Claude and ask: "What three questions would actually make a sixteen-year-old in Vermont care about this?" The questions are better than the worksheet that came with the textbook. You use them on Monday.`,
+    2: `You describe a "this week in history" classroom page to v0 — one event per day, picked from a date range. It builds it. You project it during homeroom. Two students ask if they can suggest events. You say yes.`,
+    3: `Claude Code takes the ten years of slide decks on your hard drive and turns them into a single searchable archive with tags by unit, era, and source. You find the lecture from 2017 you'd been meaning to dig up for a month.`,
+    4: `An API call reads each student's short-answer response and gives you a one-line read: "understood the prompt, weak on evidence, defensive tone." You still grade them yourself — but you walk into office hours knowing what each kid needs.`,
+    5: `You write a skill called "vermont-history-lens." Any time you ask Claude to draft a lesson plan, the skill silently constrains the examples to ones your students can drive to. Bennington, not Gettysburg. The Underground Railroad routes through your county, not somewhere else's. Your students start asking better questions because the past is suddenly local.`,
+    6: `An agent connects your grade book, your LMS, and your parent-email list. When a student's trend bends down for two weeks, it drafts the parent email — in the warm, specific tone you've trained it on — and puts it in your outbox for Friday afternoon review. You catch kids earlier. You write fewer emails at 10pm.`,
+  },
+
+  default: {
+    1: `You paste a long meeting transcript into Claude and ask it to extract the three commitments you implicitly made — not the ones in the action items, the ones in the throwaway sentences. You walk into next week knowing what you actually said you'd do.`,
+    2: `You describe a small internal tool to Lovable on a Sunday afternoon. By Sunday evening it's running at a real URL. By Monday morning a colleague is using it without realising you built it without writing code.`,
+    3: `You point Claude Code at a side-project that has been "almost ready" for six months. It reads the whole thing, finds the two bugs that were actually blocking you, and offers a patch. You ship in a week.`,
+    4: `An API call quietly reads every form submission on your site, classifies it, and routes it to the right inbox with a one-line draft reply. Your response time gets a step-function better. Nobody on your team notices because nothing has visibly changed — except the queue is shorter.`,
+    5: `You write a skill that bundles your house style, your standard process, and the three things you always forget to check. From now on, every time Claude does the work, the skill fires, the standard holds, and you stop having to be the standard. The skill is a hundred lines of plain text. The leverage is permanent.`,
+    6: `An agent reads your email, watches your calendar, and writes to your database. It books, files, drafts, and tags — and at 4:55pm on Friday it asks you the one question that needed a human. You answer it. You leave.`,
+  },
+};
+
+const generateButtons = document.querySelectorAll(".generate");
+
+function streamText(target, text, speed = 14) {
+  return new Promise(resolve => {
+    target.innerHTML = '<div class="stream-header"><span class="live">streaming</span><span>vignette · rung-specific</span></div><div class="stream-body"></div>';
+    const body = target.querySelector(".stream-body");
+    let i = 0;
+    let caret = document.createElement("span");
+    caret.className = "caret";
+    body.appendChild(caret);
+
+    function tick() {
+      if (i >= text.length) {
+        // swap streaming → done
+        target.querySelector(".live").textContent = "complete";
+        target.querySelector(".live").style.color = "var(--muted)";
+        target.querySelector(".live").style.setProperty("--accent-temp", "var(--muted)");
+        caret.remove();
+        resolve();
+        return;
+      }
+      // chunk a few chars per frame for variable rhythm
+      const chunk = Math.random() < 0.05 ? 0 : (Math.random() < 0.3 ? 1 : Math.random() < 0.7 ? 2 : 3);
+      for (let k = 0; k < chunk && i < text.length; k++, i++) {
+        const node = document.createTextNode(text[i]);
+        body.insertBefore(node, caret);
+      }
+      // longer pause after periods
+      const last = text[i - 1];
+      const delay = (last === '.' || last === '\n') ? 80 + Math.random() * 80 : speed + Math.random() * 16;
+      setTimeout(tick, delay);
+    }
+    tick();
+  });
+}
+
+generateButtons.forEach(btn => {
+  btn.addEventListener("click", async () => {
+    if (btn.dataset.state === "streaming") return;
+
+    const rung = parseInt(btn.dataset.rung, 10);
+    const stream = document.getElementById("stream-" + rung);
+    const role = detectRole(contextInput.value);
+    const text = (VIGNETTES[role] && VIGNETTES[role][rung]) || VIGNETTES.default[rung];
+
+    stream.hidden = false;
+    stream.innerHTML = "";
+    btn.dataset.state = "streaming";
+    btn.innerHTML = 'streaming… <span class="arrow">·</span>';
+
+    await streamText(stream, text);
+
+    btn.dataset.state = "done";
+    btn.innerHTML = 'Regenerate <span class="arrow">↻</span>';
+
+    // After rung 5 streams, scroll-cue rung 6
+    if (rung === 5) {
+      setTimeout(() => {
+        const r6 = document.getElementById("rung-6");
+        // gentle hint, no aggressive scroll
+      }, 600);
+    }
+
+    rebuildStepList();
+  });
+});
+
+/* ============================================================
+   ONE STEP LIST — recommended based on highest rung viewed
+   ============================================================ */
+const STEPS = [
+  { rung: 1, what: "Open Claude.ai and re-do your last meeting follow-up email — but ask it to find what you didn't say.", where: "20 MIN · CLAUDE.AI" },
+  { rung: 2, what: "Describe to Lovable the smallest internal page your team would actually use. Ship it tonight.", where: "1 HR · LOVABLE" },
+  { rung: 3, what: "Point Claude Code at the repo you keep meaning to clean up. Ask it for the three smallest PRs.", where: "1 EVENING · CLAUDE CODE" },
+  { rung: 4, what: "Wire a single API call into one inbox or webhook. Just one. Ship the smallest possible loop.", where: "1 WEEKEND · ANTHROPIC API" },
+  { rung: 5, what: "Write your first skill. One file. The thing you keep re-explaining to Claude. Stop re-explaining.", where: "2 HRS · CLAUDE.AI" },
+  { rung: 6, what: "Connect one tool to one tool, mediated by an agent. Don't pick the hardest pair. Pick the most boring.", where: "1 QUARTER · YOUR STACK" },
+];
+
+const stepListEl = document.getElementById("stepList");
+function rebuildStepList() {
+  stepListEl.innerHTML = "";
+  STEPS.forEach((s, i) => {
+    const row = document.createElement("div");
+    row.className = "step-row";
+    row.innerHTML = `
+      <div class="n">↑ RUNG 0${s.rung}</div>
+      <div class="what">${s.what}</div>
+      <div class="where">${s.where}</div>
+    `;
+    stepListEl.appendChild(row);
+  });
+}
+rebuildStepList();
+
+/* ============================================================
+   TWEAKS — accent color + density
+   ============================================================ */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#B8852A",
+  "density": "compact",
+  "italics": true
+}/*EDITMODE-END*/;
+
+let tweaks = { ...TWEAK_DEFAULTS };
+
+function applyTweaks() {
+  document.documentElement.style.setProperty("--accent", tweaks.accent);
+  document.documentElement.style.setProperty("--accent-ink", tweaks.accent);
+  if (tweaks.density === "compact") {
+    document.querySelectorAll(".rung").forEach(r => r.style.padding = "10vh 0");
+  } else {
+    document.querySelectorAll(".rung").forEach(r => r.style.padding = "");
+  }
+  document.body.classList.toggle("no-italics", !tweaks.italics);
+}
+applyTweaks();
+
+const ACCENTS = [
+  { name: "vermillion", val: "#C7421E" },
+  { name: "ink-blue", val: "#1E40AF" },
+  { name: "forest", val: "#2F5D3A" },
+  { name: "ochre", val: "#B8852A" },
+];
+
+function renderTweaks() {
+  const shell = document.getElementById("tweaksShell");
+  shell.innerHTML = `
+    <div style="position:fixed;bottom:24px;right:24px;width:280px;background:var(--paper);border:1px solid var(--ink);padding:20px;font-family:var(--mono);font-size:11px;z-index:100;box-shadow:6px 6px 0 var(--ink);">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;border-bottom:1px solid var(--rule-strong);padding-bottom:10px;">
+        <span style="letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);">TWEAKS</span>
+        <button id="tweaksClose" style="background:none;border:0;cursor:pointer;font:inherit;color:var(--muted);">close ×</button>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <div style="letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">ACCENT</div>
+        <div style="display:flex;gap:8px;">
+          ${ACCENTS.map(a => `
+            <button data-accent="${a.val}" title="${a.name}" style="width:32px;height:32px;border:${tweaks.accent === a.val ? '2px solid var(--ink)' : '1px solid var(--rule-strong)'};background:${a.val};cursor:pointer;padding:0;"></button>
+          `).join("")}
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <div style="letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">DENSITY</div>
+        <div style="display:flex;gap:6px;">
+          ${["editorial","compact"].map(d => `
+            <button data-density="${d}" style="flex:1;padding:8px 10px;border:1px solid ${tweaks.density === d ? 'var(--ink)' : 'var(--rule-strong)'};background:${tweaks.density === d ? 'var(--ink)' : 'transparent'};color:${tweaks.density === d ? 'var(--paper)' : 'var(--ink)'};cursor:pointer;font:inherit;text-transform:lowercase;">${d}</button>
+          `).join("")}
+        </div>
+      </div>
+
+      <div>
+        <div style="letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">ITALIC RUNG NAMES</div>
+        <button id="italicsToggle" style="width:100%;padding:8px 10px;border:1px solid var(--ink);background:${tweaks.italics ? 'var(--ink)' : 'transparent'};color:${tweaks.italics ? 'var(--paper)' : 'var(--ink)'};cursor:pointer;font:inherit;text-transform:lowercase;">
+          ${tweaks.italics ? "on" : "off"}
+        </button>
+      </div>
+    </div>
+  `;
+
+  shell.querySelectorAll("[data-accent]").forEach(b => {
+    b.addEventListener("click", () => {
+      tweaks.accent = b.dataset.accent;
+      persist();
+      applyTweaks();
+      renderTweaks();
+    });
+  });
+  shell.querySelectorAll("[data-density]").forEach(b => {
+    b.addEventListener("click", () => {
+      tweaks.density = b.dataset.density;
+      persist();
+      applyTweaks();
+      renderTweaks();
+    });
+  });
+  shell.querySelector("#italicsToggle").addEventListener("click", () => {
+    tweaks.italics = !tweaks.italics;
+    persist();
+    applyTweaks();
+    renderTweaks();
+  });
+  shell.querySelector("#tweaksClose").addEventListener("click", () => {
+    document.body.classList.remove("tweaks-on");
+    try { window.parent.postMessage({ type: "__edit_mode_dismissed" }, "*"); } catch(e){}
+  });
+}
+
+function persist() {
+  try {
+    window.parent.postMessage({ type: "__edit_mode_set_keys", edits: tweaks }, "*");
+  } catch(e){}
+}
+
+// edit-mode protocol
+window.addEventListener("message", e => {
+  if (!e.data) return;
+  if (e.data.type === "__activate_edit_mode") {
+    document.body.classList.add("tweaks-on");
+    renderTweaks();
+  }
+  if (e.data.type === "__deactivate_edit_mode") {
+    document.body.classList.remove("tweaks-on");
+  }
+});
+try { window.parent.postMessage({ type: "__edit_mode_available" }, "*"); } catch(e){}
+
+// italic toggle CSS
+const styleEl = document.createElement("style");
+styleEl.textContent = `body.no-italics .rung-name em, body.no-italics h1 em, body.no-italics .one-step h2 em { font-style: normal; }`;
+document.head.appendChild(styleEl);
+</script>
+
+</body>
+</html>

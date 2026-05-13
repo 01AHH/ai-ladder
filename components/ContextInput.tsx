@@ -20,9 +20,9 @@ export function ContextInput({ value, onChange }: Props) {
         <span>§ Begin here</span>
         <span className={`who${filed ? " filed" : ""}`}>{filed ? "filed" : "unread"}</span>
       </div>
-      <h1 className="context-question">
+      <h2 className="context-question">
         Tell us <em>who you are</em> and what your knowledge is of AI.
-      </h1>
+      </h2>
       <div className="context-input">
         <span className="marker">¶</span>
         <input

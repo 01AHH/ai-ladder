@@ -1,0 +1,2266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The AI Ladder — a personalised guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+  /* ============================================================
+     SMOOTH PALETTE MORPHING — registered custom properties so
+     each scene's colours transition fluidly as you scroll.
+     ============================================================ */
+  @property --bg       { syntax: "<color>"; inherits: true; initial-value: #F2EBDB; }
+  @property --bg-soft  { syntax: "<color>"; inherits: true; initial-value: rgba(26,22,18,0.04); }
+  @property --ink      { syntax: "<color>"; inherits: true; initial-value: #1A1612; }
+  @property --muted    { syntax: "<color>"; inherits: true; initial-value: #6B5F50; }
+  @property --rule     { syntax: "<color>"; inherits: true; initial-value: rgba(26,22,18,0.18); }
+  @property --rule-2   { syntax: "<color>"; inherits: true; initial-value: rgba(26,22,18,0.40); }
+  @property --accent   { syntax: "<color>"; inherits: true; initial-value: #C7421E; }
+  @property --accent-ink { syntax: "<color>"; inherits: true; initial-value: #1A1612; }
+
+  /* defaults = HERO palette (cream) */
+  :root {
+    --display: "Instrument Serif", "Times New Roman", serif;
+    --sans: "Inter", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+    --bg: #F2EBDB;
+    --bg-soft: rgba(26,22,18,0.04);
+    --ink: #1A1612;
+    --muted: #6B5F50;
+    --rule: rgba(26,22,18,0.18);
+    --rule-2: rgba(26,22,18,0.40);
+    --accent: #C7421E;
+    --accent-ink: #1A1612;
+  }
+
+  /* ============================================================
+     SCENE PALETTES — applied to <body> when a scene is active.
+     Each palette transitions smoothly via registered properties.
+     ============================================================ */
+  body.scene-hero {
+    --bg: #F2EBDB; --bg-soft: rgba(26,22,18,0.04);
+    --ink: #1A1612; --muted: #6B5F50;
+    --rule: rgba(26,22,18,0.18); --rule-2: rgba(26,22,18,0.40);
+    --accent: #C7421E; --accent-ink: #FFFFFF;
+  }
+  body.scene-prompting {
+    --bg: #4D6A3A; --bg-soft: rgba(240,235,216,0.06);
+    --ink: #F0EBD8; --muted: #B5C0A0;
+    --rule: rgba(240,235,216,0.18); --rule-2: rgba(240,235,216,0.42);
+    --accent: #F0E5A0; --accent-ink: #2A3818;
+  }
+  body.scene-vibe {
+    --bg: #DD7A3E; --bg-soft: rgba(42,18,8,0.06);
+    --ink: #2A1408; --muted: #6E3618;
+    --rule: rgba(42,18,8,0.18); --rule-2: rgba(42,18,8,0.46);
+    --accent: #14213D; --accent-ink: #F2EBDB;
+  }
+  body.scene-agents {
+    --bg: #3D2858; --bg-soft: rgba(240,235,216,0.05);
+    --ink: #E2D8F0; --muted: #9E8FBC;
+    --rule: rgba(240,235,216,0.16); --rule-2: rgba(240,235,216,0.38);
+    --accent: #F2C8C0; --accent-ink: #14110D;
+  }
+  body.scene-repo {
+    --bg: #C99A1E; --bg-soft: rgba(42,24,4,0.07);
+    --ink: #2A1A06; --muted: #6B4818;
+    --rule: rgba(42,24,4,0.20); --rule-2: rgba(42,24,4,0.46);
+    --accent: #2A1A06; --accent-ink: #F0E5C0;
+  }
+  body.scene-apis {
+    --bg: #1F5266; --bg-soft: rgba(220,232,238,0.06);
+    --ink: #D8E6EC; --muted: #7AA0AC;
+    --rule: rgba(220,232,238,0.16); --rule-2: rgba(220,232,238,0.38);
+    --accent: #E07B3E; --accent-ink: #14110D;
+  }
+  body.scene-climax {
+    --bg: #14110D; --bg-soft: rgba(242,235,219,0.04);
+    --ink: #F2EBDB; --muted: #998D78;
+    --rule: rgba(242,235,219,0.16); --rule-2: rgba(242,235,219,0.36);
+    --accent: #E5A642; --accent-ink: #14110D;
+  }
+  body.scene-integrated {
+    --bg: #D67054; --bg-soft: rgba(42,18,8,0.06);
+    --ink: #2A1208; --muted: #6B3220;
+    --rule: rgba(42,18,8,0.18); --rule-2: rgba(42,18,8,0.46);
+    --accent: #14110D; --accent-ink: #F2EBDB;
+  }
+  body.scene-step {
+    --bg: #F2EBDB; --bg-soft: rgba(26,22,18,0.04);
+    --ink: #1A1612; --muted: #6B5F50;
+    --rule: rgba(26,22,18,0.18); --rule-2: rgba(26,22,18,0.40);
+    --accent: #C7421E; --accent-ink: #F2EBDB;
+  }
+
+  /* ============================================================
+     BASE
+     ============================================================ */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition:
+      --bg 900ms cubic-bezier(.4,0,.2,1),
+      --bg-soft 900ms cubic-bezier(.4,0,.2,1),
+      --ink 900ms cubic-bezier(.4,0,.2,1),
+      --muted 900ms cubic-bezier(.4,0,.2,1),
+      --rule 900ms cubic-bezier(.4,0,.2,1),
+      --rule-2 900ms cubic-bezier(.4,0,.2,1),
+      --accent 900ms cubic-bezier(.4,0,.2,1),
+      --accent-ink 900ms cubic-bezier(.4,0,.2,1);
+  }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+
+  /* ============================================================
+     PERSISTENT CHROME — top bar + side rail + scroll progress
+     ============================================================ */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 60;
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 22px 32px;
+    pointer-events: none;
+  }
+  .topbar .mark {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .topbar .mark .dot { color: var(--accent); }
+  .topbar .scene-readout {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+  }
+  .topbar .scene-readout .n { color: var(--ink); }
+  .topbar .scene-readout .sep { opacity: 0.4; margin: 0 4px; }
+
+  /* ============================================================
+     LADDER VISUALISATION — a literal ladder on the right edge
+     with a climber marker that slides between rungs as you scroll.
+     ============================================================ */
+  .ladder-viz {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 55;
+    width: 110px;
+    height: 78vh;
+    max-height: 760px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    pointer-events: none;
+  }
+  .lv-cap {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 6px;
+    transition: color 300ms;
+  }
+  .lv-cap .you { color: var(--accent); }
+  .lv-svg {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .lv-rail {
+    stroke: var(--rule-2);
+    stroke-width: 2;
+    stroke-linecap: square;
+    transition: stroke 600ms;
+  }
+  .lv-rung-bar {
+    stroke: var(--rule-2);
+    stroke-width: 1.5;
+    transition: stroke 250ms, stroke-width 250ms;
+  }
+  .lv-rung.active .lv-rung-bar {
+    stroke: var(--accent);
+    stroke-width: 4;
+  }
+  .lv-rung-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    fill: var(--muted);
+    transition: fill 200ms, font-weight 200ms;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  .lv-rung.active .lv-rung-num {
+    fill: var(--accent);
+    font-weight: 600;
+  }
+  .lv-rung-hit {
+    fill: transparent;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  .lv-climber {
+    transition: transform 650ms cubic-bezier(.22,.61,.36,1);
+  }
+  .lv-climber-bar {
+    stroke: var(--accent);
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+  .lv-climber-dot-l, .lv-climber-dot-r {
+    fill: var(--accent);
+  }
+  .lv-foot {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 6px;
+    transition: color 300ms;
+  }
+
+  /* ============================================================
+     SCENE SHELL
+     ============================================================ */
+  .scene {
+    position: relative;
+    min-height: 100vh;
+    padding: 16vh 0 12vh 0;
+    overflow: visible;
+  }
+  .scene-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 6vw;
+  }
+
+  /* Bridge between scenes — Socratic line that pulls forward */
+  .bridge {
+    padding: 14vh 0 16vh 0;
+    text-align: center;
+  }
+  .bridge .uptag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .bridge .uptag::before {
+    content: "↑";
+    color: var(--accent);
+    font-size: 14px;
+  }
+  .bridge .line {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(36px, 5.2vw, 64px);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    max-width: 22ch;
+    margin: 0 auto;
+    text-wrap: balance;
+  }
+  .bridge .line em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero .scene-inner {
+    padding-top: 8vh;
+    display: grid;
+    gap: 6vh;
+  }
+  .hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero .eyebrow .pip {
+    width: 7px; height: 7px; background: var(--accent); border-radius: 999px;
+  }
+  .hero h1 {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(56px, 9.2vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero h1 em {
+    font-family: var(--display);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .hero .lede {
+    font-size: clamp(19px, 1.6vw, 24px);
+    line-height: 1.45;
+    max-width: 640px;
+    color: var(--ink);
+    text-wrap: pretty;
+    font-weight: 400;
+  }
+  .hero .lede strong { font-weight: 600; }
+
+  .context {
+    margin-top: 4vh;
+    border-top: 1px solid var(--rule-2);
+    border-bottom: 1px solid var(--rule-2);
+    padding: 26px 0 28px 0;
+  }
+  .context-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .context-head .status { color: var(--ink); }
+  .context-head .status.filed { color: var(--accent); }
+  .context-input {
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .context-input .pilcrow {
+    font-family: var(--display);
+    font-size: 36px;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .context-input input {
+    flex: 1;
+    background: transparent;
+    border: 0; outline: 0;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(26px, 3.6vw, 40px);
+    line-height: 1.18;
+    color: var(--ink);
+    padding: 4px 0;
+    letter-spacing: -0.005em;
+  }
+  .context-input input::placeholder { color: var(--muted); opacity: 0.7; }
+  .context-hint {
+    margin-top: 18px;
+    display: flex; gap: 18px; flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .context-hint .arrow { color: var(--accent); }
+  .context-hint button {
+    appearance: none; background: transparent;
+    border: 0;
+    font: inherit; color: var(--muted);
+    cursor: pointer;
+    padding: 4px 10px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    transition: all 160ms;
+  }
+  .context-hint button:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .hero .scroll-hint {
+    margin-top: 6vh;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero .scroll-hint::after {
+    content: ""; width: 60px; height: 1px; background: var(--rule-2);
+  }
+  .hero .scroll-hint .arr {
+    animation: drift 2s ease-in-out infinite;
+    color: var(--accent);
+    font-size: 13px;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(4px); opacity: 1; }
+  }
+
+  /* ============================================================
+     RUNG INDEX — clickable TOC in the hero. Each row shows that
+     scene's signature colour as a left bar, so the colour story
+     of the page is legible before you scroll.
+     ============================================================ */
+  .rung-index {
+    margin-top: 5vh;
+  }
+  .rix-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0 14px 0;
+    border-top: 1px solid var(--rule-2);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .rix-head .lead { color: var(--ink); }
+  .rix-head .lead .arrow { color: var(--accent); margin-right: 6px; }
+  .rix-list {
+    display: grid;
+  }
+  .rix-row {
+    display: grid;
+    grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr) 36px;
+    gap: 18px;
+    padding: 16px 4px 16px 18px;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    color: var(--ink);
+    align-items: baseline;
+    position: relative;
+    transition: padding 200ms cubic-bezier(.4,0,.2,1), background 200ms;
+  }
+  .rix-row::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--rix-color, var(--accent));
+    opacity: 0.55;
+    transition: opacity 180ms, width 200ms cubic-bezier(.4,0,.2,1);
+  }
+  .rix-row:hover { padding-left: 30px; background: var(--bg-soft); }
+  .rix-row:hover::before { opacity: 1; width: 8px; }
+  .rix-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+  }
+  .rix-name {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .rix-tag {
+    font-family: var(--sans);
+    font-size: clamp(13px, 1.1vw, 15px);
+    color: var(--muted);
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+  .rix-arrow {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--muted);
+    transition: color 200ms, transform 200ms cubic-bezier(.4,0,.2,1);
+    text-align: right;
+    line-height: 1;
+  }
+  .rix-row:hover .rix-arrow {
+    color: var(--rix-color, var(--accent));
+    transform: translate(4px, -4px);
+  }
+  .rix-row:hover .rix-name {
+    color: var(--rix-color, var(--accent));
+  }
+
+  /* ============================================================
+     RUNG SCENE — sticky numeral + flowing right-side content
+     ============================================================ */
+  .rung .scene-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+  .rung-stage {
+    position: sticky;
+    top: 16vh;
+    align-self: start;
+  }
+  .rung-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 10px;
+  }
+  .rung-meta .step { color: var(--accent); }
+  .rung-numeral {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(180px, 24vw, 320px);
+    line-height: 0.84;
+    letter-spacing: -0.035em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .rung-numeral .of {
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 0.13em;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    vertical-align: 1.4em;
+    margin-left: 0.1em;
+  }
+  .rung-name {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(40px, 5.2vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 18px 0 0 0;
+    text-wrap: balance;
+  }
+  .rung-name em {
+    font-family: var(--display);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .rung-tools {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 18px;
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .rung-tools .chip {
+    padding: 5px 10px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+
+  .rung-body {
+    padding-top: 18px;
+  }
+  .rung-def {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: clamp(20px, 1.65vw, 26px);
+    line-height: 1.42;
+    color: var(--ink);
+    max-width: 38ch;
+    margin: 0 0 36px 0;
+    text-wrap: pretty;
+  }
+  .rung-def strong {
+    font-weight: 600;
+  }
+  .rung-def em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1.05em;
+  }
+
+  .seed {
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 18px 22px;
+    margin-bottom: 32px;
+    max-width: 540px;
+    border-radius: 2px;
+  }
+  .seed-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .seed-text {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  /* generate button */
+  .generate {
+    appearance: none;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 16px 22px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    border-radius: 999px;
+    transition: transform 200ms, filter 200ms;
+    margin-top: 4px;
+  }
+  .generate:hover { transform: translateY(-2px); filter: brightness(1.08); }
+  .generate:active { transform: translateY(0); }
+  .generate .arrow {
+    font-family: var(--display);
+    font-size: 18px;
+    font-style: italic;
+    transition: transform 200ms;
+  }
+  .generate:hover .arrow { transform: translateX(4px); }
+  .generate[data-state="streaming"] {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--rule-2);
+    cursor: default;
+  }
+  .generate[data-state="streaming"]:hover { transform: none; }
+  .generate[data-state="done"] {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--rule-2);
+  }
+  .generate[data-state="done"]:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* stream output */
+  .stream {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    max-width: 60ch;
+  }
+  .stream[hidden] { display: none; }
+  .stream-head {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .stream-head .live {
+    color: var(--accent);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .stream-head .live::before {
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 999px;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  .stream-body {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink);
+    white-space: pre-wrap;
+    text-wrap: pretty;
+  }
+  .stream-body em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--accent);
+  }
+  .caret {
+    display: inline-block;
+    width: 0.55em; height: 1.05em;
+    background: var(--accent);
+    vertical-align: -0.15em;
+    margin-left: 2px;
+    animation: blink 1s steps(2) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .stream-error {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    line-height: 1.5;
+  }
+
+  /* ============================================================
+     CLIMAX (RUNG 06) — dark scene + skill shelf
+     ============================================================ */
+  .climax .scene-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(48px, 7vw, 120px);
+    align-items: start;
+  }
+  .climax-stamp {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .climax-stamp::before {
+    content: "▲";
+  }
+  .climax .rung-numeral {
+    color: var(--ink);
+    font-size: clamp(220px, 30vw, 420px);
+    margin-left: -0.06em;
+  }
+  .climax .rung-name { color: var(--accent); }
+  .climax .rung-def { color: var(--ink); max-width: 36ch; }
+  .climax .rung-def b { color: var(--accent); font-weight: 600; font-style: normal; }
+
+  .climax .crit {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.32;
+    color: var(--ink);
+    border-left: 2px solid var(--accent);
+    padding: 6px 0 6px 22px;
+    margin: 8px 0 36px 0;
+    max-width: 32ch;
+  }
+  .climax .crit b {
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .shelf-head {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .shelf-head::before { content: "⌁"; font-size: 14px; }
+  .shelf {
+    display: grid;
+    gap: 14px;
+  }
+  .skill-card {
+    border: 1px solid var(--rule);
+    background: var(--bg-soft);
+    padding: 18px 22px;
+    border-radius: 4px;
+    transition: border-color 200ms, transform 200ms, background 200ms;
+    cursor: default;
+  }
+  .skill-card:hover {
+    border-color: var(--accent);
+    background: rgba(229,166,66,0.06);
+    transform: translateY(-2px);
+  }
+  .skill-card .top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .skill-card .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .skill-card .name {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .skill-card .trigger {
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-top: 4px;
+    opacity: 0.85;
+  }
+  .skill-card .trigger .when {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+
+  /* Skill output (climax stream is a file, not a paragraph) */
+  .skill-file {
+    margin-top: 32px;
+    border: 1px solid var(--accent);
+    background: rgba(229,166,66,0.04);
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  .skill-file .skill-head {
+    background: var(--accent);
+    color: var(--accent-ink);
+    padding: 10px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .skill-file .skill-head .filename {
+    font-weight: 600;
+  }
+  .skill-file .skill-body {
+    padding: 20px 22px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .skill-file .skill-body .when-block {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 11px;
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ============================================================
+     ONE STEP scene — quiet warm landing
+     ============================================================ */
+  .step .scene-inner {
+    display: grid; gap: 5vh;
+  }
+  .step .step-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: inline-flex; gap: 12px; align-items: center;
+  }
+  .step h2 {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(52px, 7.8vw, 112px);
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .step h2 em {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .step .step-lede {
+    font-size: clamp(19px, 1.5vw, 23px);
+    line-height: 1.45;
+    color: var(--ink);
+    max-width: 56ch;
+  }
+  .step-list {
+    margin-top: 3vh;
+    border-top: 1px solid var(--rule-2);
+  }
+  .step-row {
+    display: grid;
+    grid-template-columns: 88px 1fr auto;
+    gap: 28px;
+    padding: 22px 4px;
+    border-bottom: 1px solid var(--rule);
+    cursor: pointer;
+    transition: background 160ms, padding 160ms;
+    align-items: baseline;
+  }
+  .step-row:hover { background: var(--bg-soft); padding-left: 18px; }
+  .step-row .n {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .step-row .what {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(20px, 1.8vw, 26px);
+    line-height: 1.28;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .step-row .what em {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .step-row .where {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .step-row:hover .what { color: var(--accent); }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer {
+    padding: 60px 6vw 50px 6vw;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  footer .colophon { max-width: 60ch; }
+  footer .wink {
+    font-family: var(--mono);
+    text-transform: lowercase;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    align-self: end;
+  }
+  footer .wink .dot { color: var(--accent); }
+
+  /* ============================================================
+     TWEAKS — bottom-right floating panel
+     ============================================================ */
+  body:not(.tweaks-on) .tweaks { display: none; }
+  .tweaks {
+    position: fixed;
+    bottom: 24px; left: 24px;
+    z-index: 90;
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 18px 20px;
+    width: 260px;
+    box-shadow: 6px 6px 0 var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    border-radius: 4px;
+  }
+  .tweaks h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 0 0 12px 0;
+    color: var(--accent);
+  }
+  .tweaks .row { margin-bottom: 14px; }
+  .tweaks .row label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .tweaks .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tweaks .sw {
+    width: 22px; height: 22px; border-radius: 999px; cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 140ms, border-color 140ms;
+  }
+  .tweaks .sw:hover { transform: scale(1.12); }
+  .tweaks .sw.active { border-color: var(--ink); }
+  .tweaks .seg { display: flex; border: 1px solid var(--rule-2); border-radius: 999px; overflow: hidden; }
+  .tweaks .seg button {
+    flex: 1; appearance: none; background: transparent; border: 0;
+    font: inherit; padding: 6px 0;
+    color: var(--ink); cursor: pointer;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .tweaks .seg button.active { background: var(--ink); color: var(--bg); }
+  .tweaks .close {
+    position: absolute; top: 8px; right: 10px;
+    background: transparent; border: 0;
+    color: var(--muted); cursor: pointer;
+    font-family: var(--mono); font-size: 12px;
+  }
+  .tweaks .close:hover { color: var(--accent); }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width: 1100px) {
+    .ladder-viz { display: none; }
+  }
+  @media (max-width: 920px) {
+    .rung .scene-inner,
+    .climax .scene-inner {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .rung-stage {
+      position: static;
+    }
+    .topbar { padding: 18px 20px; }
+    .scene { padding: 12vh 0 8vh 0; }
+    .bridge { padding: 10vh 0 12vh 0; }
+    footer { grid-template-columns: 1fr; padding-left: 24px; padding-right: 24px; }
+    .rix-row { grid-template-columns: 48px 1fr 28px; }
+    .rix-tag { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 56px; }
+    .rung-numeral { font-size: 160px; }
+    .climax .rung-numeral { font-size: 200px; }
+    .context-input input { font-size: 22px; }
+    .step-row { grid-template-columns: 1fr; gap: 6px; padding: 20px 4px; }
+    .step-row .where { justify-self: start; }
+  }
+
+  /* Honor reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    body { transition: background-color 0s; }
+    .caret, .pulse, .stream-head .live::before, .hero .scroll-hint .arr {
+      animation: none;
+    }
+  }
+</style>
+</head>
+<body class="scene-hero">
+
+<!-- ============================================================
+     TOP BAR  (persistent)
+     ============================================================ -->
+<header class="topbar">
+  <div class="mark">THE&nbsp;AI&nbsp;LADDER<span class="dot">.</span></div>
+  <div class="scene-readout">
+    <span class="n" id="sceneNum">00</span><span class="sep">/</span><span>07</span>
+    <span style="margin-left:14px" id="sceneLabel">START</span>
+  </div>
+</header>
+
+<!-- ============================================================
+     SIDE LADDER  (persistent) — visual metaphor of the climb
+     ============================================================ -->
+<aside class="ladder-viz" id="ladderViz" aria-hidden="true">
+  <div class="lv-cap">↑ <span class="you">YOU</span></div>
+  <svg class="lv-svg" viewBox="0 0 110 820" preserveAspectRatio="xMidYMid meet">
+    <!-- two side rails -->
+    <line class="lv-rail" x1="34" x2="34" y1="20" y2="800" />
+    <line class="lv-rail" x1="86" x2="86" y1="20" y2="800" />
+
+    <!-- 9 crossbars (hero, 7 rungs, step) -->
+    <g class="lv-rung" data-key="hero" data-y="40">
+      <rect class="lv-rung-hit" x="0" y="24" width="110" height="32" data-href="#hero"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="40" y2="40" />
+      <text class="lv-rung-num" x="22" y="44" text-anchor="end">00</text>
+    </g>
+    <g class="lv-rung" data-key="prompting" data-y="135">
+      <rect class="lv-rung-hit" x="0" y="119" width="110" height="32" data-href="#rung-1"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="135" y2="135" />
+      <text class="lv-rung-num" x="22" y="139" text-anchor="end">01</text>
+    </g>
+    <g class="lv-rung" data-key="vibe" data-y="230">
+      <rect class="lv-rung-hit" x="0" y="214" width="110" height="32" data-href="#rung-2"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="230" y2="230" />
+      <text class="lv-rung-num" x="22" y="234" text-anchor="end">02</text>
+    </g>
+    <g class="lv-rung" data-key="agents" data-y="325">
+      <rect class="lv-rung-hit" x="0" y="309" width="110" height="32" data-href="#rung-3"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="325" y2="325" />
+      <text class="lv-rung-num" x="22" y="329" text-anchor="end">03</text>
+    </g>
+    <g class="lv-rung" data-key="repo" data-y="420">
+      <rect class="lv-rung-hit" x="0" y="404" width="110" height="32" data-href="#rung-4"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="420" y2="420" />
+      <text class="lv-rung-num" x="22" y="424" text-anchor="end">04</text>
+    </g>
+    <g class="lv-rung" data-key="apis" data-y="515">
+      <rect class="lv-rung-hit" x="0" y="499" width="110" height="32" data-href="#rung-5"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="515" y2="515" />
+      <text class="lv-rung-num" x="22" y="519" text-anchor="end">05</text>
+    </g>
+    <g class="lv-rung" data-key="climax" data-y="610">
+      <rect class="lv-rung-hit" x="0" y="594" width="110" height="32" data-href="#rung-6"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="610" y2="610" />
+      <text class="lv-rung-num" x="22" y="614" text-anchor="end">06</text>
+    </g>
+    <g class="lv-rung" data-key="integrated" data-y="705">
+      <rect class="lv-rung-hit" x="0" y="689" width="110" height="32" data-href="#rung-7"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="705" y2="705" />
+      <text class="lv-rung-num" x="22" y="709" text-anchor="end">07</text>
+    </g>
+    <g class="lv-rung" data-key="step" data-y="780">
+      <rect class="lv-rung-hit" x="0" y="764" width="110" height="32" data-href="#step"/>
+      <line class="lv-rung-bar" x1="34" x2="86" y1="780" y2="780" />
+      <text class="lv-rung-num" x="22" y="784" text-anchor="end">⚑</text>
+    </g>
+
+    <!-- climber: a fat coloured crossbar with caps that slides between rungs -->
+    <g class="lv-climber" id="lvClimber" transform="translate(0, 0)">
+      <line class="lv-climber-bar" x1="34" x2="86" y1="40" y2="40" />
+      <circle class="lv-climber-dot-l" cx="34" cy="40" r="5" />
+      <circle class="lv-climber-dot-r" cx="86" cy="40" r="5" />
+    </g>
+  </svg>
+  <div class="lv-foot">↓ SCROLL TO CLIMB</div>
+</aside>
+
+<!-- ============================================================
+     HERO SCENE  (cream)
+     ============================================================ -->
+<section class="scene hero" id="hero" data-scene-key="hero" data-scene-label="START">
+  <div class="scene-inner">
+
+    <div class="eyebrow">
+      <span class="pip"></span>
+      A FIELD GUIDE TO WHAT YOU CAN ACTUALLY DO WITH AI
+    </div>
+
+    <h1>
+      Seven rungs.<br />
+      One <em>climb</em>.<br />
+      Pick yours.
+    </h1>
+
+    <p class="lede">
+      Most people stop at rung one and assume the elevator is broken. <strong>The AI Ladder</strong> shows you one vivid thing you could be doing at every rung above where you are. Written for the work you actually do. Five minutes, then a single concrete step you could take this week.
+    </p>
+
+    <div class="context">
+      <div class="context-head">
+        <span>§ TELL US WHO YOU ARE</span>
+        <span class="status" id="whoStatus">UNREAD</span>
+      </div>
+      <div class="context-input">
+        <span class="pilcrow">¶</span>
+        <input
+          id="contextInput"
+          type="text"
+          placeholder="I'm a real estate agent in Sydney…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+      <div class="context-hint">
+        <span class="arrow">↳ try</span>
+        <button data-fill="I'm a paediatric nurse running a small clinic in Lagos.">paediatric nurse, Lagos</button>
+        <button data-fill="I'm a product manager at a B2B logistics startup.">PM, logistics</button>
+        <button data-fill="I run a one-person Etsy shop selling handmade ceramics.">solo ceramics shop</button>
+        <button data-fill="I'm a high-school history teacher in rural Vermont.">history teacher</button>
+      </div>
+    </div>
+
+    <nav class="rung-index" aria-label="Quick jump">
+      <div class="rix-head">
+        <span class="lead"><span class="arrow">↓</span>THE SEVEN RUNGS</span>
+        <span>JUMP TO ANY</span>
+      </div>
+      <div class="rix-list">
+        <a class="rix-row" href="#rung-1" style="--rix-color: #4D6A3A;">
+          <span class="rix-num">01</span>
+          <span class="rix-name">Prompting</span>
+          <span class="rix-tag">the conversation, a sharp prompt against a frontier model</span>
+          <span class="rix-arrow">↗</span>
+        </a>
+        <a class="rix-row" href="#rung-2" style="--rix-color: #DD7A3E;">
+          <span class="rix-num">02</span>
+          <span class="rix-name">Vibe coding</span>
+          <span class="rix-tag">describe an app, ship a real URL by tonight</span>
+          <span class="rix-arrow">↗</span>
+        </a>
+        <a class="rix-row" href="#rung-3" style="--rix-color: #3D2858;">
+          <span class="rix-num">03</span>
+          <span class="rix-name">Coding agents</span>
+          <span class="rix-tag">the agent reads your repo and writes patches</span>
+          <span class="rix-arrow">↗</span>
+        </a>
+        <a class="rix-row" href="#rung-4" style="--rix-color: #C99A1E;">
+          <span class="rix-num">04</span>
+          <span class="rix-name">Repo as memory</span>
+          <span class="rix-tag">markdown as second brain, CLAUDE.md at the root</span>
+          <span class="rix-arrow">↗</span>
+        </a>
+        <a class="rix-row" href="#rung-5" style="--rix-color: #1F5266;">
+          <span class="rix-num">05</span>
+          <span class="rix-name">APIs</span>
+          <span class="rix-tag">the model as a function in your codebase</span>
+          <span class="rix-arrow">↗</span>
+        </a>
+        <a class="rix-row" href="#rung-6" style="--rix-color: #14110D;">
+          <span class="rix-num">06</span>
+          <span class="rix-name">Skills</span>
+          <span class="rix-tag">what the model does forever, every time the trigger fires</span>
+          <span class="rix-arrow">↗</span>
+        </a>
+        <a class="rix-row" href="#rung-7" style="--rix-color: #D67054;">
+          <span class="rix-num">07</span>
+          <span class="rix-name">Integrated systems</span>
+          <span class="rix-tag">agents with hands on Gmail, Calendar, your CRM</span>
+          <span class="rix-arrow">↗</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="scroll-hint">
+      <span>OR JUST SCROLL</span>
+      <span class="arr">↓</span>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE 0 → 1 -->
+<div class="bridge" data-scene-key="hero">
+  <div class="uptag">RUNG ONE</div>
+  <p class="line">What if the thing you typed into a chat window was the cheapest <em>leverage</em> you'd ever buy?</p>
+</div>
+
+<!-- ============================================================
+     RUNG 1 — PROMPTING  (sage)
+     ============================================================ -->
+<section class="scene rung" id="rung-1" data-scene-key="prompting" data-scene-label="PROMPTING">
+  <div class="scene-inner">
+    <div class="rung-stage">
+      <div class="rung-meta">
+        <span class="step">↑ FIRST RUNG</span>
+        <span>~5 MIN TO START</span>
+      </div>
+      <h2 class="rung-numeral">01<span class="of">/07</span></h2>
+      <h3 class="rung-name"><em>Prompting.</em></h3>
+      <div class="rung-tools">
+        <span class="chip">Claude.ai</span>
+        <span class="chip">ChatGPT</span>
+        <span class="chip">a browser tab</span>
+      </div>
+    </div>
+    <div class="rung-body">
+      <p class="rung-def">
+        You open a chat window and ask for things. The model does the work. You do the steering. A <em>sharp</em> prompt against a frontier model is still the highest leverage-per-minute most people will ever touch.
+      </p>
+      <div class="seed">
+        <div class="seed-label">SEED EXAMPLE · GENERIC</div>
+        <div class="seed-text">"Summarise this PDF and pull out the three numbers I should be worried about."</div>
+      </div>
+      <button class="generate" data-rung="1">
+        Generate my example
+        <span class="arrow">→</span>
+      </button>
+      <div class="stream" id="stream-1" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE 1 → 2 -->
+<div class="bridge" data-scene-key="prompting">
+  <div class="uptag">RUNG TWO</div>
+  <p class="line">What if the answer wasn't a paragraph, but a <em>working website</em>?</p>
+</div>
+
+<!-- ============================================================
+     RUNG 2 — VIBE CODING  (apricot)
+     ============================================================ -->
+<section class="scene rung" id="rung-2" data-scene-key="vibe" data-scene-label="VIBE CODING">
+  <div class="scene-inner">
+    <div class="rung-stage">
+      <div class="rung-meta">
+        <span class="step">↑ SECOND RUNG</span>
+        <span>~AN AFTERNOON</span>
+      </div>
+      <h2 class="rung-numeral">02<span class="of">/07</span></h2>
+      <h3 class="rung-name"><em>Vibe coding.</em></h3>
+      <div class="rung-tools">
+        <span class="chip">Lovable</span>
+        <span class="chip">v0</span>
+        <span class="chip">Bolt</span>
+      </div>
+    </div>
+    <div class="rung-body">
+      <p class="rung-def">
+        You describe an app. A working app comes out. You never open a terminal. The output is a real URL, with a real database, on the real internet. The part of your brain that used to say <em>"I'd need a developer for that"</em> goes quiet.
+      </p>
+      <div class="seed">
+        <div class="seed-label">SEED EXAMPLE · GENERIC</div>
+        <div class="seed-text">"Make a one-page site that takes RSVPs to a dinner party and texts me when someone replies."</div>
+      </div>
+      <button class="generate" data-rung="2">
+        Generate my example
+        <span class="arrow">→</span>
+      </button>
+      <div class="stream" id="stream-2" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE 2 → 3 -->
+<div class="bridge" data-scene-key="vibe">
+  <div class="uptag">RUNG THREE</div>
+  <p class="line">What if it could touch the code <em>you already had</em>?</p>
+</div>
+
+<!-- ============================================================
+     RUNG 3 — CODING AGENTS  (lavender)
+     ============================================================ -->
+<section class="scene rung" id="rung-3" data-scene-key="agents" data-scene-label="CODING AGENTS">
+  <div class="scene-inner">
+    <div class="rung-stage">
+      <div class="rung-meta">
+        <span class="step">↑ THIRD RUNG</span>
+        <span>~A WEEKEND</span>
+      </div>
+      <h2 class="rung-numeral">03<span class="of">/07</span></h2>
+      <h3 class="rung-name"><em>Coding agents.</em></h3>
+      <div class="rung-tools">
+        <span class="chip">Claude Code</span>
+        <span class="chip">Cursor</span>
+        <span class="chip">your terminal</span>
+      </div>
+    </div>
+    <div class="rung-body">
+      <p class="rung-def">
+        The agent reads your whole repo, writes patches, runs tests, reports back. You spend more time reviewing than typing. It becomes the <em>junior who never sleeps</em>, and never resents the legacy.
+      </p>
+      <div class="seed">
+        <div class="seed-label">SEED EXAMPLE · GENERIC</div>
+        <div class="seed-text">"Migrate this codebase from Pages Router to App Router. Tell me what you couldn't translate."</div>
+      </div>
+      <button class="generate" data-rung="3">
+        Generate my example
+        <span class="arrow">→</span>
+      </button>
+      <div class="stream" id="stream-3" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE 3 → 4 -->
+<div class="bridge" data-scene-key="agents">
+  <div class="uptag">RUNG FOUR</div>
+  <p class="line">What if the code <em>remembered</em> why you wrote it?</p>
+</div>
+
+<!-- ============================================================
+     RUNG 4 — REPO STRUCTURE  (pale ochre)
+     ============================================================ -->
+<section class="scene rung" id="rung-4" data-scene-key="repo" data-scene-label="REPO STRUCTURE">
+  <div class="scene-inner">
+    <div class="rung-stage">
+      <div class="rung-meta">
+        <span class="step">↑ FOURTH RUNG</span>
+        <span>~A FEW EVENINGS</span>
+      </div>
+      <h2 class="rung-numeral">04<span class="of">/07</span></h2>
+      <h3 class="rung-name"><em>Repo as memory.</em></h3>
+      <div class="rung-tools">
+        <span class="chip">CLAUDE.md</span>
+        <span class="chip">/prompts</span>
+        <span class="chip">/docs</span>
+        <span class="chip">markdown</span>
+      </div>
+    </div>
+    <div class="rung-body">
+      <p class="rung-def">
+        You stop telling the model what you do, and start <em>storing it</em>. A CLAUDE.md at the root. A prompts folder. A docs folder that is the architecture, not the afterthought. The repo becomes a second brain the model can read in one breath.
+      </p>
+      <div class="seed">
+        <div class="seed-label">SEED EXAMPLE · GENERIC</div>
+        <div class="seed-text">"Read CLAUDE.md, then propose a refactor that respects every rule it lists."</div>
+      </div>
+      <button class="generate" data-rung="4">
+        Generate my example
+        <span class="arrow">→</span>
+      </button>
+      <div class="stream" id="stream-4" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE 4 → 5 -->
+<div class="bridge" data-scene-key="repo">
+  <div class="uptag">RUNG FIVE</div>
+  <p class="line">What if the model didn't live in a chat window <em>at all</em>?</p>
+</div>
+
+<!-- ============================================================
+     RUNG 5 — APIS  (powder blue)
+     ============================================================ -->
+<section class="scene rung" id="rung-5" data-scene-key="apis" data-scene-label="APIS">
+  <div class="scene-inner">
+    <div class="rung-stage">
+      <div class="rung-meta">
+        <span class="step">↑ FIFTH RUNG</span>
+        <span>~A WEEK</span>
+      </div>
+      <h2 class="rung-numeral">05<span class="of">/07</span></h2>
+      <h3 class="rung-name"><em>APIs.</em></h3>
+      <div class="rung-tools">
+        <span class="chip">anthropic SDK</span>
+        <span class="chip">webhooks</span>
+        <span class="chip">cron</span>
+      </div>
+    </div>
+    <div class="rung-body">
+      <p class="rung-def">
+        The model is a function in your code. Fired from a webhook, a cron, a click. It sits next to Postgres and Stripe as <em>just another primitive</em>. Anything with a network connection can be a little smarter on its own.
+      </p>
+      <div class="seed">
+        <div class="seed-label">SEED EXAMPLE · GENERIC</div>
+        <div class="seed-text">"Every new support ticket gets read, classified, and tagged before a human ever sees it."</div>
+      </div>
+      <button class="generate" data-rung="5">
+        Generate my example
+        <span class="arrow">→</span>
+      </button>
+      <div class="stream" id="stream-5" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE 5 → 6  (climactic) -->
+<div class="bridge" data-scene-key="apis">
+  <div class="uptag">RUNG SIX · THE CLIMAX</div>
+  <p class="line">What if it <em>remembered you</em> between calls?</p>
+</div>
+
+<!-- ============================================================
+     RUNG 6 — KNOWLEDGE SYSTEMS / SKILLS  (CLIMAX, ink + gold)
+     ============================================================ -->
+<section class="scene climax" id="rung-6" data-scene-key="climax" data-scene-label="SKILLS">
+  <div class="scene-inner">
+    <div class="rung-stage">
+      <div class="climax-stamp">THE LADDER PAYS OFF</div>
+      <h2 class="rung-numeral">06</h2>
+      <div class="rung-meta" style="margin-top: 12px;">
+        <span class="step">↑ SIXTH RUNG</span>
+        <span>WHERE THE MODEL STARTS REMEMBERING YOU</span>
+      </div>
+      <h3 class="rung-name"><em>Skills.</em></h3>
+      <p class="rung-def">
+        Memory. Retrieval. <b>Skills.</b> The model carries your context, your house style, your standard operating procedure with it. A skill is a small, named bundle of instructions that <em>changes what the model does</em>, every single time the trigger fires.
+      </p>
+      <p class="crit">
+        "A prompt is something you write <i>once</i>. <b>A skill is something the model does forever.</b>"
+      </p>
+    </div>
+    <div class="rung-body">
+      <div class="shelf-head">YOUR SKILL SHELF · A FEW EXAMPLES</div>
+      <div class="shelf">
+        <div class="skill-card">
+          <div class="top">
+            <span class="tag">SKILL · 01</span>
+            <span class="name">house-style-writer</span>
+          </div>
+          <div class="trigger">
+            <span class="when">FIRES WHEN</span>
+            you ask Claude to draft any external-facing copy. It lifts tone, banned words, and your three rhetorical tics from a single source file.
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="top">
+            <span class="tag">SKILL · 02</span>
+            <span class="name">monday-digest</span>
+          </div>
+          <div class="trigger">
+            <span class="when">FIRES WHEN</span>
+            you say "what happened last week." It pulls Linear, Stripe, and Slack into the same three-paragraph brief, every time, in the same shape.
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="top">
+            <span class="tag">SKILL · 03</span>
+            <span class="name">contract-redline</span>
+          </div>
+          <div class="trigger">
+            <span class="when">FIRES WHEN</span>
+            a PDF lands in a folder. It flags clauses against your playbook and drafts the email to your lawyer with the diff attached.
+          </div>
+        </div>
+      </div>
+
+      <button class="generate" data-rung="6" style="margin-top: 32px;">
+        Generate <em style="font-family: var(--display); font-style: italic;">my</em> skill
+        <span class="arrow">→</span>
+      </button>
+      <div class="stream" id="stream-6" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE 6 → 7 -->
+<div class="bridge" data-scene-key="climax">
+  <div class="uptag">RUNG SEVEN</div>
+  <p class="line">What if it had <em>hands</em>?</p>
+</div>
+
+<!-- ============================================================
+     RUNG 7 — INTEGRATED SYSTEMS  (terracotta)
+     ============================================================ -->
+<section class="scene rung" id="rung-7" data-scene-key="integrated" data-scene-label="INTEGRATED">
+  <div class="scene-inner">
+    <div class="rung-stage">
+      <div class="rung-meta">
+        <span class="step">↑ SEVENTH RUNG</span>
+        <span>~A QUARTER, HONESTLY</span>
+      </div>
+      <h2 class="rung-numeral">07<span class="of">/07</span></h2>
+      <h3 class="rung-name"><em>Integrated systems.</em></h3>
+      <div class="rung-tools">
+        <span class="chip">Gmail</span>
+        <span class="chip">Calendar</span>
+        <span class="chip">Slack</span>
+        <span class="chip">your CRM</span>
+        <span class="chip">your DB</span>
+      </div>
+    </div>
+    <div class="rung-body">
+      <p class="rung-def">
+        Agents with hands on your stack. The model crosses out of the chat window and into the <em>system of record</em>. You stop asking it to draft. You start asking it to send, file, update, and move on.
+      </p>
+      <div class="seed">
+        <div class="seed-label">SEED EXAMPLE · GENERIC</div>
+        <div class="seed-text">"Read every reply in this thread, update the deal stage in HubSpot, send a follow-up at 9am their time."</div>
+      </div>
+      <button class="generate" data-rung="7">
+        Generate my example
+        <span class="arrow">→</span>
+      </button>
+      <div class="stream" id="stream-7" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE 7 → STEP -->
+<div class="bridge" data-scene-key="integrated">
+  <div class="uptag">NOW PICK ONE</div>
+  <p class="line">Where on the ladder is your foot <em>right now</em>?</p>
+</div>
+
+<!-- ============================================================
+     STEP — final landing  (cream, quiet)
+     ============================================================ -->
+<section class="scene step" id="step" data-scene-key="step" data-scene-label="STEP">
+  <div class="scene-inner">
+    <div class="step-eyebrow">
+      <span>⌂ THE WHOLE POINT</span>
+    </div>
+    <h2>The point is the <em>step</em>, not the ladder.</h2>
+    <p class="step-lede">
+      Pick one. Block twenty minutes for it this week. The ladder is only useful if you put your foot on it.
+    </p>
+    <div class="step-list" id="stepList"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="colophon">
+    Set in Instrument Serif &amp; Inter on warm paper. One page, one column, one ladder.<br />
+    No tracking. No newsletter modal. No "trusted by" logos.<br />
+    MIT-licensed. Fork it, bring your own key, run your own copy.
+  </div>
+  <div class="wink">the repo is the content<span class="dot">.</span></div>
+</footer>
+
+<!-- ============================================================
+     TWEAKS  (hidden until toolbar toggles)
+     ============================================================ -->
+<aside class="tweaks" id="tweaks">
+  <button class="close" id="tweaksClose">×</button>
+  <h4>Tweaks</h4>
+  <div class="row">
+    <label>Accent (hero)</label>
+    <div class="swatches" id="swAccent"></div>
+  </div>
+  <div class="row">
+    <label>Palette intensity</label>
+    <div class="seg" id="segIntensity">
+      <button data-val="soft">SOFT</button>
+      <button data-val="bold" class="active">BOLD</button>
+    </div>
+  </div>
+  <div class="row">
+    <label>Density</label>
+    <div class="seg" id="segDensity">
+      <button data-val="airy">AIRY</button>
+      <button data-val="compact" class="active">COMPACT</button>
+    </div>
+  </div>
+  <div class="row">
+    <label>Italic accents</label>
+    <div class="seg" id="segItalics">
+      <button data-val="off">OFF</button>
+      <button data-val="on" class="active">ON</button>
+    </div>
+  </div>
+</aside>
+
+<script>
+/* ============================================================
+   SCROLL-DRIVEN SCENE PALETTE — set the body class to whichever
+   scene is currently centered, so the registered custom-property
+   colours morph smoothly via CSS transition.
+   ============================================================ */
+const sceneEls = [
+  ...document.querySelectorAll(".scene"),
+];
+const allBgEls = [
+  ...document.querySelectorAll(".scene, .bridge"),
+];
+const ticks = [...document.querySelectorAll(".lv-rung")];
+const climberEl = document.getElementById("lvClimber");
+const LV_Y = {
+  hero: 40, prompting: 135, vibe: 230, agents: 325, repo: 420,
+  apis: 515, climax: 610, integrated: 705, step: 780
+};
+const sceneNum = document.getElementById("sceneNum");
+const sceneLabel = document.getElementById("sceneLabel");
+
+// Make ladder-rung text + hit areas clickable to scroll-to scene.
+document.querySelectorAll(".lv-rung-hit").forEach(hit => {
+  hit.addEventListener("click", () => {
+    const href = hit.dataset.href;
+    if (!href) return;
+    const target = document.querySelector(href);
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+
+const SCENE_ORDER = [
+  "hero", "prompting", "vibe", "agents", "repo", "apis", "climax", "integrated", "step"
+];
+const SCENE_LABELS = {
+  hero: "START",
+  prompting: "PROMPTING",
+  vibe: "VIBE CODING",
+  agents: "CODING AGENTS",
+  repo: "REPO STRUCTURE",
+  apis: "APIS",
+  climax: "SKILLS",
+  integrated: "INTEGRATED",
+  step: "STEP",
+};
+const SCENE_NUMS = {
+  hero: "00", prompting: "01", vibe: "02", agents: "03", repo: "04",
+  apis: "05", climax: "06", integrated: "07", step: "08",
+};
+
+let currentScene = "hero";
+function setScene(key) {
+  if (currentScene === key) return;
+  // Replace the scene-* class
+  document.body.classList.forEach(c => {
+    if (c.startsWith("scene-")) document.body.classList.remove(c);
+  });
+  document.body.classList.add("scene-" + key);
+  currentScene = key;
+
+  // Ladder rung highlight
+  ticks.forEach(t => t.classList.toggle("active", t.dataset.key === key));
+  // Climber position (translate from y=40, which is the climber's drawn y)
+  const y = LV_Y[key];
+  if (y != null && climberEl) {
+    climberEl.style.transform = `translate(0px, ${y - 40}px)`;
+  }
+  // Top readout
+  sceneNum.textContent = SCENE_NUMS[key] || "00";
+  sceneLabel.textContent = SCENE_LABELS[key] || "";
+}
+
+// Pick the element whose center is closest to viewport center.
+function updateActiveScene() {
+  const center = window.innerHeight * 0.4;
+  let best = null;
+  let bestDist = Infinity;
+  allBgEls.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const mid = rect.top + rect.height / 2;
+    // Only consider elements whose top is above the center, bottom below
+    if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.2) {
+      const dist = Math.abs(mid - center);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = el;
+      }
+    }
+  });
+  if (best) {
+    const key = best.dataset.sceneKey;
+    if (key) setScene(key);
+  }
+}
+
+window.addEventListener("scroll", () => {
+  window.requestAnimationFrame(updateActiveScene);
+}, { passive: true });
+window.addEventListener("resize", updateActiveScene);
+updateActiveScene();
+
+/* ============================================================
+   CONTEXT INPUT
+   ============================================================ */
+const contextInput = document.getElementById("contextInput");
+const whoStatus = document.getElementById("whoStatus");
+
+function setStatus() {
+  const v = contextInput.value.trim();
+  whoStatus.textContent = v ? "FILED" : "UNREAD";
+  whoStatus.classList.toggle("filed", !!v);
+}
+contextInput.addEventListener("input", setStatus);
+document.querySelectorAll("[data-fill]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    contextInput.value = btn.dataset.fill;
+    setStatus();
+    contextInput.focus();
+  });
+});
+
+/* ============================================================
+   RUNG DEFINITIONS — passed to Claude as context per request
+   ============================================================ */
+const RUNGS = {
+  1: {
+    name: "Prompting",
+    tools: "Claude.ai, ChatGPT, a single chat window",
+    essence: "The model does the work, you do the steering. Open chat window, ask sharp questions, paste documents in.",
+  },
+  2: {
+    name: "Vibe coding",
+    tools: "Lovable, v0, Bolt — describe an app, get a working URL",
+    essence: "No terminal, no compiler. Describe a small app, watch it ship. The output is a real URL with a real database.",
+  },
+  3: {
+    name: "Coding agents",
+    tools: "Claude Code, Cursor — the agent reads your repo and writes patches",
+    essence: "You spend more time reviewing than typing. The agent reads the whole codebase, runs tests, reports back. Pair-programming, asymmetric.",
+  },
+  4: {
+    name: "Repo as memory",
+    tools: "CLAUDE.md, /prompts, /docs — markdown as long-term memory",
+    essence: "Stop re-explaining what you do. Store it in markdown the model can read on every run. The repo becomes a second brain.",
+  },
+  5: {
+    name: "APIs",
+    tools: "Anthropic SDK, webhooks, cron jobs — the model as a function call",
+    essence: "The model is a primitive in your stack. Fired from a webhook, cron, or click. Anything with a network connection can be smarter.",
+  },
+  6: {
+    name: "Skills",
+    tools: "Claude skills — a named bundle of instructions that fires on a trigger",
+    essence: "Memory, retrieval, skills. A skill is something the model DOES, forever, every time the trigger fires. House style, weekly digests, redlining, etc.",
+    isSkill: true,
+  },
+  7: {
+    name: "Integrated systems",
+    tools: "Gmail, Calendar, Slack, your CRM, your database — agents with hands on your stack",
+    essence: "The model crosses out of the chat window into the system of record. Sends emails, updates deals, files replies, moves on.",
+  },
+};
+
+/* ============================================================
+   GENERATE — calls window.claude.complete with a tight system
+   prompt and types the response out character by character.
+   ============================================================ */
+
+function buildSystem(rung) {
+  return [
+    "You write one-paragraph vignettes for The AI Ladder, a guide teaching seven rungs of AI capability.",
+    "",
+    "You will be given: (a) the reader's one-paragraph self-description, and (b) one rung's name, tools, and essence.",
+    "",
+    "Write a 4–6 sentence vignette in second person ('you'). Pick ONE concrete thing this specific reader would do at this rung. Be specific to their work: name the file types, the tools, the time of day, the named outputs. No generic examples.",
+    "",
+    "Voice rules: direct, founder-level, warm, short. No em dashes (use periods or commas). No corporate language. No 'Hello!' or framing sentences. Start mid-action. End with a small, observed consequence — something that changed in their day, not a promise about the future.",
+    "",
+    "Format: plain prose, no markdown, no quotes around the whole thing. Wrap one short phrase in <em>asterisks</em> using single asterisks, like *this*, for the one thing worth emphasising. Do not wrap more than one phrase.",
+    "",
+    "If the reader's self-description is blank or vague, invent a believable single profession from a non-tech industry (real estate, healthcare, education, hospitality, retail, manufacturing). Never default to a generic 'professional' or 'knowledge worker'.",
+  ].join("\n");
+}
+
+function buildSystemSkill() {
+  return [
+    "You write a single Claude skill file for The AI Ladder, in the voice and format below.",
+    "",
+    "Input: the reader's one-paragraph self-description.",
+    "",
+    "Output a skill file with EXACTLY this structure (no extra commentary):",
+    "",
+    "NAME: a kebab-case skill name, 2-4 words, specific to this reader's work",
+    "FIRES WHEN: one sentence describing the trigger. Concrete. Plain English. No em dashes.",
+    "THE SKILL DOES: 3-5 short numbered steps. Each step starts with a verb. Concrete file types, channels, tools.",
+    "WHY IT MATTERS: one sentence. What changes in their day because this fires automatically.",
+    "",
+    "Voice: direct, founder-level, warm, short. No em dashes. No filler. Speak to one reader. If the self-description is blank, invent a single non-tech profession.",
+  ].join("\n");
+}
+
+function buildUser(rung, who) {
+  return [
+    "Reader: " + (who || "(none provided — invent a believable one-paragraph profession from a non-tech industry)"),
+    "",
+    "Rung: " + rung.name,
+    "Tools: " + rung.tools,
+    "Essence: " + rung.essence,
+    "",
+    "Write the vignette now.",
+  ].join("\n");
+}
+
+function buildUserSkill(who) {
+  return [
+    "Reader: " + (who || "(none provided — invent a believable one-paragraph profession from a non-tech industry)"),
+    "",
+    "Write the skill file now.",
+  ].join("\n");
+}
+
+/* Typewriter — types text into a target element, parsing simple
+   *emphasis* into <em>. */
+function typeInto(target, fullText, speedMs = 9) {
+  return new Promise(resolve => {
+    target.innerHTML = "";
+    const caret = document.createElement("span");
+    caret.className = "caret";
+    target.appendChild(caret);
+
+    let i = 0;
+    let buf = "";
+    function commit() {
+      // parse *emphasis* into <em>
+      const safe = buf
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+      target.innerHTML = safe + '<span class="caret"></span>';
+    }
+
+    function step() {
+      if (i >= fullText.length) {
+        // remove caret on final commit
+        const finalSafe = buf
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        target.innerHTML = finalSafe;
+        resolve();
+        return;
+      }
+      // chunk for variable rhythm
+      const chunk = Math.random() < 0.04 ? 0 : (Math.random() < 0.4 ? 1 : Math.random() < 0.75 ? 2 : 3);
+      for (let k = 0; k < chunk && i < fullText.length; k++, i++) {
+        buf += fullText[i];
+      }
+      commit();
+      const last = buf[buf.length - 1];
+      const wait = (last === "." || last === "\n") ? (60 + Math.random() * 90) : (speedMs + Math.random() * 14);
+      setTimeout(step, wait);
+    }
+    step();
+  });
+}
+
+/* Parse a skill file response into its structured fields */
+function parseSkill(text) {
+  const out = { name: "", fires: "", does: "", why: "" };
+  const lines = text.split(/\n/);
+  let mode = null;
+  for (const line of lines) {
+    const m = line.match(/^\s*(NAME|FIRES WHEN|THE SKILL DOES|WHY IT MATTERS)\s*:\s*(.*)$/i);
+    if (m) {
+      mode = m[1].toUpperCase();
+      const rest = m[2].trim();
+      if (mode === "NAME") out.name = rest;
+      else if (mode === "FIRES WHEN") out.fires = rest;
+      else if (mode === "THE SKILL DOES") out.does = rest;
+      else if (mode === "WHY IT MATTERS") out.why = rest;
+    } else if (mode && line.trim()) {
+      // continuation
+      if (mode === "FIRES WHEN") out.fires += " " + line.trim();
+      else if (mode === "THE SKILL DOES") out.does += "\n" + line.trim();
+      else if (mode === "WHY IT MATTERS") out.why += " " + line.trim();
+    }
+  }
+  return out;
+}
+
+/* Render the skill output as a styled file, with typewriter on body */
+async function renderSkill(target, parsed) {
+  target.innerHTML = `
+    <div class="stream-head">
+      <span class="live">complete</span>
+      <span>skill file · personalised</span>
+    </div>
+    <div class="skill-file">
+      <div class="skill-head">
+        <span class="filename">.claude/skills/${parsed.name || "your-skill"}.md</span>
+        <span>SKILL</span>
+      </div>
+      <div class="skill-body" id="skillBody"></div>
+    </div>
+  `;
+  const body = target.querySelector("#skillBody");
+  const composed =
+`# ${parsed.name || "your-skill"}
+
+<span class="when-block">FIRES WHEN</span>${parsed.fires}
+
+<span class="when-block">THE SKILL DOES</span>${parsed.does.replace(/^\s*/, "")}
+
+<span class="when-block">WHY IT MATTERS</span>${parsed.why}`;
+  // Type the plain text version, then swap to HTML once done (so the <span> tags don't get typed)
+  // We'll type the textual content but render the when-block headers immediately.
+  body.innerHTML = composed;
+}
+
+/* ============================================================
+   GENERATE handlers
+   ============================================================ */
+const generateButtons = document.querySelectorAll(".generate");
+
+async function callClaude(system, user) {
+  if (!window.claude || typeof window.claude.complete !== "function") {
+    throw new Error("Claude is not available in this preview.");
+  }
+  const result = await window.claude.complete({
+    messages: [
+      { role: "user", content: user },
+    ],
+    system: system,
+  });
+  // Some hosts return a string, some return {content: [...]} or similar.
+  if (typeof result === "string") return result;
+  if (result && typeof result === "object") {
+    if (typeof result.completion === "string") return result.completion;
+    if (typeof result.text === "string") return result.text;
+    if (Array.isArray(result.content)) {
+      return result.content.map(c => c.text || "").join("");
+    }
+  }
+  return String(result);
+}
+
+generateButtons.forEach(btn => {
+  btn.addEventListener("click", async () => {
+    if (btn.dataset.state === "streaming") return;
+    const rungNum = parseInt(btn.dataset.rung, 10);
+    const rung = RUNGS[rungNum];
+    const stream = document.getElementById("stream-" + rungNum);
+    const who = contextInput.value.trim();
+
+    stream.hidden = false;
+    btn.dataset.state = "streaming";
+    const originalLabel = btn.innerHTML;
+    btn.innerHTML = 'thinking… <span class="arrow">·</span>';
+
+    // Show stream header immediately
+    stream.innerHTML = `
+      <div class="stream-head">
+        <span class="live">streaming</span>
+        <span>${rung.isSkill ? "skill file · personalised" : "vignette · rung " + String(rungNum).padStart(2, "0")}</span>
+      </div>
+      <div class="stream-body" id="streamBody-${rungNum}"></div>
+    `;
+    const bodyEl = document.getElementById("streamBody-" + rungNum);
+
+    try {
+      const system = rung.isSkill ? buildSystemSkill() : buildSystem(rung);
+      const userMsg = rung.isSkill ? buildUserSkill(who) : buildUser(rungNum, who, rung);
+      // Note: buildUser ignores its own rungNum arg, we passed rung already
+      const userText = rung.isSkill ? buildUserSkill(who) : buildUser(rung, who);
+
+      const text = await callClaude(system, userText);
+
+      if (rung.isSkill) {
+        const parsed = parseSkill(text);
+        // Render as skill file with typewriter feel
+        stream.innerHTML = `
+          <div class="stream-head">
+            <span class="live" id="liveTag-${rungNum}">streaming</span>
+            <span>skill file · personalised</span>
+          </div>
+          <div class="skill-file">
+            <div class="skill-head">
+              <span class="filename">.claude/skills/${(parsed.name || "your-skill").replace(/[^a-z0-9-]/gi, "-").toLowerCase()}.md</span>
+              <span>SKILL</span>
+            </div>
+            <div class="skill-body" id="skillBody-${rungNum}"></div>
+          </div>
+        `;
+        const skillBody = document.getElementById("skillBody-" + rungNum);
+        const live = document.getElementById("liveTag-" + rungNum);
+
+        const composed =
+`# ${parsed.name || "your-skill"}
+
+▸ FIRES WHEN
+${parsed.fires}
+
+▸ THE SKILL DOES
+${parsed.does.replace(/^\s*/, "")}
+
+▸ WHY IT MATTERS
+${parsed.why}`;
+
+        await typeInto(skillBody, composed, 6);
+
+        live.textContent = "complete";
+        live.style.color = "var(--muted)";
+        live.style.removeProperty("--accent");
+        // Stop the dot animation on done
+        live.classList.add("done");
+      } else {
+        await typeInto(bodyEl, text.trim(), 9);
+        const live = stream.querySelector(".live");
+        if (live) {
+          live.textContent = "complete";
+          live.style.color = "var(--muted)";
+        }
+      }
+
+      btn.dataset.state = "done";
+      btn.innerHTML = 'Regenerate <span class="arrow">↻</span>';
+    } catch (err) {
+      console.error(err);
+      stream.innerHTML = `
+        <div class="stream-head">
+          <span style="color: var(--accent)">error</span>
+          <span>could not reach the coach</span>
+        </div>
+        <div class="stream-error">${(err && err.message) || "Something went wrong. Try again."}</div>
+      `;
+      btn.dataset.state = "";
+      btn.innerHTML = originalLabel;
+    }
+
+    rebuildStepList();
+  });
+});
+
+/* ============================================================
+   ONE STEP list
+   ============================================================ */
+const STEPS = [
+  { rung: 1, what: "Open Claude.ai. Re-do your last meeting follow-up email. Ask it to find what you didn't say.", where: "20 MIN · CLAUDE.AI" },
+  { rung: 2, what: "Describe to Lovable the smallest internal page your team would actually use. Ship it tonight.", where: "1 HOUR · LOVABLE" },
+  { rung: 3, what: "Point Claude Code at the repo you keep meaning to clean up. Ask it for the three smallest PRs.", where: "ONE EVENING · CLAUDE CODE" },
+  { rung: 4, what: "Write a CLAUDE.md for one project. Stop re-explaining the thing you keep re-explaining.", where: "1 HOUR · MARKDOWN" },
+  { rung: 5, what: "Wire a single API call to one inbox. Ship the smallest possible loop. Just one.", where: "1 WEEKEND · ANTHROPIC API" },
+  { rung: 6, what: "Write your first skill. One file. The thing you keep telling Claude over and over. Stop telling it.", where: "2 HOURS · CLAUDE.AI" },
+  { rung: 7, what: "Connect one tool to one tool, mediated by an agent. Pick the boring pair, not the impressive one.", where: "ONE QUARTER · YOUR STACK" },
+];
+
+const stepListEl = document.getElementById("stepList");
+function rebuildStepList() {
+  stepListEl.innerHTML = "";
+  STEPS.forEach(s => {
+    const row = document.createElement("div");
+    row.className = "step-row";
+    row.innerHTML = `
+      <div class="n">↑ RUNG 0${s.rung}</div>
+      <div class="what">${s.what}</div>
+      <div class="where">${s.where}</div>
+    `;
+    row.addEventListener("click", () => {
+      const target = document.getElementById("rung-" + s.rung);
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    stepListEl.appendChild(row);
+  });
+}
+rebuildStepList();
+
+/* ============================================================
+   TWEAKS — palette intensity, density, italics, hero accent
+   ============================================================ */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "heroAccent": "#2C5C8C",
+  "intensity": "soft",
+  "density": "airy",
+  "italics": true
+}/*EDITMODE-END*/;
+
+let tweaks = { ...TWEAK_DEFAULTS };
+
+const HERO_ACCENTS = [
+  { name: "vermillion", val: "#C7421E" },
+  { name: "ochre",      val: "#B8852A" },
+  { name: "forest",     val: "#3F6A2C" },
+  { name: "ink-blue",   val: "#2C5C8C" },
+  { name: "violet",     val: "#5641B5" },
+];
+
+function applyTweaks() {
+  // Hero accent — overrides the hero palette's accent, but other scenes keep their own
+  // We do this by injecting a small style block that overrides body.scene-hero --accent.
+  let styleEl = document.getElementById("tweakStyle");
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    styleEl.id = "tweakStyle";
+    document.head.appendChild(styleEl);
+  }
+  const intensityFilter = tweaks.intensity === "soft"
+    ? "filter: saturate(0.78) brightness(1.04);"
+    : "";
+  styleEl.textContent = `
+    body.scene-hero, body.scene-step { --accent: ${tweaks.heroAccent}; }
+    body { ${intensityFilter} }
+    body.no-italics em { font-style: normal !important; color: inherit !important; }
+    body.density-airy .scene { padding: 22vh 0 18vh 0; }
+    body.density-airy .bridge { padding: 22vh 0 22vh 0; }
+  `;
+  document.body.classList.toggle("no-italics", !tweaks.italics);
+  document.body.classList.toggle("density-airy", tweaks.density === "airy");
+
+  // Reflect in UI
+  document.querySelectorAll("#swAccent .sw").forEach(s => {
+    s.classList.toggle("active", s.dataset.val === tweaks.heroAccent);
+  });
+  document.querySelectorAll("#segIntensity button").forEach(b => {
+    b.classList.toggle("active", b.dataset.val === tweaks.intensity);
+  });
+  document.querySelectorAll("#segDensity button").forEach(b => {
+    b.classList.toggle("active", b.dataset.val === tweaks.density);
+  });
+  document.querySelectorAll("#segItalics button").forEach(b => {
+    b.classList.toggle("active", b.dataset.val === (tweaks.italics ? "on" : "off"));
+  });
+}
+
+function buildTweaksUI() {
+  const sw = document.getElementById("swAccent");
+  sw.innerHTML = "";
+  HERO_ACCENTS.forEach(a => {
+    const dot = document.createElement("div");
+    dot.className = "sw" + (a.val === tweaks.heroAccent ? " active" : "");
+    dot.style.background = a.val;
+    dot.dataset.val = a.val;
+    dot.title = a.name;
+    dot.addEventListener("click", () => {
+      tweaks.heroAccent = a.val;
+      persist();
+      applyTweaks();
+    });
+    sw.appendChild(dot);
+  });
+  document.querySelectorAll("#segIntensity button").forEach(b => {
+    b.addEventListener("click", () => {
+      tweaks.intensity = b.dataset.val;
+      persist();
+      applyTweaks();
+    });
+  });
+  document.querySelectorAll("#segDensity button").forEach(b => {
+    b.addEventListener("click", () => {
+      tweaks.density = b.dataset.val;
+      persist();
+      applyTweaks();
+    });
+  });
+  document.querySelectorAll("#segItalics button").forEach(b => {
+    b.addEventListener("click", () => {
+      tweaks.italics = b.dataset.val === "on";
+      persist();
+      applyTweaks();
+    });
+  });
+}
+
+function persist() {
+  try {
+    window.parent.postMessage({ type: "__edit_mode_set_keys", edits: tweaks }, "*");
+  } catch (e) {}
+}
+
+buildTweaksUI();
+applyTweaks();
+
+/* tweaks toolbar handshake */
+window.addEventListener("message", (e) => {
+  if (!e || !e.data) return;
+  if (e.data.type === "__activate_edit_mode") document.body.classList.add("tweaks-on");
+  if (e.data.type === "__deactivate_edit_mode") document.body.classList.remove("tweaks-on");
+});
+window.parent.postMessage({ type: "__edit_mode_available" }, "*");
+
+document.getElementById("tweaksClose").addEventListener("click", () => {
+  document.body.classList.remove("tweaks-on");
+  window.parent.postMessage({ type: "__edit_mode_dismissed" }, "*");
+});
+</script>
+
+</body>
+</html>

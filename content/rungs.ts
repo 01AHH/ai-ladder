@@ -18,6 +18,14 @@ export type Rung = {
   definition: string;
   /** Italic pull-quote example under the definition */
   seedExample: string;
+  /** Tool chips rendered next to the numeral (e.g. ["Claude.ai", "ChatGPT"]) */
+  tools: string[];
+  /** Scene key driving the per-rung palette (e.g. "prompting", "vibe") */
+  sceneKey: string;
+  /** Display-italic Socratic line rendered as the bridge AFTER this rung's section */
+  socraticBridge: string;
+  /** Label under the uptag arrow on the bridge (e.g. "RUNG TWO") */
+  bridgeUptag: string;
   /** Only set for the climax rung: skill-shelf cards shown in place of the seed block */
   skills?: SkillCard[];
   /** Only set for the climax rung: the italic crit pull-quote */
@@ -40,6 +48,10 @@ export const rungs: Rung[] = [
       'You open a chat window and ask for things. Claude.ai, ChatGPT. The model is doing all the work; you are doing all the steering. This rung is sometimes dismissed as "just chatting," but a sharp prompt against a frontier model is still the highest leverage-per-minute most people will ever encounter.',
     seedExample:
       '"Summarise this PDF and pull out the three numbers I should be worried about."',
+    tools: ["Claude.ai", "ChatGPT", "a browser tab"],
+    sceneKey: "prompting",
+    socraticBridge: "What if the answer wasn't a paragraph, but a *working website*?",
+    bridgeUptag: "Rung two",
     bridgeTarget: { id: "vibe-coding", hook: "Your prompt works. What if it was a webpage?" },
     brief:
       "Prompting is using a chat interface (Claude.ai, ChatGPT) effectively. The user types, Claude responds. No code. The skill is in framing the request: role, context, constraints, examples.",
@@ -54,6 +66,10 @@ export const rungs: Rung[] = [
       "You describe an app and a working web app comes out the other end: Lovable, v0, Bolt. You don't open a terminal. You don't know what a package manager is. The output is a real URL, a real database, a real thing on the internet. Some part of your brain that used to say \"I'd need a developer for that\" goes quiet.",
     seedExample:
       '"Make me a one-page site that takes RSVPs to a dinner party and texts me when someone replies."',
+    tools: ["Lovable", "v0", "Bolt"],
+    sceneKey: "vibe",
+    socraticBridge: "What if it could touch the code *you already had*?",
+    bridgeUptag: "Rung three",
     bridgeTarget: {
       id: "coding-agents",
       hook: "Lovable shipped it. But you want a specific change it can't quite get. That's where an agent comes in.",
@@ -71,6 +87,10 @@ export const rungs: Rung[] = [
       "Claude Code, Cursor. You are still the author of the codebase, but the agent reads the whole repo, writes patches, runs tests, and reports back. The relationship inverts: you spend more time reviewing than typing. The model becomes the junior who never sleeps and never gets cranky about touching legacy code.",
     seedExample:
       '"Migrate this codebase from Pages Router to App Router and tell me what you couldn\'t translate."',
+    tools: ["Claude Code", "Cursor", "your terminal"],
+    sceneKey: "agents",
+    socraticBridge: "What if the code *remembered* why you wrote it?",
+    bridgeUptag: "Rung four",
     bridgeTarget: {
       id: "repo-structure",
       hook: "The agent edits your files. But it's only as good as the files it reads. What if your repo was written for the model on purpose?",
@@ -88,6 +108,10 @@ export const rungs: Rung[] = [
       "You stop pasting context into the chat window and start writing it into files. A folder of markdown becomes the place the model *lives*, not the place you *visit*. Every workflow, every rule, every person, every decision gets a file. The AI walks the graph the way you would. The next conversation begins smarter than the last one because the substrate is doing the work.",
     seedExample:
       '"Move every rule, persona, and SOP into a /memory folder. Watch what the model on its second visit can do."',
+    tools: ["CLAUDE.md", "/prompts", "/docs", "markdown"],
+    sceneKey: "repo",
+    socraticBridge: "What if the model didn't live in a chat window *at all*?",
+    bridgeUptag: "Rung five",
     essay: repoStructureEssay,
     bridgeTarget: {
       id: "apis",
@@ -106,6 +130,10 @@ export const rungs: Rung[] = [
       "You call the model directly from your own code. A function in your codebase, fired from a webhook, a cron, a click. Now the model is not a place you visit; it is a primitive in your stack, next to Postgres and Stripe. You can put intelligence into anything that has a key and a network connection.",
     seedExample:
       '"Every new support ticket gets read, classified, and tagged before a human sees it."',
+    tools: ["anthropic SDK", "webhooks", "cron"],
+    sceneKey: "apis",
+    socraticBridge: "What if it *remembered you* between calls?",
+    bridgeUptag: "Rung six · the climax",
     bridgeTarget: {
       id: "knowledge-systems",
       hook: "You're calling Claude programmatically. But it forgets everything. What if it knew you?",
@@ -122,6 +150,10 @@ export const rungs: Rung[] = [
     definition:
       "Memory. Retrieval. **Skills.** Now the model is no longer a stranger at every door; it carries your context, your house style, your standard operating procedure with it. A skill is the punchline: a small, named bundle of instructions that *changes what the model does*, every single time the trigger fires.",
     seedExample: "",
+    tools: ["skills", "memory", "retrieval"],
+    sceneKey: "climax",
+    socraticBridge: "What if it had *hands*?",
+    bridgeUptag: "Rung seven",
     crit:
       '"A prompt is something you write once. **A skill is something the model does forever.**"',
     skills: [
@@ -161,6 +193,10 @@ export const rungs: Rung[] = [
       'Agents that read, write, and act across your real tools: Gmail, Calendar, Slack, your database, your CRM. The model crosses out of the chat window and into the system of record. You are no longer asking it to draft an email; you are asking it to send the email, file the reply, update the deal, and move on. This rung is where most companies say "we have AI" and finally mean something concrete.',
     seedExample:
       '"Read every reply in this thread, update the deal stage in HubSpot, and send a follow-up at 9am their time."',
+    tools: ["Gmail", "Calendar", "Slack", "your CRM", "your DB"],
+    sceneKey: "integrated",
+    socraticBridge: "Where on the ladder is your foot *right now*?",
+    bridgeUptag: "Now pick one",
     bridgeTarget: null,
     brief:
       "Integrated systems are agents with hands. They read and write across the user's real tools: email, calendar, Slack, databases, payment systems. The leap from rung 6 to rung 7 is the leap from 'Claude knows things' to 'Claude does things on your behalf'. Closing nudge: 'You've built a system that acts on your behalf. Now what's the next system you'd hand off?'",
