@@ -177,7 +177,7 @@ export default function Home() {
             <p className="lede">
               I built this because I kept watching smart people give up on AI
               after a few weeks of Claude.ai. Not because they couldn&apos;t
-              get value out of it — because nobody had shown them what one
+              get value out of it. Nobody had shown them what one
               rung up looks like. This is the map I wish I&apos;d had.
             </p>
             <p className="lede">

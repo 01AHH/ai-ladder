@@ -21,7 +21,7 @@ Produce two things, in this order, separated by a blank line:
 ### 1. A concrete "you could do X right now" walkthrough
 
 - Anchor to USER_CONTEXT. Reference the user's actual situation, not a generic person.
-- Stay strictly inside RUNG_BRIEF. If RUNG_ID is "prompting", do not show API code. If RUNG_ID is "skills", show the literal frontmatter + body of one skill they could save to `.claude/skills/<name>/SKILL.md` — name, description, and the instruction block. If RUNG_ID is "memory", recommend the literal three facts they re-explain most, and which file each should live in. If RUNG_ID is "repo-structure", recommend the literal first three folders they should create for their work or life — not a description, the folders.
+- Stay strictly inside RUNG_BRIEF. If RUNG_ID is "prompting", do not show API code. If RUNG_ID is "skills", show the literal frontmatter + body of one skill they could save to `.claude/skills/<name>/SKILL.md`: name, description, and the instruction block. If RUNG_ID is "memory", recommend the literal three facts they re-explain most, and which file each should live in. If RUNG_ID is "repo-structure", recommend the literal first three folders they should create for their work or life: not a description, the folders.
 - Show the literal artifact: the exact prompt to paste, the exact URL to visit, the exact 5-line code snippet, the exact file to create. Not a description of it.
 - Must be doable in under five minutes.
 - 120-180 words for the walkthrough itself.

@@ -1,12 +1,12 @@
 # Briefing Claude on the AI Ladder
 
-Paste this when you want Claude (any surface — Claude.ai, Claude Code, an API call) to help me design something for the AI Ladder. Read end to end before proposing anything.
+Paste this when you want Claude (any surface: Claude.ai, Claude Code, an API call) to help me design something for the AI Ladder. Read end to end before proposing anything.
 
 ---
 
 ## What this is
 
-The AI Ladder is a single-page site that walks one person up eight rungs of AI capability, in order, with one personalised example per rung. The reader types one paragraph about themselves at the top. Each rung shows what they could do at that level — not generically, but tailored to the work they actually do. Each rung ends with a Socratic line that pulls them up to the next.
+The AI Ladder is a single-page site that walks one person up eight rungs of AI capability, in order, with one personalised example per rung. The reader types one paragraph about themselves at the top. Each rung shows what they could do at that level, not generically but tailored to the work they actually do. Each rung ends with a Socratic line that pulls them up to the next.
 
 It is not a course. It is not a curriculum. It is not a checklist. It is a one-page field guide with a coach, that ends with the reader knowing the smallest concrete thing they could do this week.
 
@@ -16,16 +16,16 @@ Smart, curious people who feel slightly behind on AI. PMs. Founders. Marketers. 
 
 ## The eight rungs
 
-1. **Prompting** — Claude.ai, ChatGPT, the conversation
-2. **Vibe coding** — Lovable, v0, Bolt
-3. **Coding agents** — Claude Code, Cursor
-4. **Skills** — markdown files that change what the agent *does*, every time
-5. **Memory** — CLAUDE.md, /memory, the facts you stop re-explaining
-6. **Repo structure** — the working substrate, home for skills and memory
-7. **APIs** — Claude as a library call
-8. **Integrated systems** — agents with hands on your stack
+1. **Prompting**: Claude.ai, ChatGPT, the conversation
+2. **Vibe coding**: Lovable, v0, Bolt
+3. **Coding agents**: Claude Code, Cursor
+4. **Skills**: markdown files that change what the agent *does*, every time
+5. **Memory**: CLAUDE.md, /memory, the facts you stop re-explaining
+6. **Repo structure**: the working substrate, home for skills and memory
+7. **APIs**: Claude as a library call
+8. **Integrated systems**: agents with hands on your stack
 
-Each rung has: a name, a one-paragraph definition, a seed example visible by default, a "Generate my example" button that streams a personalised walkthrough from Claude, and a one-sentence bridge that pulls the reader up to the next rung. Rung 4 (Skills) is the inverted-mode rung — it replaces the seed with a "your skill shelf" treatment because installing skills is the moment the agent stops being generic and starts having opinions.
+Each rung has: a name, a one-paragraph definition, a seed example visible by default, a "Generate my example" button that streams a personalised walkthrough from Claude, and a one-sentence bridge that pulls the reader up to the next rung. Rung 4 (Skills) is the inverted-mode rung. It replaces the seed with a "your skill shelf" treatment because installing skills is the moment the agent stops being generic and starts having opinions.
 
 ## Voice
 
@@ -39,7 +39,7 @@ No animated gradients. No glassmorphism. No "trusted by" logo strip. No social p
 
 ## The repo is the content
 
-This project is fully open source (MIT). The repo itself is rungs 4-6 made visible: `.claude/skills/` ships nine working skills (rung 4), `CLAUDE.md` at the root and `/memory`-style files hold persistent context (rung 5), and the repo layout itself — `prompts/coach.md` as the system prompt for the streaming coach, `content/rungs.ts` as the eight rung defs, `content/essays/` for long-form essays attached to specific rungs — is rung 6 made visible. Anyone forking the repo brings their own Anthropic key and runs their own copy. This recursion — *the repo is itself an example of the rungs it teaches* — is load-bearing for the project's credibility and should be preserved in any design move.
+This project is fully open source (MIT). The repo itself is rungs 4-6 made visible: `.claude/skills/` ships nine working skills (rung 4), `CLAUDE.md` at the root and `/memory`-style files hold persistent context (rung 5), and the repo layout itself (`prompts/coach.md` as the system prompt for the streaming coach, `content/rungs.ts` as the eight rung defs, `content/essays/` for long-form essays attached to specific rungs) is rung 6 made visible. Anyone forking the repo brings their own Anthropic key and runs their own copy. This recursion (*the repo is itself an example of the rungs it teaches*) is load-bearing for the project's credibility and should be preserved in any design move.
 
 ## What good looks like
 

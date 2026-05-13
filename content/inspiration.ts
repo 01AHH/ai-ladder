@@ -164,7 +164,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       tool: "This repo",
       title: "Nine skills, ready to clone",
       blurb:
-        "Open the .claude/skills folder in this repo on GitHub. Each one is a real, MIT-licensed skill — brainstorming, TDD, debugging, hygiene. Read one, copy it, change the description.",
+        "Open the .claude/skills folder in this repo on GitHub. Each one is a real, MIT-licensed skill: brainstorming, TDD, debugging, hygiene. Read one, copy it, change the description.",
       url: "https://github.com/01AHH/ai-ladder/tree/main/.claude/skills",
     },
   ],
