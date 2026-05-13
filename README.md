@@ -13,8 +13,10 @@ Six rungs. See one vivid example of what's possible at each level of AI capabili
 
 ## Running locally
 
+This project is open source (MIT). The hosted version runs on my Anthropic key. If you clone or fork the repo, you'll need to supply **your own `ANTHROPIC_API_KEY`** to run it. Grab one from [console.anthropic.com](https://console.anthropic.com/) (free credits on signup; pay-as-you-go after that).
+
 ```bash
-cp .env.example .env.local        # add your ANTHROPIC_API_KEY
+cp .env.example .env.local        # paste your ANTHROPIC_API_KEY here
 npm install
 npm run dev
 ```

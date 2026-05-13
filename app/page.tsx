@@ -123,8 +123,10 @@ export default function Home() {
       <footer className="site">
         <div className="colophon">
           Set in Instrument Serif &amp; JetBrains Mono on warm paper. Composed in one
-          page, one column, one ladder. No tracking. No newsletter signup. Public on{" "}
-          <a href="https://github.com/01AHH/ai-ladder">GitHub</a>.
+          page, one column, one ladder. No tracking. No newsletter signup. Open source
+          on <a href="https://github.com/01AHH/ai-ladder">GitHub</a>, MIT licensed. Fork
+          it, bring your own <a href="https://console.anthropic.com/">Anthropic key</a>,
+          make it yours.
         </div>
         <div className="wink">
           the repo is the content<span className="dot"> .</span>
