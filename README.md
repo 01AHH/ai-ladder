@@ -1,8 +1,8 @@
 # AI Ladder
 
-Eight rungs. See one vivid example of what's possible at each level of AI capability, personalised to you, then take one small step.
+Eight steps. See one vivid example of what's possible at each level of AI capability, personalised to you, then take the next small one.
 
-## The rungs
+## The steps
 
 1. **Prompting**: using Claude.ai or ChatGPT well
 2. **Vibe coding**: Lovable, v0, Bolt
@@ -29,7 +29,7 @@ Open http://localhost:3000.
 
 Clone this repo and you get more than a Next.js app. You get the working agent. See [`.claude/skills/`](./.claude/skills) for the nine skills that ship with it. Open the repo in [Claude Code](https://claude.com/claude-code) and they load automatically.
 
-This is rung 4 made concrete: a skill is not just knowledge, it's injected behaviour. Prompting changes one conversation. Memory (rung 5) changes what Claude *knows*. A skill changes what Claude *does*, every time the trigger fires.
+This is step 4 made concrete: a skill is not just knowledge, it's injected behaviour. Prompting changes one conversation. Memory (step 5) changes what Claude *knows*. A skill changes what Claude *does*, every time the trigger fires.
 
 ## Stack
 
@@ -40,8 +40,8 @@ Next.js 15 App Router · TypeScript · Tailwind · [`@anthropic-ai/sdk`](https:/
 ```
 app/             # page + streaming API route
 components/      # ContextInput, Rung, StreamedOutput
-content/rungs.ts # eight rung definitions
-content/essays/  # long-form essays attached to specific rungs
+content/rungs.ts # eight step definitions
+content/essays/  # long-form essays attached to specific steps
 prompts/coach.md # system prompt
 lib/             # prompt loader, rate limit
 .claude/skills/  # ships with the repo, see README inside

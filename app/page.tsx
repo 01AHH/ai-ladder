@@ -170,18 +170,18 @@ export default function Home() {
 
             <p className="lede">
               Most people stop at ChatGPT and assume that&apos;s the ceiling.
-              It isn&apos;t. There are seven rungs above it, and the gap
-              between rung one and rung seven is the difference between{" "}
+              It isn&apos;t. There are seven steps above it, and the gap
+              between step one and step eight is the difference between{" "}
               <em>using</em> AI and <em>building</em> with it.
             </p>
             <p className="lede">
               I built this because I kept watching smart people give up on AI
               after a few weeks of Claude.ai. Not because they couldn&apos;t
               get value out of it. Nobody had shown them what one
-              rung up looks like. This is the map I wish I&apos;d had.
+              step up looks like. This is the map I wish I&apos;d had.
             </p>
             <p className="lede">
-              Pick the rung above where your foot is right now. I&apos;ll show
+              Pick the step above where your foot is right now. I&apos;ll show
               you one specific thing you could build there, for the life you
               actually have.
             </p>
@@ -235,7 +235,7 @@ export default function Home() {
             <div className="step-list">
               {STEPS.map((s) => (
                 <a key={s.rung} className="step-row" href={`#rung-${s.rung}`}>
-                  <div className="n">↑ Rung 0{s.rung}</div>
+                  <div className="n">↑ Step 0{s.rung}</div>
                   <div className="what">{s.what}</div>
                   <div className="where">{s.where}</div>
                 </a>
