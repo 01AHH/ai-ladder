@@ -15,16 +15,13 @@ type State = "idle" | "streaming" | "done" | "error";
 const TOTAL = String(rungs.length).padStart(2, "0");
 
 function renderInlineMarkdown(text: string): React.ReactNode[] {
-  // Tiny inline parser: **bold** and *italic*. Returns React nodes.
   const out: React.ReactNode[] = [];
   const re = /(\*\*[^*]+\*\*|\*[^*]+\*)/g;
   let last = 0;
   let match;
   let key = 0;
   while ((match = re.exec(text)) !== null) {
-    if (match.index > last) {
-      out.push(text.slice(last, match.index));
-    }
+    if (match.index > last) out.push(text.slice(last, match.index));
     const token = match[0];
     if (token.startsWith("**")) {
       out.push(<strong key={key++}>{token.slice(2, -2)}</strong>);
@@ -38,8 +35,6 @@ function renderInlineMarkdown(text: string): React.ReactNode[] {
 }
 
 function renderEssay(text: string): React.ReactNode[] {
-  // Block-level renderer for the essay: paragraphs, ##/# headings, - bullets.
-  // Reuses renderInlineMarkdown for **bold** / *italic*.
   const blocks = text.trim().split(/\n\n+/);
   return blocks.map((raw, i) => {
     const block = raw.trim();
@@ -115,7 +110,14 @@ export function Rung({ rung, getContext }: Props) {
     }
   }
 
-  const buttonLabel = state === "streaming" ? "streaming…" : state === "done" ? "Regenerate" : isClimax ? "Generate my skill" : "Generate my example";
+  const buttonLabel =
+    state === "streaming"
+      ? "Streaming…"
+      : state === "done"
+      ? "Regenerate"
+      : isClimax
+      ? "Generate my skill"
+      : "Generate my example";
   const buttonArrow = state === "streaming" ? "·" : state === "done" ? "↻" : "→";
 
   const meta = (
@@ -123,6 +125,16 @@ export function Rung({ rung, getContext }: Props) {
       <span className="step">↑ Rung {rung.number} of {TOTAL}</span>
       <span>{rung.tagline}</span>
       <span>{rung.time}</span>
+    </div>
+  );
+
+  const tools = rung.tools.length > 0 && (
+    <div className="rung-tools">
+      {rung.tools.map((t) => (
+        <span key={t} className="chip">
+          {t}
+        </span>
+      ))}
     </div>
   );
 
@@ -155,84 +167,116 @@ export function Rung({ rung, getContext }: Props) {
     </details>
   );
 
+  const repoCta = rung.id === "repo-structure" && (
+    <a
+      className="repo-cta"
+      href="https://github.com/01AHH/ai-ladder"
+      target="_blank"
+      rel="noreferrer noopener"
+    >
+      <span className="repo-cta-eyebrow">⌥ This repo, exactly</span>
+      <span className="repo-cta-title">
+        Browse <em>ai-ladder</em> on GitHub
+      </span>
+      <span className="repo-cta-blurb">
+        The site you're reading is structured the way the essay describes.
+        CLAUDE.md at the root, a /prompts folder, a /.claude/skills folder.
+        Clone it. Look at the files. See if the shape matches yours.
+      </span>
+      <span className="repo-cta-cue">github.com/01AHH/ai-ladder ↗</span>
+    </a>
+  );
+
   if (isClimax) {
     return (
-      <section className="rung rung-climax" id={`rung-${rung.number}`}>
-        <div className="climax-mark">▲ The ladder pays off</div>
-        <div className="inner">
-          <div className="layout">
-            <div>
-              <div className="numeral-wrap">
-                <h2 className="rung-numeral">{String(rung.number).padStart(2, "0")}</h2>
-              </div>
-              {meta}
-              <h3 className="rung-name">
-                <em>{rung.name}.</em>
-              </h3>
-              <p className="rung-def">{renderInlineMarkdown(rung.definition)}</p>
-              {rung.crit && (
-                <p className="crit">{renderInlineMarkdown(rung.crit)}</p>
-              )}
+      <section
+        className="scene rung climax"
+        id={`rung-${rung.number}`}
+        data-scene-key={rung.sceneKey}
+      >
+        <div className="scene-inner">
+          <div className="rung-stage">
+            <div className="climax-stamp">The ladder pays off</div>
+            <h2 className="rung-numeral">{String(rung.number).padStart(2, "0")}</h2>
+            <div className="rung-meta" style={{ marginTop: 12 }}>
+              <span className="step">↑ Rung {rung.number} of {TOTAL}</span>
+              <span>{rung.tagline}</span>
             </div>
-
-            <div>
-              <div className="rung-meta" style={{ marginBottom: 18 }}>
-                <span style={{ color: "var(--accent)" }}>
-                  ⌁ Your skill shelf · a few examples
-                </span>
-              </div>
-              <div className="skills-stack">
-                {rung.skills?.map((s) => (
-                  <div className="skill-card" key={s.name}>
-                    <span className="tag">{s.tag}</span>
-                    <span className="name">{s.name}</span>
-                    <span className="trigger">
-                      <span className="when">Fires when</span>
-                      {s.trigger}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <h3 className="rung-name">
+              <em>{rung.name}.</em>
+            </h3>
+            <p className="rung-def">{renderInlineMarkdown(rung.definition)}</p>
+            {rung.crit && (
+              <p className="crit">{renderInlineMarkdown(rung.crit)}</p>
+            )}
           </div>
 
-          {generate}
-          {stream}
+          <div className="rung-body">
+            <div className="shelf-head">Your skill shelf · a few examples</div>
+            <div className="shelf">
+              {rung.skills?.map((s) => (
+                <div className="skill-card" key={s.name}>
+                  <div className="top">
+                    <span className="tag">{s.tag}</span>
+                    <span className="name">{s.name}</span>
+                  </div>
+                  <div className="trigger">
+                    <span className="when">Fires when</span>
+                    {s.trigger}
+                  </div>
+                </div>
+              ))}
+            </div>
 
-          <InspirationGallery rungId={rung.id} />
+            <div style={{ marginTop: 32 }}>{generate}</div>
+            {stream}
+
+            <InspirationGallery rungId={rung.id} />
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="rung" id={`rung-${rung.number}`}>
-      <div className="rung-head">
-        <h2 className="rung-numeral">
-          {String(rung.number).padStart(2, "0")}
-          <span className="slash">/</span>
-          <span className="of">{TOTAL}</span>
-        </h2>
-        {meta}
-      </div>
-      <h3 className="rung-name">
-        <em>{rung.name}.</em>
-      </h3>
-      <p className="rung-def">{renderInlineMarkdown(rung.definition)}</p>
-
-      {rung.seedExample && (
-        <div className="seed">
-          <div className="seed-label">Seed example · generic</div>
-          <div className="seed-text">{rung.seedExample}</div>
+    <section
+      className="scene rung"
+      id={`rung-${rung.number}`}
+      data-scene-key={rung.sceneKey}
+    >
+      <div className="scene-inner">
+        <div className="rung-stage">
+          {meta}
+          <h2 className="rung-numeral">
+            {String(rung.number).padStart(2, "0")}
+            <span className="of">/{TOTAL}</span>
+          </h2>
+          <h3 className="rung-name">
+            <em>{rung.name}.</em>
+          </h3>
+          {tools}
         </div>
-      )}
 
-      {essayBlock}
+        <div className="rung-body">
+          <p className="rung-def">{renderInlineMarkdown(rung.definition)}</p>
 
-      {generate}
-      {stream}
+          {rung.seedExample && (
+            <div className="seed">
+              <div className="seed-label">Seed example · generic</div>
+              <div className="seed-text">{rung.seedExample}</div>
+            </div>
+          )}
 
-      <InspirationGallery rungId={rung.id} />
+          {repoCta}
+
+          {essayBlock}
+
+          {generate}
+          {stream}
+
+          <InspirationGallery rungId={rung.id} />
+        </div>
+      </div>
     </section>
   );
 }

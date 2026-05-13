@@ -1,318 +1,400 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ============================================================
+   AI LADDER — scene-morphing editorial design
+   Per-scene palettes morph smoothly via registered custom
+   properties as the reader scrolls.
+   ============================================================ */
+
+@property --bg         { syntax: "<color>"; inherits: true; initial-value: #F2EBDB; }
+@property --bg-soft    { syntax: "<color>"; inherits: true; initial-value: rgba(26,22,18,0.04); }
+@property --ink        { syntax: "<color>"; inherits: true; initial-value: #1A1612; }
+@property --ink-soft   { syntax: "<color>"; inherits: true; initial-value: rgba(26,22,18,0.78); }
+@property --muted      { syntax: "<color>"; inherits: true; initial-value: #6B5F50; }
+@property --rule       { syntax: "<color>"; inherits: true; initial-value: rgba(26,22,18,0.18); }
+@property --rule-2     { syntax: "<color>"; inherits: true; initial-value: rgba(26,22,18,0.40); }
+@property --accent     { syntax: "<color>"; inherits: true; initial-value: #C7421E; }
+@property --accent-ink { syntax: "<color>"; inherits: true; initial-value: #FFFFFF; }
 
 :root {
-  --paper: #f1ebde;
-  --paper-2: #e8e0cf;
-  --ink: #1a1612;
-  --ink-soft: #2a241e;
-  --muted: #7a6f60;
-  --rule: rgba(26, 22, 18, 0.16);
-  --rule-strong: rgba(26, 22, 18, 0.42);
-  --accent: #c7421e;
-  --accent-ink: #b53a18;
-
-  --display: "Instrument Serif", "Source Serif 4", Georgia, serif;
+  --display: "Instrument Serif", "Times New Roman", serif;
+  --sans: "Inter", system-ui, sans-serif;
   --body: "Source Serif 4", Georgia, serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --bg: #F2EBDB;
+  --bg-soft: rgba(26,22,18,0.04);
+  --ink: #1A1612;
+  --ink-soft: rgba(26,22,18,0.78);
+  --muted: #6B5F50;
+  --rule: rgba(26,22,18,0.18);
+  --rule-2: rgba(26,22,18,0.40);
+  --accent: #C7421E;
+  --accent-ink: #FFFFFF;
 }
 
-* {
-  box-sizing: border-box;
+/* ============================================================
+   SCENE PALETTES — applied to <body> on scroll
+   ============================================================ */
+body.scene-hero {
+  --bg: #F2EBDB; --bg-soft: rgba(26,22,18,0.04);
+  --ink: #1A1612; --ink-soft: rgba(26,22,18,0.78);
+  --muted: #6B5F50;
+  --rule: rgba(26,22,18,0.18); --rule-2: rgba(26,22,18,0.40);
+  --accent: #C7421E; --accent-ink: #FFFFFF;
+}
+body.scene-prompting {
+  --bg: #4D6A3A; --bg-soft: rgba(240,235,216,0.06);
+  --ink: #F0EBD8; --ink-soft: rgba(240,235,216,0.85);
+  --muted: #B5C0A0;
+  --rule: rgba(240,235,216,0.18); --rule-2: rgba(240,235,216,0.42);
+  --accent: #F0E5A0; --accent-ink: #2A3818;
+}
+body.scene-vibe {
+  --bg: #DD7A3E; --bg-soft: rgba(42,18,8,0.06);
+  --ink: #2A1408; --ink-soft: rgba(42,18,8,0.85);
+  --muted: #6E3618;
+  --rule: rgba(42,18,8,0.18); --rule-2: rgba(42,18,8,0.46);
+  --accent: #14213D; --accent-ink: #F2EBDB;
+}
+body.scene-agents {
+  --bg: #3D2858; --bg-soft: rgba(240,235,216,0.05);
+  --ink: #E2D8F0; --ink-soft: rgba(226,216,240,0.85);
+  --muted: #9E8FBC;
+  --rule: rgba(240,235,216,0.16); --rule-2: rgba(240,235,216,0.38);
+  --accent: #F2C8C0; --accent-ink: #14110D;
+}
+body.scene-repo {
+  --bg: #C99A1E; --bg-soft: rgba(42,24,4,0.07);
+  --ink: #2A1A06; --ink-soft: rgba(42,26,6,0.85);
+  --muted: #6B4818;
+  --rule: rgba(42,24,4,0.20); --rule-2: rgba(42,24,4,0.46);
+  --accent: #2A1A06; --accent-ink: #F0E5C0;
+}
+body.scene-apis {
+  --bg: #1F5266; --bg-soft: rgba(220,232,238,0.06);
+  --ink: #D8E6EC; --ink-soft: rgba(216,230,236,0.85);
+  --muted: #7AA0AC;
+  --rule: rgba(220,232,238,0.16); --rule-2: rgba(220,232,238,0.38);
+  --accent: #E07B3E; --accent-ink: #14110D;
+}
+body.scene-climax {
+  --bg: #14110D; --bg-soft: rgba(242,235,219,0.04);
+  --ink: #F2EBDB; --ink-soft: rgba(242,235,219,0.85);
+  --muted: #998D78;
+  --rule: rgba(242,235,219,0.16); --rule-2: rgba(242,235,219,0.36);
+  --accent: #E5A642; --accent-ink: #14110D;
+}
+body.scene-integrated {
+  --bg: #D67054; --bg-soft: rgba(42,18,8,0.06);
+  --ink: #2A1208; --ink-soft: rgba(42,18,8,0.85);
+  --muted: #6B3220;
+  --rule: rgba(42,18,8,0.18); --rule-2: rgba(42,18,8,0.46);
+  --accent: #14110D; --accent-ink: #F2EBDB;
+}
+body.scene-step {
+  --bg: #F2EBDB; --bg-soft: rgba(26,22,18,0.04);
+  --ink: #1A1612; --ink-soft: rgba(26,22,18,0.78);
+  --muted: #6B5F50;
+  --rule: rgba(26,22,18,0.18); --rule-2: rgba(26,22,18,0.40);
+  --accent: #C7421E; --accent-ink: #F2EBDB;
 }
 
-html,
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
 body {
-  margin: 0;
-  padding: 0;
-  background: var(--paper);
+  background: var(--bg);
   color: var(--ink);
-  font-family: var(--body);
-  font-size: 18px;
+  font-family: var(--sans);
+  font-size: 17px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  transition:
+    --bg 900ms cubic-bezier(.4,0,.2,1),
+    --bg-soft 900ms cubic-bezier(.4,0,.2,1),
+    --ink 900ms cubic-bezier(.4,0,.2,1),
+    --ink-soft 900ms cubic-bezier(.4,0,.2,1),
+    --muted 900ms cubic-bezier(.4,0,.2,1),
+    --rule 900ms cubic-bezier(.4,0,.2,1),
+    --rule-2 900ms cubic-bezier(.4,0,.2,1),
+    --accent 900ms cubic-bezier(.4,0,.2,1),
+    --accent-ink 900ms cubic-bezier(.4,0,.2,1);
 }
+::selection { background: var(--accent); color: var(--accent-ink); }
 
-body {
-  background-image:
-    radial-gradient(rgba(26, 22, 18, 0.025) 1px, transparent 1px),
-    radial-gradient(rgba(26, 22, 18, 0.018) 1px, transparent 1px);
-  background-size: 3px 3px, 7px 7px;
-  background-position: 0 0, 1px 2px;
-}
+a { color: var(--accent); }
 
-::selection {
-  background: var(--accent);
-  color: var(--paper);
-}
-
-/* ---------------- LEFT RAIL ---------------- */
-.rail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 88px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-  pointer-events: none;
-  transition: color 240ms ease;
-}
-.rail-track {
-  position: relative;
-  width: 1px;
-  height: 60vh;
-  background: var(--rule-strong);
-}
-.rail-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  background: var(--accent);
-  transition: height 60ms linear;
-}
-.rail-tick {
-  position: absolute;
-  left: -28px;
-  width: 56px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transform: translateY(-50%);
-  pointer-events: auto;
-  cursor: pointer;
-  color: var(--muted);
-  text-decoration: none;
-}
-.rail-tick .dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: 1px solid var(--rule-strong);
-  background: var(--paper);
-  flex-shrink: 0;
-  margin-left: 23px;
-  transition: all 200ms ease;
-}
-.rail-tick .num {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  transition: color 200ms ease;
-}
-.rail-tick.active .dot {
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: scale(1.15);
-}
-.rail-tick.active .num {
-  color: var(--accent);
-}
-.rail.dark {
-  color: var(--paper);
-}
-.rail.dark .rail-track {
-  background: rgba(241, 235, 222, 0.22);
-}
-.rail.dark .rail-tick .dot {
-  background: var(--ink);
-  border-color: rgba(241, 235, 222, 0.35);
-}
-.rail.dark .rail-tick .num {
-  color: rgba(241, 235, 222, 0.55);
-}
-.rail.dark .rail-tick.active .dot {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-/* ---------------- TOP NAV ---------------- */
+/* ============================================================
+   TOPBAR — fixed, with live scene readout
+   ============================================================ */
 .topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 40;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 22px 36px 22px 88px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  background: linear-gradient(to bottom, var(--paper) 60%, rgba(241, 235, 222, 0));
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 60;
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 22px 32px;
   pointer-events: none;
 }
 .topbar .mark {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--ink);
 }
-.topbar .mark .dot {
-  color: var(--accent);
+.topbar .mark .dot { color: var(--accent); }
+.topbar .scene-readout {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
 }
-.topbar .meta {
-  display: flex;
-  gap: 28px;
-}
+.topbar .scene-readout .n { color: var(--ink); }
+.topbar .scene-readout .sep { opacity: 0.4; margin: 0 4px; }
+.topbar .scene-readout .label { margin-left: 14px; }
 
-/* ---------------- LAYOUT ---------------- */
-main {
-  max-width: 840px;
-  margin: 0 auto;
-  padding: 0 32px;
-  position: relative;
-}
-
-/* ---------------- HERO ---------------- */
-.hero {
-  padding-top: 18vh;
-  padding-bottom: 6vh;
-  min-height: 92vh;
+/* ============================================================
+   LADDER VIZ — literal SVG ladder on the right edge with
+   a climber bar that slides between rungs on scroll.
+   ============================================================ */
+.ladder-viz {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 55;
+  width: 110px;
+  height: 78vh;
+  max-height: 760px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: stretch;
+  pointer-events: none;
+}
+.lv-cap, .lv-foot {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  transition: color 300ms;
+}
+.lv-cap { margin-bottom: 6px; }
+.lv-foot { margin-top: 6px; }
+.lv-cap .you { color: var(--accent); }
+.lv-svg { flex: 1; width: 100%; height: 100%; overflow: visible; }
+.lv-rail {
+  stroke: var(--rule-2);
+  stroke-width: 2;
+  stroke-linecap: square;
+  transition: stroke 600ms;
+}
+.lv-rung-bar {
+  stroke: var(--rule-2);
+  stroke-width: 1.5;
+  transition: stroke 250ms, stroke-width 250ms;
+}
+.lv-rung.active .lv-rung-bar {
+  stroke: var(--accent);
+  stroke-width: 4;
+}
+.lv-rung-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  fill: var(--muted);
+  transition: fill 200ms, font-weight 200ms;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.lv-rung.active .lv-rung-num {
+  fill: var(--accent);
+  font-weight: 600;
+}
+.lv-rung-hit {
+  fill: transparent;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.lv-climber {
+  transition: transform 650ms cubic-bezier(.22,.61,.36,1);
+}
+.lv-climber-bar {
+  stroke: var(--accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.lv-climber-dot-l, .lv-climber-dot-r {
+  fill: var(--accent);
+}
+
+/* ============================================================
+   SCENE SHELL
+   ============================================================ */
+.scene {
+  position: relative;
+  min-height: 100vh;
+  padding: 16vh 0 12vh 0;
+  overflow: visible;
+}
+.scene-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 6vw;
+}
+
+/* ============================================================
+   BRIDGE — Socratic line between rungs
+   ============================================================ */
+.bridge {
+  padding: 14vh 0 16vh 0;
+  text-align: center;
+}
+.bridge .uptag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.bridge .uptag::before {
+  content: "↑";
+  color: var(--accent);
+  font-size: 14px;
+}
+.bridge .line {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(36px, 5.2vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  max-width: 22ch;
+  margin: 0 auto;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.bridge .line em {
+  color: var(--accent);
+  font-style: italic;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero .scene-inner {
+  padding-top: 8vh;
+  display: grid;
+  gap: 6vh;
 }
 .hero .eyebrow {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 36px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  display: flex; align-items: center; gap: 12px;
 }
-.hero .eyebrow .swatch {
-  width: 8px;
-  height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
+.hero .eyebrow .pip {
+  width: 7px; height: 7px; background: var(--accent); border-radius: 999px;
 }
-
-/* manifesto: the demoted "Six rungs. One climb. Pick yours." block, sits below the ladder as extra reading */
-.manifesto {
-  padding: 16vh 0 14vh 0;
-  border-top: 1px solid var(--rule-strong);
-}
-.manifesto .eyebrow {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 24px;
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-.manifesto .eyebrow .step {
-  color: var(--accent);
-}
-.manifesto h2 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: clamp(48px, 6.6vw, 88px);
-  line-height: 0.98;
-  letter-spacing: -0.015em;
-  margin: 0 0 32px 0;
-  color: var(--ink);
-  text-wrap: balance;
-}
-.manifesto h2 em {
-  font-style: italic;
-  color: var(--accent);
-}
-.manifesto .lede {
-  font-family: var(--body);
-  font-size: 22px;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  max-width: 640px;
+.hero h1 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(56px, 9.2vw, 132px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
   margin: 0;
-  text-wrap: pretty;
+  text-wrap: balance;
+  color: var(--ink);
 }
-.manifesto .lede .small-caps {
-  font-variant: small-caps;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
-
-/* ---------------- CONTEXT INPUT ---------------- */
-.context {
-  border-top: 1px solid var(--rule-strong);
-  border-bottom: 1px solid var(--rule-strong);
-  padding: 36px 0 32px 0;
-  margin-bottom: 24px;
-}
-.context-question {
+.hero h1 em {
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(40px, 5.6vw, 72px);
-  line-height: 1;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  margin: 0 0 32px 0;
-  text-wrap: balance;
-  max-width: 760px;
-}
-.context-question em {
   font-style: italic;
   color: var(--accent);
+  letter-spacing: -0.01em;
 }
-.context-cue {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 22px;
+.hero .lede {
+  font-size: clamp(19px, 1.6vw, 24px);
+  line-height: 1.45;
+  max-width: 640px;
+  color: var(--ink);
+  text-wrap: pretty;
+  font-weight: 400;
 }
-.context-cue a {
-  color: var(--muted);
-  text-decoration: none;
-  border-bottom: 1px dashed var(--rule-strong);
-  padding-bottom: 1px;
-  transition: color 160ms, border-color 160ms;
-}
-.context-cue a:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
-.context-label {
+.hero .lede strong { font-weight: 600; }
+.hero .scroll-hint {
+  margin-top: 4vh;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero .scroll-hint::after {
+  content: ""; width: 60px; height: 1px; background: var(--rule-2);
+}
+.hero .scroll-hint .arr {
+  animation: drift 2s ease-in-out infinite;
+  color: var(--accent);
+  font-size: 13px;
+}
+@keyframes drift {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(4px); opacity: 1; }
+}
+
+/* ============================================================
+   CONTEXT INPUT — the "who you are" box
+   ============================================================ */
+.context {
+  border-top: 1px solid var(--rule-2);
+  border-bottom: 1px solid var(--rule-2);
+  padding: 26px 0 28px 0;
+}
+.context-label {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
 }
-.context-label .who {
+.context-label .who { color: var(--ink); }
+.context-label .who.filed { color: var(--accent); }
+.context-question {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.12;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.01em;
   color: var(--ink);
-  transition: color 160ms;
+  text-wrap: balance;
 }
-.context-label .who.filed {
+.context-question em {
+  font-style: italic;
   color: var(--accent);
 }
 .context-input {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
+  display: flex; align-items: baseline; gap: 14px;
 }
 .context-input .marker {
   font-family: var(--display);
-  font-size: 28px;
+  font-size: 36px;
   color: var(--accent);
   line-height: 1;
   flex-shrink: 0;
@@ -320,86 +402,151 @@ main {
 .context-input input {
   flex: 1;
   background: transparent;
-  border: 0;
-  outline: 0;
+  border: 0; outline: 0;
   font-family: var(--display);
   font-style: italic;
-  font-size: clamp(24px, 3.4vw, 34px);
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.18;
   color: var(--ink);
   padding: 4px 0;
-  line-height: 1.2;
+  letter-spacing: -0.005em;
   min-width: 0;
 }
-.context-input input::placeholder {
-  color: var(--muted);
-  opacity: 0.6;
-}
+.context-input input::placeholder { color: var(--muted); opacity: 0.7; }
 .context-hint {
+  margin-top: 18px;
+  display: flex; gap: 10px; flex-wrap: wrap;
+  align-items: center;
   font-family: var(--mono);
   font-size: 11px;
   color: var(--muted);
-  margin-top: 16px;
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  letter-spacing: 0.04em;
 }
+.context-hint > span:first-child { color: var(--accent); }
 .context-hint button {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  font: inherit;
-  color: var(--muted);
+  appearance: none; background: transparent;
+  font: inherit; color: var(--muted);
   cursor: pointer;
-  padding: 0;
-  border-bottom: 1px dashed var(--rule-strong);
-  transition: color 160ms;
+  padding: 5px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  transition: all 160ms;
 }
 .context-hint button:hover {
   color: var(--accent);
+  border-color: var(--accent);
 }
+.context-cue {
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.context-cue a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2px;
+}
+.context-cue a:hover { color: var(--accent); border-color: var(--accent); }
 
-/* ---------------- RUNG SECTION ---------------- */
-.rung {
-  padding: 18vh 0 18vh 0;
-  border-top: 1px solid var(--rule);
-  position: relative;
+/* ============================================================
+   RUNG INDEX (TOC) — hero quick-jump nav
+   ============================================================ */
+.rung-index { margin-top: 1vh; }
+.rix-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 14px 0;
+  border-top: 1px solid var(--rule-2);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
-.rung:first-of-type {
-  border-top: 0;
-  padding-top: 4vh;
-}
-
-.rung-head {
+.rix-head .lead { color: var(--ink); }
+.rix-head .lead .arrow { color: var(--accent); margin-right: 6px; }
+.rix-list { display: grid; }
+.rix-row {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  margin-bottom: 36px;
-}
-.rung-numeral {
-  font-family: var(--display);
-  font-size: clamp(120px, 18vw, 220px);
-  line-height: 0.85;
-  letter-spacing: -0.04em;
+  grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1.4fr) 36px;
+  gap: 18px;
+  padding: 16px 4px 16px 18px;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
   color: var(--ink);
-  margin: 0;
-  transition: color 220ms ease;
+  align-items: baseline;
+  position: relative;
+  transition: padding 200ms cubic-bezier(.4,0,.2,1), background 200ms;
 }
-.rung-numeral .slash {
-  font-size: 0.34em;
-  color: var(--muted);
-  vertical-align: 0.55em;
-  margin: 0 0.12em;
+.rix-row::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--rix-color, var(--accent));
+  opacity: 0.55;
+  transition: opacity 180ms, width 200ms cubic-bezier(.4,0,.2,1);
+}
+.rix-row:hover { padding-left: 30px; background: var(--bg-soft); }
+.rix-row:hover::before { opacity: 1; width: 8px; }
+.rix-num {
   font-family: var(--mono);
-  letter-spacing: 0;
-}
-.rung-numeral .of {
-  font-size: 0.34em;
-  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
   color: var(--muted);
-  vertical-align: 0.6em;
 }
-.rung:hover .rung-numeral {
-  color: var(--accent);
+.rix-name {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  transition: color 200ms;
+}
+.rix-tag {
+  font-family: var(--sans);
+  font-size: clamp(13px, 1.1vw, 15px);
+  color: var(--muted);
+  line-height: 1.4;
+  text-wrap: balance;
+}
+.rix-arrow {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--muted);
+  transition: color 200ms, transform 200ms cubic-bezier(.4,0,.2,1);
+  text-align: right;
+  line-height: 1;
+}
+.rix-row:hover .rix-arrow {
+  color: var(--rix-color, var(--accent));
+  transform: translate(4px, -4px);
+}
+.rix-row:hover .rix-name {
+  color: var(--rix-color, var(--accent));
+}
+
+/* ============================================================
+   RUNG SCENE — sticky left numeral + flowing right content
+   ============================================================ */
+.rung .scene-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.rung-stage {
+  position: sticky;
+  top: 16vh;
+  align-self: start;
 }
 .rung-meta {
   font-family: var(--mono);
@@ -407,69 +554,164 @@ main {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
-  display: flex;
-  gap: 18px;
-  margin-top: 6px;
-  flex-wrap: wrap;
+  display: flex; flex-direction: column; gap: 6px;
+  margin-bottom: 10px;
 }
-.rung-meta .step {
-  color: var(--accent);
-}
-
-.rung-name {
+.rung-meta .step { color: var(--accent); }
+.rung-numeral {
   font-family: var(--display);
+  font-style: italic;
   font-weight: 400;
-  font-size: clamp(38px, 5.4vw, 64px);
-  line-height: 1.02;
-  letter-spacing: -0.01em;
-  margin: 12px 0 32px 0;
+  font-size: clamp(180px, 24vw, 320px);
+  line-height: 0.84;
+  letter-spacing: -0.035em;
+  margin: 0;
+  color: var(--ink);
+}
+.rung-numeral .of {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.13em;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  vertical-align: 1.4em;
+  margin-left: 0.1em;
+}
+.rung-name {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(40px, 5.2vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  margin: 18px 0 0 0;
+  text-wrap: balance;
   color: var(--ink);
 }
 .rung-name em {
+  font-family: var(--display);
+  font-weight: 400;
   font-style: italic;
+  color: var(--accent);
+}
+.rung-tools {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 18px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.rung-tools .chip {
+  padding: 5px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
 }
 
+.rung-body { padding-top: 18px; }
 .rung-def {
-  font-family: var(--body);
-  font-size: 22px;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  max-width: 580px;
-  margin: 0 0 44px 0;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(20px, 1.65vw, 26px);
+  line-height: 1.42;
+  color: var(--ink);
+  max-width: 38ch;
+  margin: 0 0 36px 0;
   text-wrap: pretty;
 }
-.rung-def::first-letter {
+.rung-def strong { font-weight: 600; }
+.rung-def em {
   font-family: var(--display);
-  font-size: 1.6em;
-  line-height: 0.9;
-  float: left;
-  margin: 6px 8px 0 -2px;
+  font-style: italic;
   color: var(--accent);
+  font-size: 1.05em;
 }
 
 .seed {
-  border-left: 2px solid var(--accent);
-  padding: 6px 0 6px 18px;
-  margin-bottom: 40px;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 18px 22px;
+  margin-bottom: 32px;
   max-width: 540px;
+  border-radius: 2px;
 }
 .seed-label {
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .seed-text {
-  font-family: var(--body);
+  font-family: var(--display);
   font-style: italic;
-  font-size: 18px;
-  line-height: 1.5;
-  color: var(--ink-soft);
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--ink);
 }
 
-/* ---------------- ESSAY · long-form on a rung ---------------- */
+/* ============================================================
+   REPO CTA · repo-structure rung's living example link
+   ============================================================ */
+.repo-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 680px;
+  margin: 0 0 32px;
+  padding: 22px 24px 20px;
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-left: 3px solid var(--accent);
+  text-decoration: none;
+  color: inherit;
+  transition: background 160ms, border-color 160ms, transform 160ms;
+}
+.repo-cta:hover {
+  background: var(--paper-2);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.repo-cta-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.repo-cta-title {
+  font-family: var(--display);
+  font-size: 26px;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.repo-cta-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.repo-cta-blurb {
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.repo-cta-cue {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.repo-cta:hover .repo-cta-cue {
+  color: var(--accent);
+}
+
+/* ============================================================
+   ESSAY · long-form on a rung (preserved feature)
+   ============================================================ */
 .essay {
   margin: 0 0 40px;
   border-top: 1px solid var(--rule);
@@ -486,9 +728,7 @@ main {
   list-style: none;
   user-select: none;
 }
-.essay summary::-webkit-details-marker {
-  display: none;
-}
+.essay summary::-webkit-details-marker { display: none; }
 .essay-eyebrow {
   font-family: var(--mono);
   font-size: 10px;
@@ -497,7 +737,7 @@ main {
   color: var(--accent);
 }
 .essay-title {
-  font-family: var(--body);
+  font-family: var(--sans);
   font-size: 15px;
   line-height: 1.4;
   color: var(--ink);
@@ -515,21 +755,15 @@ main {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
-  transition: transform 200ms;
 }
-.essay[open] .essay-cue {
-  color: var(--accent);
-}
-.essay[open] .essay-cue::after {
-  content: "";
-}
+.essay[open] .essay-cue { color: var(--accent); }
 .essay[open] summary {
   margin-bottom: 22px;
   padding-bottom: 18px;
   border-bottom: 1px solid var(--rule);
 }
 .essay-body {
-  font-family: var(--body);
+  font-family: var(--sans);
   font-size: 16px;
   line-height: 1.7;
   color: var(--ink-soft);
@@ -548,163 +782,357 @@ main {
   color: var(--ink);
   margin: 30px 0 12px;
 }
-.essay-body p {
-  margin: 0 0 16px;
-}
-.essay-body p:last-child {
-  margin-bottom: 0;
-}
-.essay-body ul {
-  margin: 0 0 16px;
-  padding-left: 22px;
-}
-.essay-body li {
-  margin-bottom: 6px;
-}
-.essay-body strong {
-  color: var(--ink);
-}
-.essay-body em {
-  font-style: italic;
-}
+.essay-body p { margin: 0 0 16px; }
+.essay-body p:last-child { margin-bottom: 0; }
+.essay-body ul { margin: 0 0 16px; padding-left: 22px; }
+.essay-body li { margin-bottom: 6px; }
+.essay-body strong { color: var(--ink); }
+.essay-body em { font-style: italic; }
 
+/* ============================================================
+   GENERATE BUTTON — filled pill
+   ============================================================ */
 .generate {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: transparent;
+  appearance: none;
+  background: var(--accent);
+  color: var(--accent-ink);
   border: 0;
-  padding: 14px 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 16px 22px;
   cursor: pointer;
-  border-bottom: 1px solid var(--ink);
-  transition: all 180ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  border-radius: 999px;
+  transition: transform 200ms, filter 200ms;
+  margin-top: 4px;
 }
-.generate:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
+.generate:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.generate:active { transform: translateY(0); }
+.generate:disabled { cursor: default; }
 .generate .arrow {
   font-family: var(--display);
   font-size: 18px;
   font-style: italic;
-  transition: transform 220ms ease;
+  transition: transform 200ms;
 }
-.generate:hover .arrow {
-  transform: translateX(4px);
-}
+.generate:hover .arrow { transform: translateX(4px); }
 .generate[data-state="streaming"] {
+  background: transparent;
   color: var(--muted);
-  border-color: var(--muted);
+  border: 1px solid var(--rule-2);
   cursor: default;
 }
+.generate[data-state="streaming"]:hover { transform: none; filter: none; }
 .generate[data-state="done"] {
-  color: var(--muted);
-  border-color: var(--rule);
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule-2);
 }
 .generate[data-state="done"]:hover {
-  color: var(--accent);
   border-color: var(--accent);
+  color: var(--accent);
 }
 
-/* Streamed output area */
+/* ============================================================
+   STREAM OUTPUT
+   ============================================================ */
 .stream {
   margin-top: 36px;
-  padding: 22px 0 0 0;
+  padding-top: 24px;
   border-top: 1px solid var(--rule);
-  font-family: var(--mono);
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--ink);
-  max-width: 620px;
-  min-height: 1px;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
+  max-width: 60ch;
 }
+.stream[hidden] { display: none; }
 .stream-header {
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
   margin-bottom: 16px;
-  display: flex;
-  gap: 14px;
-  align-items: center;
+  display: flex; gap: 14px; align-items: center;
 }
 .stream-header .live {
   color: var(--accent);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.stream-header .live.done {
-  color: var(--muted);
+  display: inline-flex; align-items: center; gap: 7px;
 }
 .stream-header .live::before {
   content: "";
-  width: 6px;
-  height: 6px;
-  background: currentColor;
-  border-radius: 50%;
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 999px;
   animation: pulse 1.2s ease-in-out infinite;
 }
-.stream-header .live.done::before {
-  animation: none;
+.stream-header .live.done::before { animation: none; opacity: 0.5; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+.stream-body {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--ink);
+  white-space: pre-wrap;
+  text-wrap: pretty;
 }
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
+.stream-body em {
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--accent);
 }
-.stream .caret {
+.caret {
   display: inline-block;
-  width: 0.55em;
-  height: 1em;
+  width: 0.55em; height: 1.05em;
   background: var(--accent);
   vertical-align: -0.15em;
   margin-left: 2px;
   animation: blink 1s steps(2) infinite;
 }
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
+@keyframes blink { 50% { opacity: 0; } }
 .stream-error {
-  color: var(--accent);
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 12px;
+  color: var(--accent);
+  line-height: 1.5;
 }
 
-/* ---------------- INSPIRATION GALLERY ---------------- */
+/* ============================================================
+   CLIMAX (RUNG 06) — ink + gold, skill shelf
+   ============================================================ */
+.climax .scene-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(48px, 7vw, 120px);
+  align-items: start;
+}
+.climax-stamp {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.climax-stamp::before { content: "▲"; }
+.climax .rung-numeral {
+  color: var(--ink);
+  font-size: clamp(220px, 30vw, 420px);
+  margin-left: -0.06em;
+}
+.climax .rung-name { color: var(--accent); }
+.climax .rung-def { color: var(--ink); max-width: 36ch; }
+.climax .rung-def b { color: var(--accent); font-weight: 600; font-style: normal; }
+.climax .crit {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.32;
+  color: var(--ink);
+  border-left: 2px solid var(--accent);
+  padding: 6px 0 6px 22px;
+  margin: 8px 0 36px 0;
+  max-width: 32ch;
+}
+.climax .crit b {
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.shelf-head {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.shelf-head::before { content: "⌁"; font-size: 14px; }
+.shelf {
+  display: grid;
+  gap: 14px;
+}
+.skill-card {
+  border: 1px solid var(--rule);
+  background: var(--bg-soft);
+  padding: 18px 22px;
+  border-radius: 4px;
+  transition: border-color 200ms, transform 200ms, background 200ms;
+}
+.skill-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.skill-card .top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 8px;
+}
+.skill-card .tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.skill-card .name {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+.skill-card .trigger {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-top: 4px;
+  opacity: 0.85;
+}
+.skill-card .trigger .when {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-right: 6px;
+}
+
+/* Climax stream presented as a styled skill file */
+.climax .stream {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 32px;
+}
+.climax .stream-header {
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 10px 16px;
+  border-radius: 4px 4px 0 0;
+  margin-bottom: 0;
+}
+.climax .stream-header .live { color: var(--accent-ink); }
+.climax .stream-header .live::before { background: var(--accent-ink); }
+.climax .stream-body {
+  border: 1px solid var(--accent);
+  border-top: 0;
+  background: rgba(229,166,66,0.04);
+  padding: 20px 22px;
+  border-radius: 0 0 4px 4px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* ============================================================
+   ONE STEP scene — quiet warm landing
+   ============================================================ */
+.step .scene-inner {
+  display: grid; gap: 5vh;
+}
+.step .step-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex; gap: 12px; align-items: center;
+}
+.step h2 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(52px, 7.8vw, 112px);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.step h2 em {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+.step .step-lede {
+  font-size: clamp(19px, 1.5vw, 23px);
+  line-height: 1.45;
+  color: var(--ink);
+  max-width: 56ch;
+}
+.step-list {
+  margin-top: 3vh;
+  border-top: 1px solid var(--rule-2);
+}
+.step-row {
+  display: grid;
+  grid-template-columns: 88px 1fr auto;
+  gap: 28px;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background 160ms, padding 160ms;
+  align-items: baseline;
+  text-decoration: none;
+  color: var(--ink);
+}
+.step-row:hover { background: var(--bg-soft); padding-left: 18px; }
+.step-row .n {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.step-row .what {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(20px, 1.8vw, 26px);
+  line-height: 1.28;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.step-row .what em {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+.step-row .where {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.step-row:hover .what { color: var(--accent); }
+
+/* ============================================================
+   INSPIRATION GALLERY — preserved feature
+   ============================================================ */
 .inspo {
   margin-top: 56px;
-  padding-top: 28px;
+  padding-top: 24px;
   border-top: 1px solid var(--rule);
 }
 .inspo-label {
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 22px;
-  display: flex;
-  gap: 14px;
-  align-items: baseline;
+  margin-bottom: 18px;
+  display: inline-flex; align-items: center; gap: 10px;
 }
-.inspo-label .what {
-  color: var(--accent);
-}
+.inspo-label .accent { color: var(--accent); }
 .inspo-grid {
   column-count: 3;
   column-gap: 14px;
@@ -714,15 +1142,15 @@ main {
   break-inside: avoid;
   margin: 0 0 14px;
   padding: 18px 20px;
-  background: var(--paper);
+  background: var(--bg-soft);
   border: 1px solid var(--rule);
   text-decoration: none;
   color: inherit;
   transition: background 160ms, color 160ms, border-color 160ms;
+  border-radius: 4px;
 }
 .inspo-card:hover {
-  background: var(--paper-2);
-  border-color: var(--rule-strong);
+  border-color: var(--accent);
 }
 .inspo-card .tool {
   display: block;
@@ -735,6 +1163,7 @@ main {
 }
 .inspo-card .title {
   font-family: var(--display);
+  font-style: italic;
   font-size: 22px;
   line-height: 1.15;
   color: var(--ink);
@@ -746,20 +1175,18 @@ main {
 .inspo-card .title .ext {
   font-family: var(--display);
   font-style: italic;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--muted);
-  transition: transform 220ms, color 220ms;
+  transition: color 160ms, transform 160ms;
 }
-.inspo-card:hover .title {
-  color: var(--accent);
-}
+.inspo-card:hover .title { color: var(--accent); }
 .inspo-card:hover .title .ext {
   color: var(--accent);
   transform: translate(2px, -2px);
 }
 .inspo-card .blurb {
   display: block;
-  font-family: var(--body);
+  font-family: var(--sans);
   font-size: 15px;
   line-height: 1.45;
   color: var(--muted);
@@ -770,9 +1197,6 @@ main {
   margin: -18px -20px 14px;
   background: var(--ink);
   overflow: hidden;
-}
-.inspo-media-embed[data-short="true"] {
-  max-height: 70vh;
 }
 .inspo-media img,
 .inspo-media video,
@@ -789,363 +1213,77 @@ main {
   padding-top: 0;
 }
 @media (max-width: 900px) {
-  .inspo-grid {
-    column-count: 2;
-  }
+  .inspo-grid { column-count: 2; }
 }
 @media (max-width: 540px) {
-  .inspo-grid {
-    column-count: 1;
-  }
+  .inspo-grid { column-count: 1; }
 }
 
-/* ---------------- CLIMAX RUNG / INVERSION ---------------- */
-.rung-climax {
-  background: var(--ink);
-  color: var(--paper);
-  margin: 4vh -100vw;
-  padding: 18vh 100vw;
-  position: relative;
-  border-top: 0;
-}
-.rung-climax .inner {
-  max-width: 840px;
-  margin: 0 auto;
-  padding: 0 32px;
-}
-.rung-climax .layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  gap: 56px;
-  align-items: start;
-}
-.rung-climax .numeral-wrap {
-  position: relative;
-  margin-left: -120px;
-}
-.rung-climax .rung-numeral {
-  color: var(--paper);
-  font-size: clamp(220px, 30vw, 380px);
-  line-height: 0.82;
-  letter-spacing: -0.05em;
-  margin: 0;
-}
-.rung-climax:hover .rung-numeral {
-  color: var(--paper);
-}
-.rung-climax .rung-numeral .slash {
-  color: rgba(241, 235, 222, 0.4);
-}
-.rung-climax .rung-meta {
-  color: rgba(241, 235, 222, 0.55);
-  margin-top: 18px;
-}
-.rung-climax .rung-meta .step {
-  color: var(--accent);
-}
-
-.rung-climax .rung-name {
-  color: var(--accent);
-  font-size: clamp(46px, 6.2vw, 72px);
-  margin: 4px 0 28px 0;
-}
-.rung-climax .rung-def {
-  color: rgba(241, 235, 222, 0.88);
-  font-size: 21px;
-  margin-bottom: 36px;
-}
-.rung-climax .rung-def::first-letter {
-  color: var(--accent);
-}
-.rung-climax .rung-def b,
-.rung-climax .rung-def strong {
-  color: var(--accent);
-  font-weight: 500;
-}
-
-.rung-climax .crit {
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 19px;
-  line-height: 1.45;
-  color: var(--paper);
-  border-left: 2px solid var(--accent);
-  padding-left: 18px;
-  margin: 0 0 40px 0;
-  max-width: 520px;
-}
-.rung-climax .crit b {
-  font-style: normal;
-  font-weight: 500;
-  color: var(--accent);
-}
-
-.skills-stack {
-  margin-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.skill-card {
-  border: 1px solid rgba(241, 235, 222, 0.18);
-  padding: 18px 20px;
-  background: rgba(241, 235, 222, 0.03);
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 6px 16px;
-  align-items: baseline;
-  transition: border-color 180ms, background 180ms;
-}
-.skill-card:hover {
-  border-color: var(--accent);
-  background: rgba(199, 66, 30, 0.06);
-}
-.skill-card .tag {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  grid-column: 1;
-}
-.skill-card .name {
-  font-family: var(--mono);
-  font-size: 14px;
-  color: var(--paper);
-  grid-column: 2;
-}
-.skill-card .trigger {
-  grid-column: 1 / 3;
-  font-family: var(--body);
-  font-size: 15px;
-  line-height: 1.5;
-  color: rgba(241, 235, 222, 0.72);
-  margin-top: 4px;
-}
-.skill-card .trigger .when {
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-right: 6px;
-}
-
-.rung-climax .generate {
-  color: var(--paper);
-  border-bottom-color: var(--paper);
-  margin-top: 36px;
-}
-.rung-climax .generate:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
-.rung-climax .stream {
-  border-top-color: rgba(241, 235, 222, 0.2);
-  color: var(--paper);
-}
-
-/* dark-variant inspo */
-.rung-climax .inspo {
-  border-top-color: rgba(241, 235, 222, 0.2);
-}
-.rung-climax .inspo-label {
-  color: rgba(241, 235, 222, 0.55);
-}
-.rung-climax .inspo-card {
-  background: var(--ink);
-  border-color: rgba(241, 235, 222, 0.16);
-}
-.rung-climax .inspo-card:hover {
-  background: rgba(241, 235, 222, 0.04);
-  border-color: rgba(241, 235, 222, 0.32);
-}
-.rung-climax .inspo-card .title {
-  color: var(--paper);
-}
-.rung-climax .inspo-card .blurb {
-  color: rgba(241, 235, 222, 0.6);
-}
-.rung-climax .inspo-media {
-  background: rgba(241, 235, 222, 0.06);
-}
-
-.rung-climax .climax-mark {
-  position: absolute;
-  top: 24px;
-  right: 36px;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-/* ---------------- FINAL CTA ---------------- */
-.one-step {
-  padding: 22vh 0 18vh 0;
-  border-top: 1px solid var(--rule);
-}
-.one-step h2 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: clamp(48px, 7vw, 88px);
-  line-height: 0.98;
-  letter-spacing: -0.015em;
-  margin: 0 0 28px 0;
-}
-.one-step h2 em {
-  font-style: italic;
-  color: var(--accent);
-}
-.one-step p {
-  font-size: 21px;
-  color: var(--ink-soft);
-  max-width: 580px;
-  margin: 0 0 36px 0;
-}
-.step-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  background: var(--rule-strong);
-  border-top: 1px solid var(--rule-strong);
-  border-bottom: 1px solid var(--rule-strong);
-  margin-top: 30px;
-}
-.step-row {
-  background: var(--paper);
-  padding: 18px 4px;
-  display: grid;
-  grid-template-columns: 80px 1fr auto;
-  align-items: baseline;
-  gap: 20px;
-  cursor: pointer;
-  transition: background 160ms;
-  text-decoration: none;
-  color: inherit;
-}
-.step-row:hover {
-  background: var(--paper-2);
-}
-.step-row .n {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: var(--muted);
-}
-.step-row .what {
-  font-family: var(--display);
-  font-size: 22px;
-  line-height: 1.25;
-  color: var(--ink);
-}
-.step-row:hover .what {
-  color: var(--accent);
-}
-.step-row .where {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-/* ---------------- FOOTER ---------------- */
+/* ============================================================
+   FOOTER — preserved colophon
+   ============================================================ */
 footer.site {
-  padding: 56px 36px 40px 88px;
+  padding: 60px 6vw 50px 6vw;
   border-top: 1px solid var(--rule);
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
   font-family: var(--mono);
   font-size: 11px;
+  line-height: 1.7;
   color: var(--muted);
-  gap: 24px;
-  flex-wrap: wrap;
 }
-footer.site .colophon {
-  max-width: 560px;
-  line-height: 1.65;
-}
+footer.site .colophon { max-width: 60ch; }
 footer.site .colophon a {
   color: var(--ink);
   text-decoration: none;
-  border-bottom: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-2);
 }
 footer.site .colophon a:hover {
   color: var(--accent);
   border-bottom-color: var(--accent);
 }
 footer.site .wink {
-  font-size: 11px;
-  color: var(--muted);
   text-transform: lowercase;
-  letter-spacing: 0;
-}
-footer.site .wink .dot {
-  color: var(--accent);
-}
-
-/* progress numbers in top right */
-.progress-readout {
-  position: fixed;
-  top: 22px;
-  right: 36px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: var(--muted);
-  z-index: 41;
-  text-align: right;
-  pointer-events: none;
+  align-self: end;
 }
-.progress-readout .n {
-  color: var(--ink);
-  font-size: 13px;
+footer.site .wink .dot { color: var(--accent); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .ladder-viz { display: none; }
 }
-.progress-readout.dark {
-  color: rgba(241, 235, 222, 0.5);
+@media (max-width: 920px) {
+  .rung .scene-inner,
+  .climax .scene-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .rung-stage { position: static; }
+  .topbar { padding: 18px 20px; }
+  .scene { padding: 12vh 0 8vh 0; }
+  .bridge { padding: 10vh 0 12vh 0; }
+  footer.site { grid-template-columns: 1fr; padding-left: 24px; padding-right: 24px; }
+  .rix-row { grid-template-columns: 48px 1fr 28px; }
+  .rix-tag { display: none; }
 }
-.progress-readout.dark .n {
-  color: var(--paper);
+@media (max-width: 600px) {
+  .hero h1 { font-size: 56px; }
+  .rung-numeral { font-size: 160px; }
+  .climax .rung-numeral { font-size: 200px; }
+  .context-input input { font-size: 22px; }
+  .step-row { grid-template-columns: 1fr; gap: 6px; padding: 20px 4px; }
+  .step-row .where { justify-self: start; }
 }
 
-/* responsive */
-@media (max-width: 780px) {
-  .rail {
-    width: 60px;
-  }
-  .rail-tick {
-    left: -22px;
-    width: 44px;
-  }
-  .rail-tick .dot {
-    margin-left: 14px;
-  }
-  .topbar {
-    padding-left: 60px;
-    padding-right: 20px;
-  }
-  .topbar .meta {
-    display: none;
-  }
-  footer.site {
-    padding-left: 60px;
-    padding-right: 20px;
-  }
-  main {
-    padding: 0 24px;
-  }
-  .rung-climax .layout {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .rung-climax .numeral-wrap {
-    margin-left: -10px;
-  }
-  .rung-climax .rung-numeral {
-    font-size: 180px;
+@media (prefers-reduced-motion: reduce) {
+  body { transition: background-color 0s; }
+  .caret,
+  .stream-header .live::before,
+  .hero .scroll-hint .arr {
+    animation: none;
   }
 }
