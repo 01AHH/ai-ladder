@@ -26,6 +26,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Curated, named prompts you can copy and adapt, from cosmic keystrokes to PII scrubber.",
       url: "https://docs.claude.com/en/resources/prompt-library/library",
+      media: { kind: "youtube", id: "FbAxP2-Jfps" },
     },
     {
       tool: "DAIR.AI",
@@ -57,6 +58,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Type a sentence, get a React component or full page. Community gallery shows what others shipped.",
       url: "https://v0.dev",
+      media: { kind: "youtube", id: "By9wCB9IZp0" },
     },
     {
       tool: "Lovable",
@@ -64,6 +66,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Describe a full-stack app; deploy in minutes. The launches page is a steady feed of one-prompt products.",
       url: "https://lovable.dev",
+      media: { kind: "youtube", id: "kcOrTOT7Kko" },
     },
     {
       tool: "StackBlitz",
@@ -78,6 +81,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Describe what you want; it scaffolds, edits, runs, and hosts. Strong showcase of single-prompt apps.",
       url: "https://replit.com/agent",
+      media: { kind: "youtube", id: "nr6qrQTv7QI" },
     },
   ],
 
@@ -88,6 +92,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Terminal-native agent that reads your repo, edits real files, runs tests, opens PRs. The category-defining one.",
       url: "https://claude.com/claude-code",
+      media: { kind: "youtube", id: "AJpK3YTTKZ4" },
     },
     {
       tool: "Anysphere",
@@ -95,6 +100,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "VS Code fork with an agent in the side panel. Compose multi-file edits and run them against the codebase.",
       url: "https://cursor.com",
+      media: { kind: "youtube", id: "s5kX-UHgMLo" },
     },
     {
       tool: "Paul Gauthier",
@@ -109,6 +115,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Open-source agent for VS Code. Reads, writes, runs commands, and shows every diff before you accept it.",
       url: "https://github.com/cline/cline",
+      media: { kind: "youtube", id: "CYIteJeNcuw" },
     },
   ],
 
@@ -119,6 +126,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Answer engine. Built on LLM APIs plus retrieval; the model is the product, not the chat window.",
       url: "https://www.perplexity.ai",
+      media: { kind: "youtube", id: "YeldJ4UezDQ" },
     },
     {
       tool: "Granola",
@@ -133,6 +141,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Models wired into the macOS command bar. Quick actions, custom commands, context from your tabs.",
       url: "https://www.raycast.com/ai",
+      media: { kind: "youtube", id: "RFwumqHLc8Y" },
     },
     {
       tool: "Cal.com",
@@ -150,6 +159,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "The official skills system: tiny Markdown files that change what Claude does when their trigger fires.",
       url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
+      media: { kind: "youtube", id: "fOxC44g8vig" },
     },
     {
       tool: "Cursor",
@@ -164,6 +174,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Open-source long-term memory for agents. Read the original MemGPT paper for the model-of-memory pattern.",
       url: "https://www.letta.com",
+      media: { kind: "youtube", id: "3GqHXjCD7qA" },
     },
     {
       tool: "Glean",
@@ -171,6 +182,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Enterprise knowledge search and assistants. Worked example of retrieval at company scale.",
       url: "https://www.glean.com",
+      media: { kind: "youtube", id: "b7qojk3Ju9U" },
     },
   ],
 
@@ -181,6 +193,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "End-to-end software engineer that plans, codes, tests, and ships across your stack with a long horizon.",
       url: "https://devin.ai",
+      media: { kind: "youtube", id: "fjHtjT7GO1c" },
     },
     {
       tool: "Lindy",
@@ -188,6 +201,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Build agents that work across Gmail, Calendar, Slack, HubSpot, and 1000+ other tools. Trigger-driven.",
       url: "https://www.lindy.ai",
+      media: { kind: "youtube", id: "m0bkNFIOLb4" },
     },
     {
       tool: "Zapier",
@@ -195,6 +209,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Multi-step agents over Zapier's 7000-app graph. The boring-but-powerful end of integrated systems.",
       url: "https://zapier.com/agents",
+      media: { kind: "youtube", id: "Ski0RwvwV_I" },
     },
     {
       tool: "Anthropic",
@@ -202,6 +217,7 @@ export const inspiration: Record<string, InspoItem[]> = {
       blurb:
         "Claude operating a real desktop: clicks, scrolls, types. The frontier of agents with hands.",
       url: "https://www.anthropic.com/news/developing-computer-use",
+      media: { kind: "youtube", id: "ODaHJzOyVCQ" },
     },
   ],
 };
