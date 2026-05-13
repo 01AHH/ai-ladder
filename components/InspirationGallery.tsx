@@ -13,8 +13,8 @@ export function InspirationGallery({ rungId }: Props) {
   return (
     <section className="inspo">
       <div className="inspo-label">
-        <span>⌁ Inspiration · what others have built at this rung</span>
-        <span className="what">(steal liberally)</span>
+        <span>⌁ Inspiration · things to build for your actual life</span>
+        <span className="what">(pick one)</span>
       </div>
       <div className="inspo-grid">
         {items.map((it) => (

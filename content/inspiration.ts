@@ -13,242 +13,198 @@ export type InspoItem = {
 };
 
 /**
- * Public, widely-known projects people built (or shipped) at each rung.
- * Think of this as Dribbble for AI work: see what's possible, then go make
- * your own. Keep entries to four-ish per rung so the page stays editorial,
- * not a directory dump.
+ * Per-rung gallery: small specific things you could build for your actual
+ * life, plus a few verified shorts of real people doing exactly that. The
+ * point is excitement, not directory coverage. Keep blurbs sentence-short.
+ * Read each card aloud. If it doesn't make you want to try it Sunday,
+ * rewrite it.
  */
 export const inspiration: Record<string, InspoItem[]> = {
   prompting: [
     {
-      tool: "Anthropic",
-      title: "Prompt Library",
+      tool: "Natalie Barbu",
+      title: "Claude planned my wedding",
       blurb:
-        "Curated, named prompts you can copy and adapt, from cosmic keystrokes to PII scrubber.",
-      url: "https://docs.claude.com/en/resources/prompt-library/library",
-      media: { kind: "youtube", id: "FbAxP2-Jfps" },
+        "Treating Claude like a wedding coordinator. Vendor shortlists, day-of timelines, the list of things you'd otherwise forget.",
+      url: "https://claude.ai/new",
+      media: { kind: "youtube", id: "dgvVpyMr1PU", short: true },
     },
     {
-      tool: "DAIR.AI",
-      title: "Prompt Engineering Guide",
+      tool: "You, this weekend",
+      title: "The hard conversation you keep avoiding",
       blurb:
-        "The most-cited open guide on how to structure prompts: zero-shot, few-shot, chain-of-thought.",
-      url: "https://www.promptingguide.ai",
+        "Paste the situation. Ask what you might be getting wrong about the other person. Three openings, three tones.",
+      url: "https://claude.ai/new",
     },
     {
-      tool: "GitHub · f/",
-      title: "Awesome ChatGPT Prompts",
+      tool: "You, with a deadline",
+      title: "Pick the name",
       blurb:
-        "180k-star community repo of role-based prompts. Steal liberally for your own work.",
-      url: "https://github.com/f/awesome-chatgpt-prompts",
+        "A baby, a cat, a band, a Wi-Fi network. Constraint-loaded brainstorming is what LLMs are best at, and most people use them like a search bar.",
+      url: "https://claude.ai/new",
     },
     {
-      tool: "Anthropic",
-      title: "Cookbook",
+      tool: "You, before bed",
+      title: "Loosen the knot",
       blurb:
-        "Recipe-style notebooks showing what good prompting looks like in production code.",
-      url: "https://github.com/anthropics/anthropic-cookbook",
+        "Type the thing you've been chewing on for a week. Ask Claude to play it back from three angles you didn't pick.",
+      url: "https://claude.ai/new",
     },
   ],
 
   "vibe-coding": [
     {
-      tool: "Vercel",
-      title: "v0",
+      tool: "You, with a shared-list problem",
+      title: "An app for the family grocery list",
       blurb:
-        "Type a sentence, get a React component or full page. Community gallery shows what others shipped.",
-      url: "https://v0.dev",
-      media: { kind: "youtube", id: "By9wCB9IZp0" },
-    },
-    {
-      tool: "Lovable",
-      title: "Lovable",
-      blurb:
-        "Describe a full-stack app; deploy in minutes. The launches page is a steady feed of one-prompt products.",
+        "The shared list that opens fast and remembers what aisle the chickpeas live in. Lovable, one prompt, your nan uses it now.",
       url: "https://lovable.dev",
-      media: { kind: "youtube", id: "kcOrTOT7Kko" },
     },
     {
-      tool: "StackBlitz",
-      title: "Bolt.new",
+      tool: "You, before the wedding",
+      title: "The RSVP site no-one has to log in to",
       blurb:
-        "Prompt-to-app in the browser. Includes the dev server, the file tree, the deploy. No terminal.",
-      url: "https://bolt.new",
+        "Plus-ones, dietaries, song requests, a map. One Lovable prompt, your own domain, done by Sunday.",
+      url: "https://lovable.dev",
     },
     {
-      tool: "Replit",
-      title: "Replit Agent",
+      tool: "You, with a hobby",
+      title: "The tracker your phone doesn't have",
       blurb:
-        "Describe what you want; it scaffolds, edits, runs, and hosts. Strong showcase of single-prompt apps.",
+        "Reading log. Sleep log. Garden log. Run log. The shape of the form is the shape of how you'd actually use it. Build it for yourself in v0.",
+      url: "https://v0.dev",
+    },
+    {
+      tool: "You, with kids",
+      title: "The chore chart that doesn't suck",
+      blurb:
+        "Replit Agent will build you a kid-friendly tracker with sticker rewards in an hour. Print it if they prefer paper.",
       url: "https://replit.com/agent",
-      media: { kind: "youtube", id: "nr6qrQTv7QI" },
     },
   ],
 
   "coding-agents": [
     {
-      tool: "Anthropic",
-      title: "Claude Code",
+      tool: "You, with a dusty repo",
+      title: "Personal site, finished this time",
       blurb:
-        "Terminal-native agent that reads your repo, edits real files, runs tests, opens PRs. The category-defining one.",
+        "Point Claude Code at your half-built portfolio. Ask for the smallest shippable version. The agent makes the cuts you couldn't.",
       url: "https://claude.com/claude-code",
-      media: { kind: "youtube", id: "AJpK3YTTKZ4" },
     },
     {
-      tool: "Anysphere",
-      title: "Cursor",
+      tool: "You, drowning in photos",
+      title: "Sort five years of camera roll",
       blurb:
-        "VS Code fork with an agent in the side panel. Compose multi-file edits and run them against the codebase.",
+        "A small script that reads EXIF, clusters by location and event, and renames the folders the way you actually think about them.",
+      url: "https://claude.com/claude-code",
+    },
+    {
+      tool: "You, with a side project",
+      title: "The CLI that runs your morning",
+      blurb:
+        "Six lines that open your day: weather, calendar, the one thing you swore you'd do. Claude Code wires it while you make coffee.",
+      url: "https://claude.com/claude-code",
+    },
+    {
+      tool: "You, with an aunt's old blog",
+      title: "Save the recipes before the site dies",
+      blurb:
+        "Scrape the WordPress your aunt ran in 2011. Save the recipes as Markdown. Cursor handles the messy HTML.",
       url: "https://cursor.com",
-      media: { kind: "youtube", id: "s5kX-UHgMLo" },
-    },
-    {
-      tool: "Paul Gauthier",
-      title: "aider",
-      blurb:
-        "Open-source CLI pair-programmer. Pioneer of repo-aware editing with sensible Git defaults.",
-      url: "https://aider.chat",
-    },
-    {
-      tool: "Cline",
-      title: "Cline",
-      blurb:
-        "Open-source agent for VS Code. Reads, writes, runs commands, and shows every diff before you accept it.",
-      url: "https://github.com/cline/cline",
-      media: { kind: "youtube", id: "CYIteJeNcuw" },
-    },
-  ],
-
-  "repo-structure": [
-    {
-      tool: "Anthropic",
-      title: "CLAUDE.md memory docs",
-      blurb:
-        "The official guide to the file Claude reads at the start of every conversation. The root of every Claude-friendly repo.",
-      url: "https://docs.claude.com/en/docs/claude-code/memory",
-    },
-    {
-      tool: "Jesse Vincent",
-      title: "Superpowers",
-      blurb:
-        "Open repo of dozens of Claude skills: testing, debugging, planning, brainstorming. Clone and absorb the patterns.",
-      url: "https://github.com/obra/superpowers",
-    },
-    {
-      tool: "AI Ladder",
-      title: "ai-ladder (this site)",
-      blurb:
-        "The repo behind this page. CLAUDE.md at root, prompts/ for the coach, content/ for the data, .claude/skills/ for the working agent.",
-      url: "https://github.com/01AHH/ai-ladder",
-    },
-    {
-      tool: "Awesome",
-      title: "Awesome Claude Code",
-      blurb:
-        "Community-curated list of CLAUDE.md examples, skills, and repo patterns. The fastest way to see what good looks like.",
-      url: "https://github.com/hesreallyhim/awesome-claude-code",
     },
   ],
 
   apis: [
     {
-      tool: "Perplexity",
-      title: "Perplexity",
+      tool: "You, mid-marathon-training",
+      title: "The training partner that texts back",
       blurb:
-        "Answer engine. Built on LLM APIs plus retrieval; the model is the product, not the chat window.",
-      url: "https://www.perplexity.ai",
-      media: { kind: "youtube", id: "YeldJ4UezDQ" },
+        "An SMS bot wired to the Claude API. You text it after every run. It logs, replies, asks the one good question.",
+      url: "https://console.anthropic.com",
     },
     {
-      tool: "Granola",
-      title: "Granola",
+      tool: "You, with a parent who lives alone",
+      title: "Daily check-in to mum",
       blurb:
-        "Meeting notes that listen, transcribe, and summarise into the format you actually use. API + on-device.",
-      url: "https://www.granola.ai",
+        "One question a day, by SMS, with Claude on the other end. The answer lands on a tiny dashboard only you see.",
+      url: "https://console.anthropic.com",
     },
     {
-      tool: "Raycast",
-      title: "Raycast AI",
+      tool: "You, in the kitchen",
+      title: "A meal plan that thinks like you",
       blurb:
-        "Models wired into the macOS command bar. Quick actions, custom commands, context from your tabs.",
-      url: "https://www.raycast.com/ai",
-      media: { kind: "youtube", id: "RFwumqHLc8Y" },
+        "A weekly menu generator that knows your fridge, your kid's allergies, and that you hate prep on Wednesdays. Built once, used forever.",
+      url: "https://console.anthropic.com",
     },
     {
-      tool: "Cal.com",
-      title: "Cal AI",
+      tool: "You, with a thousand bookmarks",
+      title: "Your private second brain, but actually",
       blurb:
-        "Scheduling that books you in plain English. Good worked example of model-as-feature.",
-      url: "https://cal.ai",
+        "Pinboard, Notion, or just a text file plus the Claude API. Ask your bookmarks questions. Get answers back, with sources.",
+      url: "https://console.anthropic.com",
     },
   ],
 
   "knowledge-systems": [
     {
-      tool: "Anthropic",
-      title: "Agent Skills",
+      tool: "ICOR with Tom",
+      title: "Claude that knows who I am",
       blurb:
-        "The official skills system: tiny Markdown files that change what Claude does when their trigger fires.",
+        "He walks through the memory-file pattern: Claude that doesn't start from zero every conversation. Useful even if you don't run a company.",
       url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
-      media: { kind: "youtube", id: "fOxC44g8vig" },
+      media: { kind: "youtube", id: "A4rrL4WAb_8" },
     },
     {
-      tool: "Cursor",
-      title: "Cursor Rules",
+      tool: "You, with a family",
+      title: "A skill for the family calendar",
       blurb:
-        ".mdc files that inject project context, conventions, and constraints into every Cursor turn.",
-      url: "https://docs.cursor.com/context/rules",
+        "One Markdown file that fires when you say 'plan our weekend.' It knows the kids' birthdays, the recurring dinners, the Saturdays you actually have.",
+      url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
     },
     {
-      tool: "Letta",
-      title: "Letta (MemGPT)",
+      tool: "You, in your inbox",
+      title: "Your reply, in your voice",
       blurb:
-        "Open-source long-term memory for agents. Read the original MemGPT paper for the model-of-memory pattern.",
-      url: "https://www.letta.com",
-      media: { kind: "youtube", id: "3GqHXjCD7qA" },
+        "A skill that fires on 'draft reply.' It's seen how you actually write. The result lands inside your tone, not GPT's.",
+      url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
     },
     {
-      tool: "Glean",
-      title: "Glean",
+      tool: "You, after a year",
+      title: "Notes Claude actually remembers",
       blurb:
-        "Enterprise knowledge search and assistants. Worked example of retrieval at company scale.",
-      url: "https://www.glean.com",
-      media: { kind: "youtube", id: "b7qojk3Ju9U" },
+        "A memory file that survives sessions. Drop in: how you make decisions, your three current projects, the names of the people in your life. Compounding interest for prompts.",
+      url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
     },
   ],
 
   "integrated-systems": [
     {
-      tool: "Cognition",
-      title: "Devin",
+      tool: "You, on holiday",
+      title: "The agent that handles arrivals",
       blurb:
-        "End-to-end software engineer that plans, codes, tests, and ships across your stack with a long horizon.",
-      url: "https://devin.ai",
-      media: { kind: "youtube", id: "fjHtjT7GO1c" },
-    },
-    {
-      tool: "Lindy",
-      title: "Lindy",
-      blurb:
-        "Build agents that work across Gmail, Calendar, Slack, HubSpot, and 1000+ other tools. Trigger-driven.",
+        "Lindy wired to your inbox, your calendar, your partner's SMS. Lands when the plane lands. 'We're in. Heading to the hotel. Reservation's at 8.'",
       url: "https://www.lindy.ai",
-      media: { kind: "youtube", id: "m0bkNFIOLb4" },
     },
     {
-      tool: "Zapier",
-      title: "Zapier Agents",
+      tool: "You, on payday",
+      title: "Your money, watched gently",
       blurb:
-        "Multi-step agents over Zapier's 7000-app graph. The boring-but-powerful end of integrated systems.",
-      url: "https://zapier.com/agents",
-      media: { kind: "youtube", id: "Ski0RwvwV_I" },
+        "An agent that reads your bank notifications, categorises them, and texts you Friday with a single number you can act on.",
+      url: "https://www.lindy.ai",
     },
     {
-      tool: "Anthropic",
-      title: "Computer Use",
+      tool: "You, on a long shift",
+      title: "The morning brief",
       blurb:
-        "Claude operating a real desktop: clicks, scrolls, types. The frontier of agents with hands.",
+        "Claude reads your inbox, your calendar, one Notion page; writes a 90-second briefing; emails it at 06:50. The day starts before your second coffee.",
+      url: "https://www.lindy.ai",
+    },
+    {
+      tool: "You, in front of your laptop",
+      title: "Hands on the wheel",
+      blurb:
+        "Computer-use Claude finishing the boring forms. Insurance renewals, school-portal logins, the quarterly compliance click-through. Watch once, then walk away.",
       url: "https://www.anthropic.com/news/developing-computer-use",
-      media: { kind: "youtube", id: "ODaHJzOyVCQ" },
     },
   ],
 };
