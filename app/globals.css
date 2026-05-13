@@ -939,9 +939,9 @@ a { color: var(--accent); }
    ============================================================ */
 .climax .scene-inner {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
   gap: clamp(48px, 7vw, 120px);
-  align-items: start;
+  align-items: center;
 }
 .climax-stamp {
   font-family: var(--mono);
@@ -955,7 +955,7 @@ a { color: var(--accent); }
 .climax-stamp::before { content: "▲"; }
 .climax .rung-numeral {
   color: var(--ink);
-  font-size: clamp(220px, 30vw, 420px);
+  font-size: clamp(160px, 20vw, 280px);
   margin-left: -0.06em;
 }
 .climax .rung-name { color: var(--accent); }
@@ -1308,7 +1308,7 @@ footer.site .wink .dot { color: var(--accent); }
 @media (max-width: 600px) {
   .hero h1 { font-size: 36px; }
   .rung-numeral { font-size: 160px; }
-  .climax .rung-numeral { font-size: 200px; }
+  .climax .rung-numeral { font-size: 140px; }
   .context-input input { font-size: 22px; }
   .step-row { grid-template-columns: 1fr; gap: 6px; padding: 20px 4px; }
   .step-row .where { justify-self: start; }
