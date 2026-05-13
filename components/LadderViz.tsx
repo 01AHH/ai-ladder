@@ -11,14 +11,15 @@ type Tick = {
 
 const TICKS: Tick[] = [
   { key: "hero", href: "#hero", y: 40, label: "00" },
-  { key: "prompting", href: "#rung-1", y: 135, label: "01" },
-  { key: "vibe", href: "#rung-2", y: 230, label: "02" },
-  { key: "agents", href: "#rung-3", y: 325, label: "03" },
-  { key: "repo", href: "#rung-4", y: 420, label: "04" },
-  { key: "apis", href: "#rung-5", y: 515, label: "05" },
-  { key: "climax", href: "#rung-6", y: 610, label: "06" },
-  { key: "integrated", href: "#rung-7", y: 705, label: "07" },
-  { key: "step", href: "#step", y: 780, label: "⚑" },
+  { key: "prompting", href: "#rung-1", y: 124, label: "01" },
+  { key: "vibe", href: "#rung-2", y: 208, label: "02" },
+  { key: "agents", href: "#rung-3", y: 292, label: "03" },
+  { key: "skills", href: "#rung-4", y: 376, label: "04" },
+  { key: "memory", href: "#rung-5", y: 460, label: "05" },
+  { key: "repo", href: "#rung-6", y: 544, label: "06" },
+  { key: "apis", href: "#rung-7", y: 628, label: "07" },
+  { key: "integrated", href: "#rung-8", y: 712, label: "08" },
+  { key: "step", href: "#step", y: 790, label: "⚑" },
 ];
 
 type Props = {

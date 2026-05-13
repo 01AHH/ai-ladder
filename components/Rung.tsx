@@ -63,7 +63,7 @@ export function Rung({ rung, getContext }: Props) {
   const [state, setState] = useState<State>("idle");
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const isClimax = rung.id === "knowledge-systems";
+  const isClimax = rung.id === "skills";
 
   async function handleGenerate() {
     const context = getContext();
@@ -196,7 +196,7 @@ export function Rung({ rung, getContext }: Props) {
       >
         <div className="scene-inner">
           <div className="rung-stage">
-            <div className="climax-stamp">The ladder pays off</div>
+            <div className="climax-stamp">Where the agent gets opinions</div>
             <h2 className="rung-numeral">{String(rung.number).padStart(2, "0")}</h2>
             <div className="rung-meta" style={{ marginTop: 12 }}>
               <span className="step">↑ Rung {rung.number} of {TOTAL}</span>

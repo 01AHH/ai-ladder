@@ -112,7 +112,7 @@ export const rungs: Rung[] = [
     tagline: "Behaviour you can install",
     time: "~an hour",
     definition:
-      "A skill is a small markdown file that tells the agent how to do a specific thing. Drop a folder of them into `~/.claude/skills` or into any repo, and the agent stops being a generic chatbot and starts having opinions. A debugging skill that refuses to propose a fix until the failing test has been run. A brainstorming skill that won't let you charge into code without a design. A TDD skill that writes the test first, every time. You haven't changed the model. You've changed *what it does* — and unlike a prompt, the change persists into every future conversation, including the ones you haven't had yet.",
+      "The first folder of skills I dropped into `~/.claude/skills` changed the way I work. A skill is a small markdown file that tells the agent how to do a specific thing. Drop a folder of them in, and the agent stops being a generic chatbot and starts having opinions. A debugging skill that refuses to propose a fix until I've run the failing test. A brainstorming skill that won't let me charge into code without a design. A TDD skill that writes the test first, every time. I didn't change the model. I changed *what it does* — and unlike a prompt, the change persists into every future conversation, including the ones I haven't had yet.",
     seedExample: "",
     tools: ["Claude Code skills", ".claude/skills/", "superpowers"],
     sceneKey: "skills",
@@ -154,7 +154,7 @@ export const rungs: Rung[] = [
     tagline: "Knowledge you can install",
     time: "~a weekend",
     definition:
-      "You stop briefing the model and start letting it read about you. A CLAUDE.md at the root of every project. A /memory folder for facts the next session shouldn't have to re-derive. The Anthropic memory tool — file-based, persistent — for production agents that need to carry context between API calls. Each conversation now begins where the last one ended; the model walks in already knowing your stack, your stakeholders, the things you've already said no to.\n\nThis is also where the compounding starts. The faster you write into memory, the less you re-explain — and the less you re-explain, the more time you have to write into memory. I'll be honest: before this rung, I was an AI sceptic. This is the rung where I first felt the change.",
+      "This was the rung that turned me. I stopped briefing the model at the start of every chat and started letting it read about me instead. A CLAUDE.md at the root of every project. A /memory folder for facts the next session shouldn't have to re-derive. The Anthropic memory tool — file-based, persistent — for production agents that need to carry context between API calls. Each conversation now begins where the last one ended; the model walks in already knowing my stack, my stakeholders, the things I've already said no to.\n\nThis is also where the compounding starts. The faster I write into memory, the less I re-explain — and the less I re-explain, the more time I have to write into memory. I'll be honest: before this rung, I was an AI sceptic. This is the rung where I first felt the change.",
     seedExample:
       '"Move every standing fact about your team — names, roles, tools, the things you\'ve already said no to — into a /memory folder. Watch the next conversation skip the warm-up."',
     tools: ["CLAUDE.md", "/memory", "Anthropic memory tool"],
@@ -175,7 +175,7 @@ export const rungs: Rung[] = [
     tagline: "The working substrate · home for both",
     time: "~a weekend",
     definition:
-      "You stop having a *codebase* and start having a *working substrate*. Every folder is for the model as much as for you: /memory for facts, /personas for stakeholder simulation, /.claude/skills for behaviour, /prompts for reusable system prompts, /docs for specs. The agent doesn't visit your repo — it lives in it. Anything you can think of as a folder, the model can walk.\n\nSkills are the *behaviour* you install. Memory is the *knowledge* you install. The repo is the *home* you give both of them — and the place where they start compounding into something more than the sum of their parts.",
+      "At some point my repo stopped being a *codebase* and started being a *working substrate*. Every folder is for the model as much as for me: /memory for facts, /personas for stakeholder simulation, /.claude/skills for behaviour, /prompts for reusable system prompts, /docs for specs. The agent doesn't visit my repo — it lives in it. Anything I can think of as a folder, the model can walk.\n\nSkills are the *behaviour* I install. Memory is the *knowledge* I install. The repo is the *home* I give both of them — and the place where they start compounding into something more than the sum of their parts.",
     seedExample:
       '"Open any repo you own. Add /memory, /personas, and /.claude/skills. Watch the model on its third visit do things its first visit couldn\'t."',
     tools: ["CLAUDE.md", "/.claude", "/memory", "/personas", "/prompts"],
