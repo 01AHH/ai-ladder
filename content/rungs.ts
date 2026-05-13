@@ -1,3 +1,5 @@
+import { repoStructureEssay } from "./essays/repo-structure";
+
 export type SkillCard = {
   tag: string;
   name: string;
@@ -16,10 +18,12 @@ export type Rung = {
   definition: string;
   /** Italic pull-quote example under the definition */
   seedExample: string;
-  /** Only set for rung 5: skill-shelf cards shown in place of the seed block */
+  /** Only set for the climax rung: skill-shelf cards shown in place of the seed block */
   skills?: SkillCard[];
-  /** Only set for rung 5: the italic crit pull-quote */
+  /** Only set for the climax rung: the italic crit pull-quote */
   crit?: string;
+  /** Optional long-form essay attached to the rung, rendered inline behind a <details> toggle */
+  essay?: string;
   bridgeTarget: { id: string; hook: string } | null;
   /** Long-form brief fed to the API prompt (not shown in UI) */
   brief: string;
@@ -68,15 +72,33 @@ export const rungs: Rung[] = [
     seedExample:
       '"Migrate this codebase from Pages Router to App Router and tell me what you couldn\'t translate."',
     bridgeTarget: {
-      id: "apis",
-      hook: "The agent edits files. But what if Claude was inside your product, not just your editor?",
+      id: "repo-structure",
+      hook: "The agent edits your files. But it's only as good as the files it reads. What if your repo was written for the model on purpose?",
     },
     brief:
       "Coding agents (Claude Code, Cursor) operate directly on a codebase. They read files, run commands, write tests, commit. You stay in the loop but the agent does the keystrokes. This is where code generation moves from 'snippet you paste' to 'real change in your repo'.",
   },
   {
-    id: "apis",
+    id: "repo-structure",
     number: 4,
+    name: "Repo structure",
+    tagline: "The second brain · markdown as memory",
+    time: "~a weekend",
+    definition:
+      "You stop pasting context into the chat window and start writing it into files. A folder of markdown becomes the place the model *lives*, not the place you *visit*. Every workflow, every rule, every person, every decision gets a file. The AI walks the graph the way you would. The next conversation begins smarter than the last one because the substrate is doing the work.",
+    seedExample:
+      '"Move every rule, persona, and SOP into a /memory folder. Watch what the model on its second visit can do."',
+    essay: repoStructureEssay,
+    bridgeTarget: {
+      id: "apis",
+      hook: "Your repo is now a brain. But it's still a place you go. What if Claude lived inside your product instead?",
+    },
+    brief:
+      "Repo structure is the substrate underneath everything else. The user moves out of Notion / Docs / scattered chat and into a single markdown repo: a CLAUDE.md at the root, a /memory or /workflows folder for facts the model shouldn't have to re-derive, a /personas folder for stakeholder simulation, a /.claude/skills folder for reusable workflows. The thesis is that a repo is a persistent brain. Every file you add makes the next conversation smarter. This is the bridge between using AI tools (rungs 1-3) and putting AI inside your stack (rungs 5-7). The canonical long-form expression of this idea is the 'Context Is the Compound Interest of AI' essay attached to this rung. The personalised output for this rung should help the user identify the first repo they should build (for their work or their life) and what three folders to start with.",
+  },
+  {
+    id: "apis",
+    number: 5,
     name: "APIs",
     tagline: "The model as a library call",
     time: "~a week",
@@ -93,7 +115,7 @@ export const rungs: Rung[] = [
   },
   {
     id: "knowledge-systems",
-    number: 5,
+    number: 6,
     name: "Knowledge systems",
     tagline: "Where the model starts remembering you",
     time: "~a fortnight",
@@ -131,7 +153,7 @@ export const rungs: Rung[] = [
   },
   {
     id: "integrated-systems",
-    number: 6,
+    number: 7,
     name: "Integrated systems",
     tagline: "Agents with hands on your stack",
     time: "~a quarter",
@@ -141,6 +163,6 @@ export const rungs: Rung[] = [
       '"Read every reply in this thread, update the deal stage in HubSpot, and send a follow-up at 9am their time."',
     bridgeTarget: null,
     brief:
-      "Integrated systems are agents with hands. They read and write across the user's real tools: email, calendar, Slack, databases, payment systems. The leap from rung 5 to rung 6 is the leap from 'Claude knows things' to 'Claude does things on your behalf'. Closing nudge: 'You've built a system that acts on your behalf. Now what's the next system you'd hand off?'",
+      "Integrated systems are agents with hands. They read and write across the user's real tools: email, calendar, Slack, databases, payment systems. The leap from rung 6 to rung 7 is the leap from 'Claude knows things' to 'Claude does things on your behalf'. Closing nudge: 'You've built a system that acts on your behalf. Now what's the next system you'd hand off?'",
   },
 ];

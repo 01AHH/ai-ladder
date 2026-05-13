@@ -1,8 +1,8 @@
 export type InspoMedia =
   | { kind: "image"; src: string; alt: string; ratio?: number }
   | { kind: "video"; src: string; ratio?: number; poster?: string }
-  | { kind: "youtube"; id: string }
-  | { kind: "loom"; id: string };
+  | { kind: "youtube"; id: string; ratio?: number; short?: boolean }
+  | { kind: "loom"; id: string; ratio?: number };
 
 export type InspoItem = {
   tool: string;
@@ -116,6 +116,37 @@ export const inspiration: Record<string, InspoItem[]> = {
         "Open-source agent for VS Code. Reads, writes, runs commands, and shows every diff before you accept it.",
       url: "https://github.com/cline/cline",
       media: { kind: "youtube", id: "CYIteJeNcuw" },
+    },
+  ],
+
+  "repo-structure": [
+    {
+      tool: "Anthropic",
+      title: "CLAUDE.md memory docs",
+      blurb:
+        "The official guide to the file Claude reads at the start of every conversation. The root of every Claude-friendly repo.",
+      url: "https://docs.claude.com/en/docs/claude-code/memory",
+    },
+    {
+      tool: "Jesse Vincent",
+      title: "Superpowers",
+      blurb:
+        "Open repo of dozens of Claude skills: testing, debugging, planning, brainstorming. Clone and absorb the patterns.",
+      url: "https://github.com/obra/superpowers",
+    },
+    {
+      tool: "AI Ladder",
+      title: "ai-ladder (this site)",
+      blurb:
+        "The repo behind this page. CLAUDE.md at root, prompts/ for the coach, content/ for the data, .claude/skills/ for the working agent.",
+      url: "https://github.com/01AHH/ai-ladder",
+    },
+    {
+      tool: "Awesome",
+      title: "Awesome Claude Code",
+      blurb:
+        "Community-curated list of CLAUDE.md examples, skills, and repo patterns. The fastest way to see what good looks like.",
+      url: "https://github.com/hesreallyhim/awesome-claude-code",
     },
   ],
 

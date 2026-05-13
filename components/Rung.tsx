@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Rung as RungType } from "@/content/rungs";
+import { rungs, type Rung as RungType } from "@/content/rungs";
 import { StreamedOutput } from "./StreamedOutput";
 import { InspirationGallery } from "./InspirationGallery";
 
@@ -12,7 +12,9 @@ type Props = {
 
 type State = "idle" | "streaming" | "done" | "error";
 
-function renderInlineMarkdown(text: string) {
+const TOTAL = String(rungs.length).padStart(2, "0");
+
+function renderInlineMarkdown(text: string): React.ReactNode[] {
   // Tiny inline parser: **bold** and *italic*. Returns React nodes.
   const out: React.ReactNode[] = [];
   const re = /(\*\*[^*]+\*\*|\*[^*]+\*)/g;
@@ -35,12 +37,38 @@ function renderInlineMarkdown(text: string) {
   return out;
 }
 
+function renderEssay(text: string): React.ReactNode[] {
+  // Block-level renderer for the essay: paragraphs, ##/# headings, - bullets.
+  // Reuses renderInlineMarkdown for **bold** / *italic*.
+  const blocks = text.trim().split(/\n\n+/);
+  return blocks.map((raw, i) => {
+    const block = raw.trim();
+    if (block.startsWith("## ")) {
+      return <h4 key={i}>{renderInlineMarkdown(block.slice(3))}</h4>;
+    }
+    if (block.startsWith("# ")) {
+      return <h3 key={i}>{renderInlineMarkdown(block.slice(2))}</h3>;
+    }
+    const lines = block.split("\n");
+    if (lines.every((l) => l.trim().startsWith("- "))) {
+      return (
+        <ul key={i}>
+          {lines.map((l, j) => (
+            <li key={j}>{renderInlineMarkdown(l.replace(/^\s*-\s+/, ""))}</li>
+          ))}
+        </ul>
+      );
+    }
+    return <p key={i}>{renderInlineMarkdown(block)}</p>;
+  });
+}
+
 export function Rung({ rung, getContext }: Props) {
   const [text, setText] = useState("");
   const [state, setState] = useState<State>("idle");
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const isClimax = rung.number === 5;
+  const isClimax = rung.id === "knowledge-systems";
 
   async function handleGenerate() {
     const context = getContext();
@@ -92,7 +120,7 @@ export function Rung({ rung, getContext }: Props) {
 
   const meta = (
     <div className="rung-meta">
-      <span className="step">↑ Rung {rung.number} of 06</span>
+      <span className="step">↑ Rung {rung.number} of {TOTAL}</span>
       <span>{rung.tagline}</span>
       <span>{rung.time}</span>
     </div>
@@ -114,15 +142,28 @@ export function Rung({ rung, getContext }: Props) {
     <StreamedOutput text={text} state={state} errorMessage={errorMessage} />
   );
 
+  const essayBlock = rung.essay && (
+    <details className="essay">
+      <summary>
+        <span className="essay-eyebrow">§ The long-form</span>
+        <span className="essay-title">
+          Read the essay: <em>Context Is the Compound Interest of AI</em>
+        </span>
+        <span className="essay-cue">expand ↓</span>
+      </summary>
+      <div className="essay-body">{renderEssay(rung.essay)}</div>
+    </details>
+  );
+
   if (isClimax) {
     return (
-      <section className="rung rung-5" id={`rung-${rung.number}`}>
+      <section className="rung rung-climax" id={`rung-${rung.number}`}>
         <div className="climax-mark">▲ The ladder pays off</div>
         <div className="inner">
           <div className="layout">
             <div>
               <div className="numeral-wrap">
-                <h2 className="rung-numeral">05</h2>
+                <h2 className="rung-numeral">{String(rung.number).padStart(2, "0")}</h2>
               </div>
               {meta}
               <h3 className="rung-name">
@@ -170,7 +211,7 @@ export function Rung({ rung, getContext }: Props) {
         <h2 className="rung-numeral">
           {String(rung.number).padStart(2, "0")}
           <span className="slash">/</span>
-          <span className="of">06</span>
+          <span className="of">{TOTAL}</span>
         </h2>
         {meta}
       </div>
@@ -185,6 +226,8 @@ export function Rung({ rung, getContext }: Props) {
           <div className="seed-text">{rung.seedExample}</div>
         </div>
       )}
+
+      {essayBlock}
 
       {generate}
       {stream}

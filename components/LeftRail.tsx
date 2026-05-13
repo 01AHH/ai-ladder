@@ -10,7 +10,10 @@ const TICKS = [
   { id: "rung-4", label: "04" },
   { id: "rung-5", label: "05" },
   { id: "rung-6", label: "06" },
+  { id: "rung-7", label: "07" },
 ];
+
+const TOTAL = String(TICKS.length - 1).padStart(2, "0");
 
 export function LeftRail() {
   const [fill, setFill] = useState(0);
@@ -40,9 +43,9 @@ export function LeftRail() {
       });
       setActive(next);
 
-      const r5 = document.getElementById("rung-5");
-      if (r5) {
-        const r = r5.getBoundingClientRect();
+      const climax = document.getElementById("rung-6");
+      if (climax) {
+        const r = climax.getBoundingClientRect();
         setDark(r.top < winH * 0.5 && r.bottom > winH * 0.5);
       }
     }
@@ -80,7 +83,7 @@ export function LeftRail() {
       <div className={`progress-readout${dark ? " dark" : ""}`}>
         <div>
           <span className="n">{String(active).padStart(2, "0")}</span>{" "}
-          <span style={{ opacity: 0.5 }}>/</span> 06
+          <span style={{ opacity: 0.5 }}>/</span> {TOTAL}
         </div>
       </div>
     </>

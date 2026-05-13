@@ -72,11 +72,13 @@ function Media({ media, title }: { media: InspoMedia; title: string }) {
         </div>
       );
 
-    case "youtube":
+    case "youtube": {
+      const ratio = media.ratio ?? (media.short ? 9 / 16 : 16 / 9);
       return (
         <div
           className="inspo-media inspo-media-embed"
-          style={{ aspectRatio: 16 / 9 }}
+          data-short={media.short ? "true" : undefined}
+          style={{ aspectRatio: ratio }}
         >
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${media.id}?rel=0`}
@@ -87,12 +89,13 @@ function Media({ media, title }: { media: InspoMedia; title: string }) {
           />
         </div>
       );
+    }
 
     case "loom":
       return (
         <div
           className="inspo-media inspo-media-embed"
-          style={{ aspectRatio: 16 / 9 }}
+          style={{ aspectRatio: media.ratio ?? 16 / 9 }}
         >
           <iframe
             src={`https://www.loom.com/embed/${media.id}`}

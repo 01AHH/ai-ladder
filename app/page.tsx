@@ -28,17 +28,23 @@ const STEPS = [
   {
     rung: 4,
     what:
+      "Spin up one repo for one part of your life. CLAUDE.md, a /memory folder, three markdown files. Start the brain.",
+    where: "1 evening · any editor",
+  },
+  {
+    rung: 5,
+    what:
       "Wire a single API call into one inbox or webhook. Just one. Ship the smallest possible loop.",
     where: "1 weekend · anthropic api",
   },
   {
-    rung: 5,
+    rung: 6,
     what:
       "Write your first skill. One file. The thing you keep re-explaining to Claude. Stop re-explaining.",
     where: "2 hrs · claude.ai",
   },
   {
-    rung: 6,
+    rung: 7,
     what:
       "Connect one tool to one tool, mediated by an agent. Don't pick the hardest pair. Pick the most boring.",
     where: "1 quarter · your stack",
@@ -59,7 +65,7 @@ export default function Home() {
           AI · LADDER<span className="dot"> .</span>
         </div>
         <div className="meta">
-          <span>SIX RUNGS</span>
+          <span>SEVEN RUNGS</span>
           <span>ONE STEP</span>
           <span>EST. 2026</span>
         </div>
@@ -109,12 +115,12 @@ export default function Home() {
             <span>The longer story</span>
           </div>
           <h2>
-            Six rungs. One <em>climb</em>. Pick yours.
+            Seven rungs. One <em>climb</em>. Pick yours.
           </h2>
           <p className="lede">
             Most people stop at rung one and think the elevator is broken.{" "}
             <span className="small-caps">The AI Ladder</span> shows you one vivid thing
-            you could be doing at each of the six rungs above where you are, written
+            you could be doing at each of the seven rungs above where you are, written
             for the work you actually do, and asks you to take one small step.
           </p>
         </section>
