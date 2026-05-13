@@ -26,9 +26,9 @@ export type Rung = {
   socraticBridge: string;
   /** Label under the uptag arrow on the bridge (e.g. "RUNG TWO") */
   bridgeUptag: string;
-  /** Only set for the climax rung: skill-shelf cards shown in place of the seed block */
+  /** Skill-shelf cards shown in place of the seed block (used on the Skills rung) */
   skills?: SkillCard[];
-  /** Only set for the climax rung: the italic crit pull-quote */
+  /** Italic crit pull-quote (used on the Skills rung) */
   crit?: string;
   /** Optional long-form essay attached to the rung, rendered inline behind a <details> toggle */
   essay?: string;
@@ -47,7 +47,7 @@ export const rungs: Rung[] = [
     tagline: "The conversation",
     time: "~5 min to start",
     definition:
-      'You open a chat window and ask for things. Claude.ai, ChatGPT. The model is doing all the work; you are doing all the steering. This rung is sometimes dismissed as "just chatting," but a sharp prompt against a frontier model is still the highest leverage-per-minute most people will ever encounter.',
+      'I started here. Most people do. Open a chat window, ask for things, watch a paragraph come back. The model does the work; I\'m just steering. People dismiss this rung as "just chatting" — but a sharp prompt against a frontier model is still the highest leverage-per-minute I\'ve ever encountered. I still spend hours here, every week.',
     seedExample:
       '"Summarise this PDF and pull out the three numbers I should be worried about."',
     tools: ["Claude.ai", "ChatGPT", "a browser tab"],
@@ -65,7 +65,7 @@ export const rungs: Rung[] = [
     tagline: "Shipped software, no compiler",
     time: "~an afternoon",
     definition:
-      "You describe an app and a working web app comes out the other end: Lovable, v0, Bolt. You don't open a terminal. You don't know what a package manager is. The output is a real URL, a real database, a real thing on the internet. Some part of your brain that used to say \"I'd need a developer for that\" goes quiet.",
+      "The first time I used Lovable I described an app and a working web app came out the other end. A real URL, a real database, a real thing on the internet — and I never opened a terminal. The part of my brain that used to say \"I'd need a developer for that\" went quiet. v0 and Bolt do the same. The gap between rung one and rung two is enormous; the gap from here to a side project is small.",
     seedExample:
       '"Make me a one-page site that takes RSVPs to a dinner party and texts me when someone replies."',
     tools: ["Lovable", "v0", "Bolt"],
@@ -86,7 +86,7 @@ export const rungs: Rung[] = [
     tagline: "Pair-programming, asymmetric",
     time: "~a weekend",
     definition:
-      "Claude Code, Codex, Gemini. Agents that live in your terminal. This is the scary rung, because it *looks* like coding. It isn't: you describe what you want, the agent reads your repo, edits real files, runs the tests, and fixes what broke. Lovable hands you a generic Lego set: polished, but locked to the bricks in the box. ChatGPT hands you snippets to paste. An agent works inside your actual codebase, so anything you can describe, it can attempt. The junior who never sleeps.",
+      "This is where I got nervous. Claude Code, Codex, Gemini — agents that live in your terminal. It *looks* like coding, but it isn't: I describe what I want, the agent reads my repo, edits real files, runs the tests, and fixes what broke. Lovable hands you a generic Lego set: polished, but locked to the bricks in the box. ChatGPT hands you snippets to paste. An agent works inside the actual codebase, so anything I can describe, it can attempt. The junior who never sleeps.",
     seedExample:
       '"Migrate this codebase from Pages Router to App Router and tell me what you couldn\'t translate."',
     tools: ["Claude Code", "Codex", "Gemini", "your terminal"],
@@ -96,40 +96,108 @@ export const rungs: Rung[] = [
       caption: "The agent lives here, not in a chat window.",
     },
     sceneKey: "agents",
-    socraticBridge: "What if the code *remembered* why you wrote it?",
+    socraticBridge: "What if the agent had *opinions*?",
     bridgeUptag: "Rung four",
     bridgeTarget: {
-      id: "repo-structure",
-      hook: "The agent edits your files. But it's only as good as the files it reads. What if your repo was written for the model on purpose?",
+      id: "skills",
+      hook: "The agent will do anything you ask. But it's generic. What if you could install other people's expertise into it?",
     },
     brief:
       "Coding agents (Claude Code, Codex, Gemini) live inside the terminal and operate directly on a codebase. They read files, run commands, write tests, commit. This is the rung most people find scary because it looks like coding, but the agent does the keystrokes. The contrast: Lovable/v0 give you a templated app you can't really customise; ChatGPT gives you snippets to paste; an agent works inside your actual codebase, so anything you can describe, it can attempt. This is where code generation moves from 'snippet you paste' to 'real change in your repo'.",
   },
   {
-    id: "repo-structure",
+    id: "skills",
     number: 4,
-    name: "Repo structure",
-    tagline: "The second brain · markdown as memory",
+    name: "Skills",
+    tagline: "Behaviour you can install",
+    time: "~an hour",
+    definition:
+      "The first folder of skills I dropped into `~/.claude/skills` changed the way I work. A skill is a small markdown file that tells the agent how to do a specific thing. Drop a folder of them in, and the agent stops being a generic chatbot and starts having opinions. A debugging skill that refuses to propose a fix until I've run the failing test. A brainstorming skill that won't let me charge into code without a design. A TDD skill that writes the test first, every time. I didn't change the model. I changed *what it does* — and unlike a prompt, the change persists into every future conversation, including the ones I haven't had yet.",
+    seedExample: "",
+    tools: ["Claude Code skills", ".claude/skills/", "superpowers"],
+    sceneKey: "skills",
+    socraticBridge: "What if it didn't just *act* the same way every time, but *remembered* you between sessions?",
+    bridgeUptag: "Rung five",
+    crit:
+      '"A prompt is something you write once. **A skill is something the model does forever.**"',
+    skills: [
+      {
+        tag: "Skill · 01",
+        name: "brainstorming",
+        trigger:
+          "you ask for anything new. The agent refuses to write code until it has asked you multi-choice questions, written a design, and got your sign-off.",
+      },
+      {
+        tag: "Skill · 02",
+        name: "test-driven-development",
+        trigger:
+          "you ask for a feature or a bugfix. The failing test gets written first; then the code that makes it pass; then the refactor.",
+      },
+      {
+        tag: "Skill · 03",
+        name: "verification-before-completion",
+        trigger:
+          'you’re about to claim "done." The agent runs the verification command, pastes the output, then makes the claim — never the other way round.',
+      },
+    ],
+    bridgeTarget: {
+      id: "memory",
+      hook: "You've installed behaviour. Now install context.",
+    },
+    brief:
+      "Skills are markdown files that change what Claude *does*, not what Claude *knows*. A skill lives in `~/.claude/skills/` (global to you) or `.claude/skills/` (per-repo). Each is a folder with a single `.md` file: frontmatter (`name`, `description`) plus a body of instructions. The `description` field is how the skill gets triggered — Claude matches the current task against it and decides whether to invoke. This repo ships nine real, MIT-licensed skills under `.claude/skills/` — brainstorming, bugfix, hygiene, simplest-path, sweeping-the-codebase, systematic-debugging, test-driven-development, verification-before-completion, writing-plans. Skills are the cheapest possible upgrade on the ladder: one folder, no repo restructure, no API call. The personalised output for this rung should help the user identify one workflow they repeat ten or more times a week and sketch the single skill that would replace that repetition.",
+  },
+  {
+    id: "memory",
+    number: 5,
+    name: "Memory",
+    tagline: "Knowledge you can install",
     time: "~a weekend",
     definition:
-      "You stop pasting context into the chat window and start writing it into files. A folder of markdown becomes the place the model *lives*, not the place you *visit*. Every workflow, every rule, every person, every decision gets a file. The AI walks the graph the way you would. The next conversation begins smarter than the last one because the substrate is doing the work.\n\nThis is also where the compounding starts. The repo is memory: instead of re-explaining your business, your edge cases, your way of thinking at the start of every conversation, it's already there. Claude stops being a stranger you have to brief and starts being a colleague who was in the room last time. Each session builds on the last. The faster you document, the less you re-explain — and the less you re-explain, the faster you document. I'll be honest: before this rung, I was an AI sceptic. This is the rung where I first felt the change.",
+      "This was the rung that turned me. I stopped briefing the model at the start of every chat and started letting it read about me instead. A CLAUDE.md at the root of every project. A /memory folder for facts the next session shouldn't have to re-derive. The Anthropic memory tool — file-based, persistent — for production agents that need to carry context between API calls. Each conversation now begins where the last one ended; the model walks in already knowing my stack, my stakeholders, the things I've already said no to.\n\nThis is also where the compounding starts. The faster I write into memory, the less I re-explain — and the less I re-explain, the more time I have to write into memory. I'll be honest: before this rung, I was an AI sceptic. This is the rung where I first felt the change.",
     seedExample:
-      '"Move every rule, persona, and SOP into a /memory folder. Watch what the model on its second visit can do."',
-    tools: ["CLAUDE.md", "/prompts", "/docs", "markdown"],
+      '"Move every standing fact about your team — names, roles, tools, the things you\'ve already said no to — into a /memory folder. Watch the next conversation skip the warm-up."',
+    tools: ["CLAUDE.md", "/memory", "Anthropic memory tool"],
+    sceneKey: "memory",
+    socraticBridge: "What if the whole *substrate* was written for the model on purpose?",
+    bridgeUptag: "Rung six",
+    bridgeTarget: {
+      id: "repo-structure",
+      hook: "You've taught it what to do, and what you know. Now give it a home.",
+    },
+    brief:
+      "Memory is the practice of writing facts into files instead of pasting them into every chat. The model now carries your context between sessions. Three flavours: (1) CLAUDE.md — a single root file that loads at every Claude Code session start, used for global facts about you and the project. (2) /memory folder — multiple markdown files organised by topic, retrieved on demand. (3) Anthropic memory tool — the API-level memory primitive where Claude reads and writes files inside a sandbox that persists across conversations. The thesis: instead of re-explaining your business at the start of every chat, it's already there. Each session begins smarter than the last. The personalised output for this rung should help the user identify the top three facts they re-explain most often, and which file each should live in.",
+  },
+  {
+    id: "repo-structure",
+    number: 6,
+    name: "Repo structure",
+    tagline: "The working substrate · home for both",
+    time: "~a weekend",
+    definition:
+      "At some point my repo stopped being a *codebase* and started being a *working substrate*. Every folder is for the model as much as for me: /memory for facts, /personas for stakeholder simulation, /.claude/skills for behaviour, /prompts for reusable system prompts, /docs for specs. The agent doesn't visit my repo — it lives in it. Anything I can think of as a folder, the model can walk.\n\nSkills are the *behaviour* I install. Memory is the *knowledge* I install. The repo is the *home* I give both of them — and the place where they start compounding into something more than the sum of their parts.",
+    seedExample:
+      '"Open any repo you own. Add /memory, /personas, and /.claude/skills. Watch the model on its third visit do things its first visit couldn\'t."',
+    tools: ["CLAUDE.md", "/.claude", "/memory", "/personas", "/prompts"],
+    mediaImage: {
+      src: "/rung-4-claude-md.png",
+      alt: "GitHub contribution graph showing almost no activity for eleven months and a dense green block in the final six weeks.",
+      caption: "My GitHub the year before I started writing into a repo, and the six weeks after.",
+    },
     sceneKey: "repo",
     socraticBridge: "What if the model didn't live in a chat window *at all*?",
-    bridgeUptag: "Rung five",
+    bridgeUptag: "Rung seven",
     essay: repoStructureEssay,
     bridgeTarget: {
       id: "apis",
       hook: "Your repo is now a brain. But it's still a place you go. What if Claude lived inside your product instead?",
     },
     brief:
-      "Repo structure is the substrate underneath everything else. The user moves out of Notion / Docs / scattered chat and into a single markdown repo: a CLAUDE.md at the root, a /memory or /workflows folder for facts the model shouldn't have to re-derive, a /personas folder for stakeholder simulation, a /.claude/skills folder for reusable workflows. The thesis is that a repo is a persistent brain. Every file you add makes the next conversation smarter. This is the bridge between using AI tools (rungs 1-3) and putting AI inside your stack (rungs 5-7). The canonical long-form expression of this idea is the 'Context Is the Compound Interest of AI' essay attached to this rung. The personalised output for this rung should help the user identify the first repo they should build (for their work or their life) and what three folders to start with.",
+      "Repo structure is the architecture of the substrate underneath everything else. Skills and Memory each live as folders inside it, alongside /personas (stakeholder simulation), /workflows (SOPs), /prompts (reusable system prompts), /docs (specs). The repo is no longer a place for code; it's a working substrate for the whole operation. Anything you can think of as a folder, the model can walk. This rung is the bridge between using AI tools (rungs 1-5) and putting AI inside your stack (rungs 7-8). The canonical long-form expression of this idea is the 'Context Is the Compound Interest of AI' essay attached to this rung. The personalised output should help the user identify the first repo they should build (for their work or their life) and which three folders to start with.",
   },
   {
     id: "apis",
-    number: 5,
+    number: 7,
     name: "APIs",
     tagline: "The model as a library call",
     time: "~a week",
@@ -139,60 +207,18 @@ export const rungs: Rung[] = [
       '"Every new support ticket gets read, classified, and tagged before a human sees it."',
     tools: ["anthropic SDK", "webhooks", "cron"],
     sceneKey: "apis",
-    socraticBridge: "What if it *remembered you* between calls?",
-    bridgeUptag: "Rung six · the climax",
+    socraticBridge: "What if it didn't just *answer*, but *acted*?",
+    bridgeUptag: "Rung eight",
     bridgeTarget: {
-      id: "knowledge-systems",
-      hook: "You're calling Claude programmatically. But it forgets everything. What if it knew you?",
+      id: "integrated-systems",
+      hook: "Claude is now a function in your stack. The last move: hands.",
     },
     brief:
       "APIs put Claude inside your own product. You call messages.create() from your server, pass a prompt, stream tokens back. Now Claude is a feature of your app, not a tab the user has to open.",
   },
   {
-    id: "knowledge-systems",
-    number: 6,
-    name: "Knowledge systems",
-    tagline: "Where the model starts remembering you",
-    time: "~a fortnight",
-    definition:
-      "Memory. Retrieval. **Skills.** Now the model is no longer a stranger at every door; it carries your context, your house style, your standard operating procedure with it. A skill is the punchline: a small, named bundle of instructions that *changes what the model does*, every single time the trigger fires.",
-    seedExample: "",
-    tools: ["skills", "memory", "retrieval"],
-    sceneKey: "climax",
-    socraticBridge: "What if it had *hands*?",
-    bridgeUptag: "Rung seven",
-    crit:
-      '"A prompt is something you write once. **A skill is something the model does forever.**"',
-    skills: [
-      {
-        tag: "Skill · 01",
-        name: "house-style-writer",
-        trigger:
-          "you ask Claude to draft any external-facing copy. It lifts tone, banned words, and your three rhetorical tics from a single source file.",
-      },
-      {
-        tag: "Skill · 02",
-        name: "monday-digest",
-        trigger:
-          'you say "what happened last week." It pulls Linear, Stripe, and Slack into the same three-paragraph brief, every time, in the same shape.',
-      },
-      {
-        tag: "Skill · 03",
-        name: "contract-redline",
-        trigger:
-          "a PDF lands in a folder. It flags clauses against your playbook and writes the email to your lawyer with the diff attached.",
-      },
-    ],
-    bridgeTarget: {
-      id: "integrated-systems",
-      hook: "Claude knows your context. But it just sits there. What if it acted?",
-    },
-    brief:
-      "Knowledge systems make Claude stop forgetting. Three flavours: (1) memory, files Claude reads at every turn; (2) retrieval, Claude searches a corpus for relevant chunks; (3) skills, small Markdown files that inject *behaviour* on demand. This is the rung where 'skills as superpowers' becomes concrete. Prompting changes one conversation. Memory changes what Claude *knows*. A skill changes what Claude *does*, every time the trigger fires. The repo this site lives in ships `.claude/skills/` for exactly this reason: clone it, get the working agent, not just the app. Frame this rung around that distinction.",
-  },
-  {
     id: "integrated-systems",
-    number: 7,
+    number: 8,
     name: "Integrated systems",
     tagline: "Agents with hands on your stack",
     time: "~a quarter",
@@ -206,6 +232,6 @@ export const rungs: Rung[] = [
     bridgeUptag: "Now pick one",
     bridgeTarget: null,
     brief:
-      "Integrated systems are agents with hands. They read and write across the user's real tools: email, calendar, Slack, databases, payment systems. The leap from rung 6 to rung 7 is the leap from 'Claude knows things' to 'Claude does things on your behalf'. Closing nudge: 'You've built a system that acts on your behalf. Now what's the next system you'd hand off?'",
+      "Integrated systems are agents with hands. They read and write across the user's real tools: email, calendar, Slack, databases, payment systems. The leap from rung 7 to rung 8 is the leap from 'Claude knows things' to 'Claude does things on your behalf'. Closing nudge: 'You've built a system that acts on your behalf. Now what's the next system you'd hand off?'",
   },
 ];

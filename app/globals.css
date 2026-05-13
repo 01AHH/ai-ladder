@@ -62,6 +62,20 @@ body.scene-agents {
   --rule: rgba(240,235,216,0.16); --rule-2: rgba(240,235,216,0.38);
   --accent: #F2C8C0; --accent-ink: #14110D;
 }
+body.scene-skills {
+  --bg: #3F4F58; --bg-soft: rgba(221,228,232,0.06);
+  --ink: #DDE4E8; --ink-soft: rgba(221,228,232,0.85);
+  --muted: #8B98A0;
+  --rule: rgba(221,228,232,0.16); --rule-2: rgba(221,228,232,0.38);
+  --accent: #E8A046; --accent-ink: #1A140E;
+}
+body.scene-memory {
+  --bg: #A88B62; --bg-soft: rgba(35,24,17,0.07);
+  --ink: #231811; --ink-soft: rgba(35,24,17,0.85);
+  --muted: #5E4A33;
+  --rule: rgba(35,24,17,0.20); --rule-2: rgba(35,24,17,0.46);
+  --accent: #3F4F58; --accent-ink: #F0E5C0;
+}
 body.scene-repo {
   --bg: #C99A1E; --bg-soft: rgba(42,24,4,0.07);
   --ink: #2A1A06; --ink-soft: rgba(42,26,6,0.85);

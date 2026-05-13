@@ -145,15 +145,7 @@ export const inspiration: Record<string, InspoItem[]> = {
     },
   ],
 
-  "knowledge-systems": [
-    {
-      tool: "ICOR with Tom",
-      title: "Claude that knows who I am",
-      blurb:
-        "He walks through the memory-file pattern: Claude that doesn't start from zero every conversation. Useful even if you don't run a company.",
-      url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
-      media: { kind: "youtube", id: "A4rrL4WAb_8" },
-    },
+  skills: [
     {
       tool: "You, with a family",
       title: "A skill for the family calendar",
@@ -169,11 +161,36 @@ export const inspiration: Record<string, InspoItem[]> = {
       url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
     },
     {
+      tool: "This repo",
+      title: "Nine skills, ready to clone",
+      blurb:
+        "Open the .claude/skills folder in this repo on GitHub. Each one is a real, MIT-licensed skill — brainstorming, TDD, debugging, hygiene. Read one, copy it, change the description.",
+      url: "https://github.com/01AHH/ai-ladder/tree/main/.claude/skills",
+    },
+  ],
+
+  memory: [
+    {
+      tool: "ICOR with Tom",
+      title: "Claude that knows who I am",
+      blurb:
+        "He walks through the memory-file pattern: Claude that doesn't start from zero every conversation. Useful even if you don't run a company.",
+      url: "https://docs.claude.com/en/docs/build-with-claude/memory",
+      media: { kind: "youtube", id: "A4rrL4WAb_8" },
+    },
+    {
       tool: "You, after a year",
       title: "Notes Claude actually remembers",
       blurb:
         "A memory file that survives sessions. Drop in: how you make decisions, your three current projects, the names of the people in your life. Compounding interest for prompts.",
-      url: "https://docs.claude.com/en/docs/agents-and-tools/agent-skills",
+      url: "https://docs.claude.com/en/docs/build-with-claude/memory",
+    },
+    {
+      tool: "Anthropic memory tool",
+      title: "File-based memory, on the API",
+      blurb:
+        "For production agents: Claude reads and writes files inside a sandbox that persists across conversations. The same idea as a /memory folder, but as a primitive your code can call.",
+      url: "https://docs.claude.com/en/docs/build-with-claude/memory",
     },
   ],
 
