@@ -180,11 +180,6 @@ export default function Home() {
               get value out of it. Nobody had shown them what one
               step up looks like. This is the map I wish I&apos;d had.
             </p>
-            <p className="lede">
-              Pick the step above where your foot is right now. I&apos;ll show
-              you one specific thing you could build there, for the life you
-              actually have.
-            </p>
 
             <ContextInput value={context} onChange={setContext} />
 
