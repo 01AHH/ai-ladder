@@ -117,7 +117,7 @@ export function Rung({ rung, getContext }: Props) {
       ? "Regenerate"
       : isClimax
       ? "Generate my skill"
-      : "Generate my example";
+      : "Generate good personal example for me";
   const buttonArrow = state === "streaming" ? "·" : state === "done" ? "↻" : "→";
 
   const meta = (
@@ -259,6 +259,20 @@ export function Rung({ rung, getContext }: Props) {
 
         <div className="rung-body">
           <p className="rung-def">{renderInlineMarkdown(rung.definition)}</p>
+
+          {rung.mediaImage && (
+            <figure className="rung-media">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={rung.mediaImage.src}
+                alt={rung.mediaImage.alt}
+                loading="lazy"
+              />
+              {rung.mediaImage.caption && (
+                <figcaption>{rung.mediaImage.caption}</figcaption>
+              )}
+            </figure>
+          )}
 
           {rung.seedExample && (
             <div className="seed">

@@ -32,6 +32,8 @@ export type Rung = {
   crit?: string;
   /** Optional long-form essay attached to the rung, rendered inline behind a <details> toggle */
   essay?: string;
+  /** Optional inline image rendered under the definition */
+  mediaImage?: { src: string; alt: string; caption?: string };
   bridgeTarget: { id: string; hook: string } | null;
   /** Long-form brief fed to the API prompt (not shown in UI) */
   brief: string;
@@ -84,10 +86,15 @@ export const rungs: Rung[] = [
     tagline: "Pair-programming, asymmetric",
     time: "~a weekend",
     definition:
-      "Claude Code, Cursor. You are still the author of the codebase, but the agent reads the whole repo, writes patches, runs tests, and reports back. The relationship inverts: you spend more time reviewing than typing. The model becomes the junior who never sleeps and never gets cranky about touching legacy code.",
+      "Claude Code, Codex, Gemini. Agents that live in your terminal. This is the scary rung, because it *looks* like coding. It isn't: you describe what you want, the agent reads your repo, edits real files, runs the tests, and fixes what broke. Lovable hands you a generic Lego set: polished, but locked to the bricks in the box. ChatGPT hands you snippets to paste. An agent works inside your actual codebase, so anything you can describe, it can attempt. The junior who never sleeps.",
     seedExample:
       '"Migrate this codebase from Pages Router to App Router and tell me what you couldn\'t translate."',
-    tools: ["Claude Code", "Cursor", "your terminal"],
+    tools: ["Claude Code", "Codex", "Gemini", "your terminal"],
+    mediaImage: {
+      src: "/rung-3-terminal.png",
+      alt: "Claude Code running inside a macOS terminal window with the welcome prompt visible.",
+      caption: "The agent lives here, not in a chat window.",
+    },
     sceneKey: "agents",
     socraticBridge: "What if the code *remembered* why you wrote it?",
     bridgeUptag: "Rung four",
@@ -96,7 +103,7 @@ export const rungs: Rung[] = [
       hook: "The agent edits your files. But it's only as good as the files it reads. What if your repo was written for the model on purpose?",
     },
     brief:
-      "Coding agents (Claude Code, Cursor) operate directly on a codebase. They read files, run commands, write tests, commit. You stay in the loop but the agent does the keystrokes. This is where code generation moves from 'snippet you paste' to 'real change in your repo'.",
+      "Coding agents (Claude Code, Codex, Gemini) live inside the terminal and operate directly on a codebase. They read files, run commands, write tests, commit. This is the rung most people find scary because it looks like coding, but the agent does the keystrokes. The contrast: Lovable/v0 give you a templated app you can't really customise; ChatGPT gives you snippets to paste; an agent works inside your actual codebase, so anything you can describe, it can attempt. This is where code generation moves from 'snippet you paste' to 'real change in your repo'.",
   },
   {
     id: "repo-structure",
