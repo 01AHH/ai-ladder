@@ -116,6 +116,11 @@ export const rungs: Rung[] = [
     seedExample:
       '"Move every rule, persona, and SOP into a /memory folder. Watch what the model on its second visit can do."',
     tools: ["CLAUDE.md", "/prompts", "/docs", "markdown"],
+    mediaImage: {
+      src: "/rung-4-claude-md.png",
+      alt: "GitHub contribution graph showing almost no activity for eleven months and a dense green block in the final six weeks.",
+      caption: "My GitHub the year before I started writing into a repo, and the six weeks after.",
+    },
     sceneKey: "repo",
     socraticBridge: "What if the model didn't live in a chat window *at all*?",
     bridgeUptag: "Rung five",
