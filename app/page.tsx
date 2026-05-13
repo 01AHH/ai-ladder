@@ -160,21 +160,30 @@ export default function Home() {
           <div className="scene-inner">
             <div className="eyebrow">
               <span className="pip" />
-              A field guide to what you can actually do with AI
+              A field guide to what's actually possible with AI right now
             </div>
 
             <h1>
-              Seven rungs.<br />
-              One <em>climb</em>.<br />
-              Pick yours.
+              Knowing the next step in your AI journey is hard when you
+              don&apos;t know what&apos;s <em>possible</em>.
             </h1>
 
             <p className="lede">
-              Most people stop at rung one and assume the elevator is broken.{" "}
-              <strong>The AI Ladder</strong> shows you one vivid thing you could
-              be doing at every rung above where you are. Written for the work
-              you actually do. Five minutes, then a single concrete step you
-              could take this week.
+              Most people stop at ChatGPT and assume that&apos;s the ceiling.
+              It isn&apos;t. There are seven rungs above it, and the gap
+              between rung one and rung seven is the difference between{" "}
+              <em>using</em> AI and <em>building</em> with it.
+            </p>
+            <p className="lede">
+              I built this because I kept watching smart people give up on AI
+              after a few weeks of Claude.ai. Not because they couldn&apos;t
+              get value out of it — because nobody had shown them what one
+              rung up looks like. This is the map I wish I&apos;d had.
+            </p>
+            <p className="lede">
+              Pick the rung above where your foot is right now. I&apos;ll show
+              you one specific thing you could build there, for the life you
+              actually have.
             </p>
 
             <ContextInput value={context} onChange={setContext} />
