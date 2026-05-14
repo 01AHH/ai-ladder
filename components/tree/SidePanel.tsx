@@ -18,7 +18,10 @@ export function SidePanel({
     function onKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose(); }
     function onClick(e: MouseEvent) {
       if (!selectedId) return;
-      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+      const target = e.target as Element;
+      if (ref.current && ref.current.contains(target)) return;
+      if (target.closest?.('[role="button"]')) return; // let hex's onClick toggle
+      onClose();
     }
     window.addEventListener('keydown', onKey);
     window.addEventListener('mousedown', onClick);
