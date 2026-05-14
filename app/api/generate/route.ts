@@ -37,6 +37,14 @@ export async function POST(req: NextRequest) {
     return new Response("Unknown rung", { status: 400 });
   }
 
+  const userContext = (body.context ?? "").trim();
+  if (!userContext) {
+    return new Response(
+      "Tell us who you are in the box at the top of the page first, then click Generate.",
+      { status: 400, headers: { "Content-Type": "text/plain; charset=utf-8" } },
+    );
+  }
+
   const ip = getClientIp(req);
   const { allowed, resetAt } = checkRateLimit(ip);
   if (!allowed) {
@@ -49,7 +57,7 @@ export async function POST(req: NextRequest) {
 
   const rung = rungs[rungIndex];
   const nextRung = rungs[rungIndex + 1] ?? null;
-  const vars = varsFromRung(rung, body.context ?? "", nextRung);
+  const vars = varsFromRung(rung, userContext, nextRung);
   const template = await loadCoachPrompt();
   const system = buildSystemPrompt(template, vars);
 
