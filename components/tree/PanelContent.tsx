@@ -114,7 +114,7 @@ export function PanelContent({
           className={`btn ${state === 'climbed' ? 'btn-done' : 'btn-primary'}`}
           onClick={() => (state === 'climbed' ? unclimb(id) : climb(id))}
         >
-          {state === 'climbed' ? '✓ Climbed · click to un-mark' : '↑ Mark as climbed'}
+          {state === 'climbed' ? '✓ Complete · click to un-mark' : '↑ Mark as complete'}
         </button>
         {node.essayAnchor && (
           <a className="btn btn-secondary" href={`/${node.essayAnchor}`}>Read the essay &rarr;</a>

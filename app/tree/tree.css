@@ -150,3 +150,62 @@
 }
 
 .panel-coming-soon .panel-body { color: rgba(245,239,209,0.6); font-style: italic; }
+
+/* Belt-and-braces: force a near-black bg on the tree route so scene-*
+   palettes carried over from / can't bleed through under any layout. */
+body.tree-route { background: #050610; }
+
+/* Dev banner — shown once per session on first /tree visit */
+.dev-banner-backdrop {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(5, 6, 16, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.dev-banner {
+  max-width: 420px;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(20,22,40,0.96), rgba(10,12,24,0.96));
+  border: 1px solid rgba(255,140,90,0.4);
+  border-radius: 10px;
+  padding: 24px 26px 22px;
+  color: #e8e6f5;
+}
+.dev-banner-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ff8c5a;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+.dev-banner-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 26px;
+  color: #f5efd1;
+  line-height: 1.1;
+  margin: 0 0 10px;
+}
+.dev-banner-body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(229,229,255,0.8);
+  margin: 0 0 18px;
+}
+.dev-banner-dismiss {
+  background: rgba(197,181,114,0.18);
+  color: #f5efd1;
+  border: 1px solid rgba(197,181,114,0.5);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.dev-banner-dismiss:hover { background: rgba(197,181,114,0.28); }
