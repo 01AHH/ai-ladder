@@ -117,6 +117,15 @@ export default function Home() {
             <div className="eyebrow">
               <span className="pip" />
               A field guide to what's actually possible with AI right now
+              <span className="eyebrow-sep">·</span>
+              <a
+                className="author"
+                href="https://www.linkedin.com/in/arthur-hinton/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                by Arthur Hinton ↗
+              </a>
             </div>
 
             <Definitions />

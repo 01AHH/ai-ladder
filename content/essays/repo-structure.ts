@@ -6,6 +6,8 @@
  */
 export const repoStructureEssay = `# Context Is the Compound Interest of AI
 
+*By Cara Davies*
+
 At the start of this year, we made a decision at Slice that sounded reasonable in a meeting and terrifying in practice. We were going to rebuild our entire product for enterprise.
 
 Slice Pay had a working prototype, but over the past couple of years we'd accumulated a lot of knowledge that never made it into the product. How we price customer accounts. How risk tiers affect commission eligibility. How refund flows interact with merchant settlement cycles. All the business logic we'd learned from running the prototype but hadn't formalised. Enterprise clients, airlines specifically, would need all of it. We couldn't bolt it onto what we had. We needed to start fresh and build it right.
