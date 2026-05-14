@@ -123,11 +123,11 @@ Each rung has these fields. To rewrite the section, edit the matching object in 
 
 ### Rung 04 · Skills (the climax / "Where the agent gets opinions")
 
-- **Stamp at top of section:** `Where the agent gets opinions`
+- **Stamp at top of section:** `What are skills?`
 - **Tagline:** `Behaviour you can install`
-- **Time:** `~an hour`
+- **Time:** `~an hour - a day`
 - **Tools (chips):** `Claude Code skills`, `.claude/skills/`, `superpowers`
-- **Definition:** `The first folder of skills I dropped into ~/.claude/skills changed the way I work. A skill is a small markdown file that tells the agent how to do a specific thing. Drop a folder of them in, and the agent stops being a generic chatbot and starts having opinions. A debugging skill that refuses to propose a fix until I've run the failing test. A brainstorming skill that won't let me charge into code without a design. A TDD skill that writes the test first, every time. I didn't change the model. I changed *what it does*, and unlike a prompt, the change persists into every future conversation, including the ones I haven't had yet.`
+- **Definition:** `When skills first came out I didn't get it. There were no tasks I was repeating again and again as I was always doing something slightly differnet. And to be fair I do still think this section is only applicable to some industries and spaces. But overtime through using more claude tools i began to realise that there were some specific skills I was using again and again. "brainstorm" "bugfix" "writing plans" "question" all of these skills help to counteract claude and codex's natural failures were they try and get stuff done quikcly. and when i'm being lazy these skills counteract that (you will find all of them in this codebase if you want to use them).` -- help me improve the copy here please also explain a bit about how skills work
 - **Crit pull-quote (italic, prominent):** `"A prompt is something you write once. **A skill is something the model does forever.**"`
 - **Shelf head:** `Your skill shelf · a few examples`
 - **Skill cards (3):**
@@ -137,19 +137,9 @@ Each rung has these fields. To rewrite the section, edit the matching object in 
 - **Bridge uptag:** `Step five`
 - **Bridge line:** `What if it didn't just *act* the same way every time, but *remembered* you between sessions?`
 
-### Rung 05 · Memory
 
-- **Tagline:** `Knowledge you can install`
-- **Time:** `~a weekend`
-- **Tools (chips):** `CLAUDE.md`, `/memory`, `Anthropic memory tool`
-- **Definition (two paragraphs):**
-  1. `This was the step that turned me. I stopped briefing the model at the start of every chat and started letting it read about me instead. A CLAUDE.md at the root of every project. A /memory folder for facts the next session shouldn't have to re-derive. The Anthropic memory tool (file-based, persistent) for production agents that need to carry context between API calls. Each conversation now begins where the last one ended; the model walks in already knowing my stack, my stakeholders, the things I've already said no to.`
-  2. `This is also where the compounding starts. The faster I write into memory, the less I re-explain, and the less I re-explain, the more time I have to write into memory. I'll be honest: before this step, I was an AI sceptic. This is the step where I first felt the change.`
-- **Seed example:** `"Move every standing fact about your team (names, roles, tools, the things you've already said no to) into a /memory folder. Watch the next conversation skip the warm-up."`
-- **Bridge uptag:** `Step six`
-- **Bridge line:** `What if the whole *substrate* was written for the model on purpose?`
 
-### Rung 06 · Repo structure
+### Rung 05 · Repo structure
 
 - **Tagline:** `The working substrate · home for both`
 - **Time:** `~a weekend`
@@ -171,29 +161,85 @@ Each rung has these fields. To rewrite the section, edit the matching object in 
   - Title: `Read the essay: *Context Is the Compound Interest of AI*`
   - Cue: `expand ↓`
   - Essay body lives in `content/essays/repo-structure.ts` (see section 6 below)
-- **Bridge uptag:** `Step 6.5`
-- **Bridge line:** `But there's one file at the root the agent reads *before everything else*. Do you know what it is?`
-
-### Rung 06.5 · CLAUDE.md
-
-A sidebar step between Repo structure and APIs. Inherits the `repo` scene palette and is not counted toward the "08" total in the meta row.
-
-- **Tagline:** `The front-door note`
-- **Time:** `~10 min`
-- **Plain-English line (renders under the name):** `The single file at the root of a project that Claude Code reads at the start of every session. Write it once, the model walks in already knowing the basics.`
-- **Tools (chips):** `CLAUDE.md`, `Claude Code`
-- **Definition:** `If the repo is the home, CLAUDE.md is the note pinned to the front door. It's the one file Claude Code reads at the start of every session, and it sets the tone for everything else. Mine tells the agent who I am, what we're building, and the handful of standing rules I keep breaking. The first version takes ten minutes and is fifteen lines. The hundredth version is what makes the model feel like it actually knows me.`
-- **Seed example:** `"Open the root of any project. Create a CLAUDE.md. Three sections: who I am, what we are building, three rules I keep breaking. Watch the next session pick up where the last one left off."`
 - **Bridge uptag:** `Step seven`
 - **Bridge line:** `What if the model didn't live in a chat window *at all*?`
 
+
+### Rung 06 · Memory
+
+- **Tagline:** `Knowledge you can install`
+- **Time:** `~a week minimum`
+- **Tools (chips):** `CLAUDE.md`, `/memory`, `Anthropic memory tool`
+- **Definition (two paragraphs):**
+  1. `This was the step that turned me. I stopped briefing the model at the start of every chat and started letting it read about me instead. A CLAUDE.md at the root of every project. A /memory folder for facts the next session shouldn't have to re-derive. The Anthropic memory tool (file-based, persistent) for production agents that need to carry context between API calls. It is extremely similar to claude skills but instead of acting in the skills folder where you get it to reference how to do something you treat it as it's own folder which stores memory about a certain subject, topic, process. This becomes incredibly useful when trying to help claude understand how you go through and make decisions. You then reference the memroy olders in the claude.md file and this ensures each time you write your claude prompt it knows where to get all of the information from that you Each conversation now begins where the last one ended; the model walks in already knowing my stack, my stakeholders, the things I've already said no to.`
+  2. `This is also where the compounding starts. The faster I write into memory, the less I re-explain, and the less I re-explain, the more time I have to write into memory. I'll be honest: before this step, I was an AI sceptic. This is the step where I first felt the change.`
+- **Seed example:** `"Move every standing fact about your team (names, roles, tools, the things you've already said no to) into a /memory folder. Watch the next conversation skip the warm-up."`
+- **Bridge uptag:** `Step six`
+- **Bridge line:** `What if the whole *substrate* was written for the model on purpose?`
+
+
+### Rung 06.5 - Claude.md
+`this one really when i was writing about memory and I realised that we need to do a better job at explaining how i structure my claude.md files. the common ways that i go about structuing it are as follows 
+ This is the minimum viable CLAUDE.md. Drop into any new repo and customise.
+                                                                                                                                                   
+   CLAUDE.md — <Repo Name>                                                                                                                      
+                                                                                                                                                   
+  > Read every turn. Operational rules for <one-line purpose>.                                                                                     
+                                               
+  ---                                                                                                                                              
+                                                                                                                                                 
+   What This Is                              
+
+  <2-3 sentences. Status. Stack.>                                                                                                                  
+   
+  ---                                                                                                                                              
+                                                                                                                                                 
+   Repo Structure                            
+
+  ```
+  <tree with inline comments on the important files>
+  ```
+
+  ---
+
+   Integrations
+
+  | Service | Purpose | How configured |                                                                                                           
+  |---|---|---|
+  | | | |                                                                                                                                          
+                                                                                                                                                 
+  ---                                          
+
+ Committing
+
+  - <rule>
+  - <rule>
+                                                                                                                                                   
+  ---
+                                                                                                                                                   
+   Never Do This                                                                                                                               
+                                               
+  - <rule>
+  - <rule>
+
+  ---
+
+   Always Do This
+
+  - <rule>
+  - <rule>
+
+  ---
+  ` -- please make sure to clean 06.5 up
+
 ### Rung 07 · APIs
 
-- **Tagline:** `The model as a library call`
+- **Tagline:** `Connecting claude to different tools`
 - **Time:** `~a week`
 - **Tools (chips):** `anthropic SDK`, `webhooks`, `cron`
-- **Definition:** `You call the model directly from your own code. A function in your codebase, fired from a webhook, a cron, a click. Now the model is not a place you visit; it is a primitive in your stack, next to Postgres and Stripe. You can put intelligence into anything that has a key and a network connection.`
-- **Seed example:** `"Every new support ticket gets read, classified, and tagged before a human sees it."`
+- **Definition:** `The next major unlock really tends to happen on the stage where you realise that you can connect your claude model to different services via their API's. Now API's are obviously not knew but allowing claude t connect to these API's really does allow for a good unlock and improvement into how your model interacts with the rest of the internet. For example I connected it to Strava, Granola, Google calednar, Gmail and a load of other tools to be able to manage my day to day workflow`
+
+- **Seed example:** `"Every new support ticket gets read, classified, and tagged before a human sees it."` -- use a different example which more people will get
 - **Bridge uptag:** `Step eight`
 - **Bridge line:** `What if it didn't just *answer*, but *acted*?`
 

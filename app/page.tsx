@@ -153,6 +153,15 @@ export default function Home() {
               looked like. This is the map.
             </p>
 
+            <aside className="note">
+              <span className="note-eyebrow">On order</span>
+              <p className="note-body">
+                These aren&apos;t steps you have to do in sequence.{" "}
+                <em>People pick them up at different stages, in different
+                orders</em>. This is just how I climbed them.
+              </p>
+            </aside>
+
             <ContextInput value={context} onChange={setContext} />
 
             <RungIndex />
@@ -182,6 +191,15 @@ export default function Home() {
 
         <section className="scene step" id="step" data-scene-key="step">
           <div className="scene-inner">
+            <aside className="note">
+              <span className="note-eyebrow">The one rule</span>
+              <p className="note-body">
+                If you don&apos;t know how to do something with AI,{" "}
+                <em>just ask AI how to do it</em>. That&apos;s the general
+                rule everything else on this page rests on.
+              </p>
+            </aside>
+
             <div className="step-eyebrow">
               <span>⌂ A note</span>
             </div>

@@ -466,6 +466,46 @@ a { color: var(--accent); }
 }
 
 /* ============================================================
+   NOTE — small static callout used in the hero
+   ============================================================ */
+.note {
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  background: var(--bg-soft);
+  padding: 14px 18px;
+  border-radius: 3px;
+  max-width: 760px;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.note + .note { margin-top: 12px; }
+.note-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.note-body {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink);
+  flex: 1 1 220px;
+  min-width: 0;
+  margin: 0;
+}
+.note-body em {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+/* ============================================================
    CONTEXT INPUT — the "who you are" box
    ============================================================ */
 .context {
@@ -1460,6 +1500,7 @@ footer.site .wink .dot { color: var(--accent); }
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  pointer-events: auto;
 }
 .tab-nav-dark { background: rgba(20,22,40,0.7); border: 1px solid rgba(197,181,114,0.3); }
 .tab-nav-light { background: rgba(26,22,18,0.06); border: 1px solid rgba(26,22,18,0.18); }
