@@ -19,3 +19,5 @@
   color: #f5efd1;
   opacity: 0.6;
 }
+
+.tree-tabs { position: absolute; top: 24px; left: 24px; z-index: 10; }

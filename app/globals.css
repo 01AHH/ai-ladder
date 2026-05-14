@@ -1449,3 +1449,29 @@ footer.site .wink .dot { color: var(--accent); }
     animation: none;
   }
 }
+
+/* ===== TAB NAV ===== */
+.tab-nav {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.tab-nav-dark { background: rgba(20,22,40,0.7); border: 1px solid rgba(197,181,114,0.3); }
+.tab-nav-light { background: rgba(26,22,18,0.06); border: 1px solid rgba(26,22,18,0.18); }
+
+.tab-link {
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+}
+.tab-nav-dark .tab-link { color: rgba(229,229,255,0.55); }
+.tab-nav-dark .tab-link-active { background: rgba(197,181,114,0.22); color: #f5efd1; }
+.tab-nav-light .tab-link { color: rgba(26,22,18,0.55); }
+.tab-nav-light .tab-link-active { background: rgba(26,22,18,0.18); color: #1A1612; }
+
+.topbar-left { display: flex; gap: 16px; align-items: center; }

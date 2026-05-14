@@ -8,6 +8,7 @@ import { Rung } from "@/components/Rung";
 import { Bridge } from "@/components/Bridge";
 import { RungIndex } from "@/components/RungIndex";
 import { LadderViz } from "@/components/LadderViz";
+import { TabNav } from "@/components/tree/TabNav";
 
 const SCENE_LABELS: Record<string, string> = {
   hero: "Start",
@@ -98,8 +99,11 @@ export default function Home() {
   return (
     <>
       <header className="topbar">
-        <div className="mark">
-          THE&nbsp;AI&nbsp;LADDER<span className="dot">.</span>
+        <div className="topbar-left">
+          <TabNav theme="light" />
+          <div className="mark">
+            THE&nbsp;AI&nbsp;LADDER<span className="dot">.</span>
+          </div>
         </div>
         <div className="scene-readout">
           <span className="n">{SCENE_NUMS[activeScene] ?? "00"}</span>
