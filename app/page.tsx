@@ -177,6 +177,11 @@ export default function Home() {
               could take this week.
             </p>
 
+            <p className="hero-rule">
+              The general rule: if you don't know how to do something, ask Claude.
+              <span className="hero-rule-caveat">AI hallucinates. Use your brain. But that's the rule.</span>
+            </p>
+
             <ContextInput value={context} onChange={setContext} />
 
             <RungIndex />

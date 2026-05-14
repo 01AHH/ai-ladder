@@ -331,6 +331,26 @@ a { color: var(--accent); }
   font-weight: 400;
 }
 .hero .lede strong { font-weight: 600; }
+.hero-rule {
+  margin-top: 2.5vh;
+  max-width: 640px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.4;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.hero-rule-caveat {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 .hero .scroll-hint {
   margin-top: 4vh;
   font-family: var(--mono);
