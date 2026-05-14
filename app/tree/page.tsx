@@ -6,6 +6,7 @@ import { Stage } from '@/components/tree/Stage';
 import { TreeGraph } from '@/components/tree/TreeGraph';
 import { LegendBar } from '@/components/tree/LegendBar';
 import { SidePanel } from '@/components/tree/SidePanel';
+import { PanelContent } from '@/components/tree/PanelContent';
 import type { NodeId } from '@/content/tree-nodes';
 
 export default function TreePage() {
@@ -20,9 +21,7 @@ export default function TreePage() {
       <TreeGraph onNodeClick={handleNodeClick} />
       <LegendBar />
       <SidePanel selectedId={selectedId} onClose={() => setSelectedId(null)}>
-        <div style={{ fontFamily: 'JetBrains Mono, ui-monospace, monospace', fontSize: 12, color: '#f5efd1' }}>
-          Selected: {selectedId}
-        </div>
+        {selectedId && <PanelContent id={selectedId} onJumpTo={(id) => setSelectedId(id)} />}
       </SidePanel>
     </Stage>
   );
