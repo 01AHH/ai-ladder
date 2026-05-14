@@ -47,3 +47,20 @@
 .tree-legend .swatch-bridge { background: transparent; border-top: 2px dashed rgba(176,125,255,0.75); }
 .tree-legend .swatch-cluster { background: rgba(255,140,90,0.85); }
 .tree-legend .legend-sep { width: 18px; }
+
+.tree-panel {
+  position: absolute;
+  top: 28px; right: 28px; bottom: 60px;
+  width: 380px;
+  background: linear-gradient(180deg, rgba(20,22,40,0.92), rgba(10,12,24,0.92));
+  border: 1px solid rgba(197,181,114,0.4);
+  border-radius: 10px;
+  padding: 22px 22px 18px;
+  backdrop-filter: blur(8px);
+  z-index: 8;
+  transform: translateX(420px);
+  opacity: 0;
+  transition: transform .25s ease, opacity .2s ease;
+  overflow: auto;
+}
+.tree-panel-open { transform: translateX(0); opacity: 1; }
