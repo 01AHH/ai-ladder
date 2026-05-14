@@ -1,16 +1,25 @@
 import { EDGES, type NodeId } from '@/content/tree-nodes';
 
-/** A node's prereqs are the `from` ends of all `spine` edges into it,
+/** A node's prereqs are the `from` ends of all `spine` and `cluster` edges into it,
  *  plus the special `bridge` edge from `prompting` (since Skills unlocks early).
- *  Cluster edges and other bridges are visual only — not gating.
+ *  Cluster edges are progression gates (Skills → Superpowers/Memory → Knowledge),
+ *  not purely visual groupings.
+ *
+ *  Returned order follows `EDGES` declaration order.
+ *  `closestUnmetPrereq` depends on this for its "first unmet" semantics.
  */
 export function prereqsOf(id: NodeId): NodeId[] {
   return EDGES
     .filter((e) => e.to === id)
-    .filter((e) => e.kind === 'spine' || (e.kind === 'bridge' && e.from === 'prompting'))
+    .filter((e) => e.kind === 'spine' || e.kind === 'cluster' || (e.kind === 'bridge' && e.from === 'prompting'))
     .map((e) => e.from);
 }
 
+/** A node's render state.
+ *  `stateOf()` only returns `'available' | 'climbed' | 'locked'`.
+ *  The `'next'` state is composed at the UI layer by marking the single
+ *  result of `recommendedNext()` as `'next'` instead of `'available'`.
+ */
 export type NodeState = 'available' | 'climbed' | 'next' | 'locked';
 
 export function stateOf(id: NodeId, climbed: Set<NodeId>): NodeState {

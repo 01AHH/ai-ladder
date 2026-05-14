@@ -16,11 +16,11 @@ describe('prereqsOf', () => {
     expect(prereqsOf('integrated').sort()).toEqual(['apis', 'cron']);
   });
 
-  it('does not include cluster or bridge edges as prereqs (except root→skills)', () => {
+  it('does not include non-gating bridge edges as prereqs (except root→skills)', () => {
     // skills has only a bridge edge from prompting; prereqs should be just ['prompting']
     expect(prereqsOf('skills')).toEqual(['prompting']);
-    // superpowers has a cluster edge from skills (not spine, not root bridge); no spine prereqs.
-    expect(prereqsOf('superpowers')).toEqual([]);
+    // superpowers has a cluster edge from skills; cluster edges are gating prereqs.
+    expect(prereqsOf('superpowers')).toEqual(['skills']);
   });
 });
 
@@ -79,5 +79,32 @@ describe('closestUnmetPrereq', () => {
   it('returns the first unmet prereq when there are multiple', () => {
     expect(closestUnmetPrereq('integrated', new Set(['apis']))).toBe('cron');
     expect(closestUnmetPrereq('integrated', new Set(['cron']))).toBe('apis');
+  });
+});
+
+describe('cluster gating', () => {
+  it('superpowers requires skills', () => {
+    expect(prereqsOf('superpowers')).toEqual(['skills']);
+    expect(stateOf('superpowers', new Set())).toBe('locked');
+    expect(stateOf('superpowers', new Set(['prompting']))).toBe('locked');
+    expect(stateOf('superpowers', new Set(['prompting', 'skills']))).toBe('available');
+  });
+
+  it('memory requires skills', () => {
+    expect(prereqsOf('memory')).toEqual(['skills']);
+    expect(stateOf('memory', new Set(['skills']))).toBe('available');
+  });
+
+  it('knowledge requires both superpowers and memory', () => {
+    expect(prereqsOf('knowledge').sort()).toEqual(['memory', 'superpowers']);
+    expect(stateOf('knowledge', new Set(['superpowers']))).toBe('locked');
+    expect(stateOf('knowledge', new Set(['superpowers', 'memory']))).toBe('available');
+  });
+
+  it('cluster nodes are not available on a fresh visit', () => {
+    const fresh = new Set<NodeId>();
+    expect(stateOf('superpowers', fresh)).toBe('locked');
+    expect(stateOf('memory', fresh)).toBe('locked');
+    expect(stateOf('knowledge', fresh)).toBe('locked');
   });
 });
