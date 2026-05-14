@@ -148,3 +148,5 @@
     touch-action: none;
   }
 }
+
+.panel-coming-soon .panel-body { color: rgba(245,239,209,0.6); font-style: italic; }
