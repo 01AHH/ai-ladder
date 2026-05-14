@@ -9,51 +9,6 @@ import { Bridge } from "@/components/Bridge";
 import { RungIndex } from "@/components/RungIndex";
 import { LadderViz } from "@/components/LadderViz";
 
-const STEPS = [
-  {
-    rung: 1,
-    what:
-      "Open Claude.ai and re-do your last meeting follow-up email, but ask it to find what you didn't say.",
-    where: "20 min · claude.ai",
-  },
-  {
-    rung: 2,
-    what:
-      "Describe to Lovable the smallest internal page your team would actually use. Ship it tonight.",
-    where: "1 hr · lovable",
-  },
-  {
-    rung: 3,
-    what:
-      "Point Claude Code at the repo you keep meaning to clean up. Ask it for the three smallest PRs.",
-    where: "1 evening · claude code",
-  },
-  {
-    rung: 4,
-    what:
-      "Spin up one repo for one part of your life. CLAUDE.md, a /memory folder, three markdown files. Start the brain.",
-    where: "1 evening · any editor",
-  },
-  {
-    rung: 5,
-    what:
-      "Wire a single API call into one inbox or webhook. Just one. Ship the smallest possible loop.",
-    where: "1 weekend · anthropic api",
-  },
-  {
-    rung: 6,
-    what:
-      "Write your first skill. One file. The thing you keep re-explaining to Claude. Stop re-explaining.",
-    where: "2 hrs · claude.ai",
-  },
-  {
-    rung: 7,
-    what:
-      "Connect one tool to one tool, mediated by an agent. Don't pick the hardest pair. Pick the most boring.",
-    where: "1 quarter · your stack",
-  },
-];
-
 const SCENE_LABELS: Record<string, string> = {
   hero: "Start",
   prompting: "Prompting",
@@ -212,34 +167,26 @@ export default function Home() {
           );
         })}
 
-        {/* Bridge from last rung into the Step scene */}
-        <Bridge
-          uptag={rungs[rungs.length - 1].bridgeUptag}
-          line={rungs[rungs.length - 1].socraticBridge}
-          sceneKey={rungs[rungs.length - 1].sceneKey}
-        />
-
         <section className="scene step" id="step" data-scene-key="step">
           <div className="scene-inner">
             <div className="step-eyebrow">
-              <span>⌂ The whole point</span>
+              <span>⌂ A note</span>
             </div>
             <h2>
-              The point is the <em>step</em>, not the ladder.
+              This is just my <em>take</em>, today.
             </h2>
             <p className="step-lede">
-              Pick one. Block twenty minutes for it this week. The ladder is
-              only useful if you put your foot on it.
+              If you disagree, or think a step is missing,{" "}
+              <a
+                href="https://www.linkedin.com/in/arthur-hinton/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                tell me on LinkedIn
+              </a>
+              . I&apos;ll update this page as I hear what people say and as I
+              learn more.
             </p>
-            <div className="step-list">
-              {STEPS.map((s) => (
-                <a key={s.rung} className="step-row" href={`#rung-${s.rung}`}>
-                  <div className="n">↑ Step 0{s.rung}</div>
-                  <div className="what">{s.what}</div>
-                  <div className="where">{s.where}</div>
-                </a>
-              ))}
-            </div>
           </div>
         </section>
       </main>
