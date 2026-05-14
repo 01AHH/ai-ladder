@@ -14,10 +14,7 @@ export function Edge({ edge }: { edge: TreeEdge }) {
   const to = NODES[edge.to];
   const dash = edge.kind === 'bridge' ? '5 5' : undefined;
 
-  // Quadratic curve through a midpoint with slight bias for non-vertical edges
-  const mx = (from.x + to.x) / 2;
-  const my = (from.y + to.y) / 2;
-  const d = `M ${from.x} ${from.y} Q ${mx} ${my} ${to.x} ${to.y}`;
+  const d = `M ${from.x} ${from.y} L ${to.x} ${to.y}`;
 
   return (
     <path

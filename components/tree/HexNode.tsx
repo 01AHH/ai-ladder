@@ -12,6 +12,11 @@ const REGION_COLORS: Record<TreeNode['region'], string> = {
 
 const SIZE = 32; // half-width of the hex in viewBox units
 
+const HEX_POINTS = [
+  [0, -SIZE], [SIZE * 0.866, -SIZE / 2], [SIZE * 0.866, SIZE / 2],
+  [0, SIZE], [-SIZE * 0.866, SIZE / 2], [-SIZE * 0.866, -SIZE / 2],
+].map((p) => p.join(',')).join(' ');
+
 export function HexNode({
   node,
   state,
@@ -29,11 +34,6 @@ export function HexNode({
     '#14172a';
   const filter = state === 'next' ? 'drop-shadow(0 0 12px rgba(245,239,209,0.65))' : undefined;
 
-  const points = [
-    [0, -SIZE], [SIZE * 0.866, -SIZE / 2], [SIZE * 0.866, SIZE / 2],
-    [0, SIZE], [-SIZE * 0.866, SIZE / 2], [-SIZE * 0.866, -SIZE / 2],
-  ].map((p) => p.join(',')).join(' ');
-
   return (
     <g
       transform={`translate(${node.x} ${node.y})`}
@@ -45,7 +45,7 @@ export function HexNode({
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick(node.id); }}
     >
       <polygon
-        points={points}
+        points={HEX_POINTS}
         fill={fill}
         stroke={stroke}
         strokeOpacity={strokeOpacity}
