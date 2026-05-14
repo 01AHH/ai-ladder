@@ -29,7 +29,7 @@ export function DevBanner() {
         <h2 id="dev-banner-title" className="dev-banner-title">This page is still in development.</h2>
         <p className="dev-banner-body">
           The skill tree is a work in progress. There are bugs. Some nodes are placeholders.
-          Click around anyway — feedback welcome.
+          Click around anyway. Feedback welcome.
         </p>
         <button type="button" className="dev-banner-dismiss" onClick={dismiss}>
           got it →
