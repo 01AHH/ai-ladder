@@ -7,6 +7,7 @@ import { TreeGraph } from '@/components/tree/TreeGraph';
 import { LegendBar } from '@/components/tree/LegendBar';
 import { SidePanel } from '@/components/tree/SidePanel';
 import { PanelContent } from '@/components/tree/PanelContent';
+import { ResetProgress } from '@/components/tree/ResetProgress';
 import type { NodeId } from '@/content/tree-nodes';
 
 export default function TreePage() {
@@ -20,6 +21,7 @@ export default function TreePage() {
     <Stage>
       <TreeGraph onNodeClick={handleNodeClick} />
       <LegendBar />
+      <ResetProgress />
       <SidePanel selectedId={selectedId} onClose={() => setSelectedId(null)}>
         {selectedId && <PanelContent id={selectedId} onJumpTo={(id) => setSelectedId(id)} />}
       </SidePanel>

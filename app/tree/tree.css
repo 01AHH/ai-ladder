@@ -100,3 +100,17 @@
 .panel-actions .btn-done { background: rgba(125,242,168,0.18); border-color: rgba(125,242,168,0.6); color: #b6ecc4; }
 
 .panel-footer { margin-top: 14px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 9px; color: rgba(229,229,255,0.4); letter-spacing: 0.1em; text-align: center; }
+
+.reset-progress {
+  position: absolute; bottom: 38px; right: 28px;
+  background: transparent;
+  border: none;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(229,229,255,0.45);
+  cursor: pointer;
+  z-index: 5;
+}
+.reset-progress:hover { color: #ff8c5a; }
