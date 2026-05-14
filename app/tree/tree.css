@@ -26,3 +26,24 @@
 }
 
 .tree-tabs { position: absolute; top: 24px; left: 24px; z-index: 10; }
+
+.tree-legend {
+  position: absolute; bottom: 14px; left: 24px; right: 24px;
+  display: flex; flex-wrap: wrap; gap: 22px; justify-content: center;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: rgba(229,229,255,0.7);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  z-index: 5;
+  pointer-events: none;
+}
+.tree-legend .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align: middle; }
+.tree-legend .dot-root { background:#f5efd1; }
+.tree-legend .dot-soft { background:#6db1ff; }
+.tree-legend .dot-cluster { background:#ff8c5a; }
+.tree-legend .dot-tech { background:#c5b572; }
+.tree-legend .swatch { display:inline-block; width:24px; height:2px; margin-right:8px; vertical-align: middle; }
+.tree-legend .swatch-bridge { background: transparent; border-top: 2px dashed rgba(176,125,255,0.75); }
+.tree-legend .swatch-cluster { background: rgba(255,140,90,0.85); }
+.tree-legend .legend-sep { width: 18px; }
