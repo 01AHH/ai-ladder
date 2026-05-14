@@ -1,6 +1,7 @@
+// components/tree/SidePanel.tsx
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { NodeId } from '@/content/tree-nodes';
 
 export function SidePanel({
@@ -13,6 +14,8 @@ export function SidePanel({
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [dragY, setDragY] = useState(0);
+  const dragStart = useRef<number | null>(null);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose(); }
@@ -31,14 +34,41 @@ export function SidePanel({
     };
   }, [selectedId, onClose]);
 
+  // Reset drag offset when panel re-opens
+  useEffect(() => { setDragY(0); }, [selectedId]);
+
+  function onHandlePointerDown(e: React.PointerEvent) {
+    (e.target as Element).setPointerCapture?.(e.pointerId);
+    dragStart.current = e.clientY;
+  }
+  function onHandlePointerMove(e: React.PointerEvent) {
+    if (dragStart.current == null) return;
+    const dy = Math.max(0, e.clientY - dragStart.current);
+    setDragY(dy);
+  }
+  function onHandlePointerUp() {
+    if (dragY > 80) onClose();
+    setDragY(0);
+    dragStart.current = null;
+  }
+
   const open = !!selectedId;
+  const style = open ? { transform: `translateY(${dragY}px)` } : undefined;
 
   return (
     <aside
       ref={ref}
       className={`tree-panel ${open ? 'tree-panel-open' : ''}`}
       aria-hidden={!open}
+      style={style}
     >
+      <div
+        className="tree-panel-handle"
+        onPointerDown={onHandlePointerDown}
+        onPointerMove={onHandlePointerMove}
+        onPointerUp={onHandlePointerUp}
+        aria-label="drag to dismiss"
+      />
       {open && children}
     </aside>
   );
