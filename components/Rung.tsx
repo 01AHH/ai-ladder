@@ -12,11 +12,42 @@ type Props = {
 
 type State = "idle" | "streaming" | "done" | "error";
 
-const TOTAL = String(rungs.length).padStart(2, "0");
+const TOTAL = String(
+  rungs.filter((r) => Number.isInteger(r.number)).length,
+).padStart(2, "0");
+
+function fmtNum(n: number): string {
+  return n < 10 ? `0${n}` : String(n);
+}
+
+const CLAUDE_MD_SAMPLE = `# CLAUDE.md
+
+A note for you, Claude, at the start of every session in this repo.
+
+## Who I am
+
+I'm Sam, a product manager at a B2B logistics startup. I work in 90-minute blocks and lose patience with vague answers. Default to direct, terse, founder-level prose. No corporate language. Lead with the point, not the context.
+
+## What we're building
+
+A pricing dashboard for the internal ops team. Next.js + Tailwind + Supabase. Production lives at pricing.acme.com, staging at staging.pricing.acme.com.
+
+## Standing rules
+
+- Never push directly to main. Always open a PR.
+- Tests live next to the file they test (\`*.test.ts\`).
+- Bump the migration version on any schema change.
+- Don't add a dependency to solve a problem one helper function could solve.
+
+## Where else to look
+
+- /memory — facts about the team, customers, decisions we've made
+- /docs/specs — feature specs (treat as ground truth)
+- /.claude/skills — the workflows I've already taught you`;
 
 function renderInlineMarkdown(text: string): React.ReactNode[] {
   const out: React.ReactNode[] = [];
-  const re = /(\*\*[^*]+\*\*|\*[^*]+\*)/g;
+  const re = /(\*\*[^*]+\*\*|\*[^*]+\*|\[[^\]]+\]\([^)]+\))/g;
   let last = 0;
   let match;
   let key = 0;
@@ -25,6 +56,22 @@ function renderInlineMarkdown(text: string): React.ReactNode[] {
     const token = match[0];
     if (token.startsWith("**")) {
       out.push(<strong key={key++}>{token.slice(2, -2)}</strong>);
+    } else if (token.startsWith("[")) {
+      const m = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(token);
+      if (m) {
+        out.push(
+          <a
+            key={key++}
+            href={m[2]}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {m[1]}
+          </a>,
+        );
+      } else {
+        out.push(token);
+      }
     } else {
       out.push(<em key={key++}>{token.slice(1, -1)}</em>);
     }
@@ -167,6 +214,19 @@ export function Rung({ rung, getContext }: Props) {
     </details>
   );
 
+  const sampleClaudeMd = rung.id === "claude-md" && (
+    <details className="essay">
+      <summary>
+        <span className="essay-eyebrow">§ Sample</span>
+        <span className="essay-title">
+          See a <em>good starter CLAUDE.md</em>
+        </span>
+        <span className="essay-cue">expand ↓</span>
+      </summary>
+      <div className="essay-body">{renderEssay(CLAUDE_MD_SAMPLE)}</div>
+    </details>
+  );
+
   const repoCta = rung.id === "repo-structure" && (
     <a
       className="repo-cta"
@@ -197,7 +257,7 @@ export function Rung({ rung, getContext }: Props) {
         <div className="scene-inner">
           <div className="rung-stage">
             <div className="climax-stamp">Where the agent gets opinions</div>
-            <h2 className="rung-numeral">{String(rung.number).padStart(2, "0")}</h2>
+            <h2 className="rung-numeral">{fmtNum(rung.number)}</h2>
             <div className="rung-meta" style={{ marginTop: 12 }}>
               <span className="step">↑ Step {rung.number} of {TOTAL}</span>
               <span>{rung.tagline}</span>
@@ -205,31 +265,38 @@ export function Rung({ rung, getContext }: Props) {
             <h3 className="rung-name">
               <em>{rung.name}.</em>
             </h3>
-            <p className="rung-def">{renderInlineMarkdown(rung.definition)}</p>
+            <p className="rung-plain">{rung.plain}</p>
             {rung.crit && (
               <p className="crit">{renderInlineMarkdown(rung.crit)}</p>
             )}
           </div>
 
           <div className="rung-body">
-            <div className="shelf-head">Your skill shelf · a few examples</div>
-            <div className="shelf">
-              {rung.skills?.map((s) => (
-                <div className="skill-card" key={s.name}>
-                  <div className="top">
-                    <span className="tag">{s.tag}</span>
-                    <span className="name">{s.name}</span>
-                  </div>
-                  <div className="trigger">
-                    <span className="when">Fires when</span>
-                    {s.trigger}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <p className="rung-def">{renderInlineMarkdown(rung.definition)}</p>
 
-            <div style={{ marginTop: 32 }}>{generate}</div>
+            {generate}
             {stream}
+
+            <section className="inspo shelf-inspo">
+              <div className="inspo-label">
+                <span>⌁ Your skill shelf · a few examples</span>
+                <span className="what">(install one)</span>
+              </div>
+              <div className="shelf">
+                {rung.skills?.map((s) => (
+                  <div className="skill-card" key={s.name}>
+                    <div className="top">
+                      <span className="tag">{s.tag}</span>
+                      <span className="name">{s.name}</span>
+                    </div>
+                    <div className="trigger">
+                      <span className="when">Fires when</span>
+                      {s.trigger}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
 
             <InspirationGallery rungId={rung.id} />
           </div>
@@ -247,13 +314,18 @@ export function Rung({ rung, getContext }: Props) {
       <div className="scene-inner">
         <div className="rung-stage">
           {meta}
-          <h2 className="rung-numeral">
-            {String(rung.number).padStart(2, "0")}
+          <h2
+            className={`rung-numeral${
+              Number.isInteger(rung.number) ? "" : " sub"
+            }`}
+          >
+            {fmtNum(rung.number)}
             <span className="of">/{TOTAL}</span>
           </h2>
           <h3 className="rung-name">
             <em>{rung.name}.</em>
           </h3>
+          <p className="rung-plain">{rung.plain}</p>
           {tools}
         </div>
 
@@ -284,6 +356,8 @@ export function Rung({ rung, getContext }: Props) {
           {repoCta}
 
           {essayBlock}
+
+          {sampleClaudeMd}
 
           {generate}
           {stream}

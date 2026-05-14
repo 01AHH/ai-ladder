@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { rungs } from "@/content/rungs";
 import { ContextInput } from "@/components/ContextInput";
+import { Definitions } from "@/components/Definitions";
 import { Rung } from "@/components/Rung";
 import { Bridge } from "@/components/Bridge";
 import { RungIndex } from "@/components/RungIndex";
@@ -163,6 +164,8 @@ export default function Home() {
               A field guide to what's actually possible with AI right now
             </div>
 
+            <Definitions />
+
             <h1>
               Knowing the next step in your AI journey is hard when you
               don&apos;t know what&apos;s <em>possible</em>.
@@ -172,13 +175,14 @@ export default function Home() {
               Most people stop at ChatGPT and assume that&apos;s the ceiling.
               It isn&apos;t. There are seven steps above it, and the gap
               between step one and step eight is the difference between{" "}
-              <em>using</em> AI and <em>building</em> with it.
+              <em>using</em> AI and <em>developing</em> with it.
             </p>
             <p className="lede">
-              I built this because I kept watching smart people give up on AI
-              after a few weeks of Claude.ai. Not because they couldn&apos;t
-              get value out of it. Nobody had shown them what one
-              step up looks like. This is the map I wish I&apos;d had.
+              I built this because smart people kept asking me how I use AI
+              and what was actually possible with it. Every conversation hit
+              the same wall: I couldn&apos;t tell where they were on their
+              AI journey, and they couldn&apos;t picture what one step up
+              looked like. This is the map.
             </p>
 
             <ContextInput value={context} onChange={setContext} />
