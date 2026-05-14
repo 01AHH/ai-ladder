@@ -114,3 +114,7 @@
   z-index: 5;
 }
 .reset-progress:hover { color: #ff8c5a; }
+
+.tree-pan-layer { position: absolute; inset: 0; cursor: grab; }
+.tree-pan-layer:active { cursor: grabbing; }
+.tree-pan-content { width: 100%; height: 100%; transform-origin: center center; transition: transform .04s linear; }
