@@ -1,21 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './tree.css';
 import { Stage } from '@/components/tree/Stage';
 import { TreeGraph } from '@/components/tree/TreeGraph';
 import { LegendBar } from '@/components/tree/LegendBar';
 import { SidePanel } from '@/components/tree/SidePanel';
 import { PanelContent } from '@/components/tree/PanelContent';
-import { ResetProgress } from '@/components/tree/ResetProgress';
 import { DevBanner } from '@/components/tree/DevBanner';
+import { HUD } from '@/components/tree/HUD';
+import { useClimbed } from '@/lib/tree/useClimbed';
 import type { NodeId } from '@/content/tree-nodes';
 
 export default function TreePage() {
   const [selectedId, setSelectedId] = useState<NodeId | null>(null);
+  const [justLearnedId, setJustLearnedId] = useState<NodeId | null>(null);
+  const { climbed } = useClimbed();
+  const prevClimbed = useRef<Set<NodeId>>(climbed);
 
-  // The essay page applies `scene-*` body classes for its scroll-driven palette.
-  // Strip them on /tree so the body bg doesn't bleed through the dark stage.
   useEffect(() => {
     const removed: string[] = [];
     document.body.classList.forEach((c) => {
@@ -28,15 +30,31 @@ export default function TreePage() {
     };
   }, []);
 
+  useEffect(() => {
+    const added: NodeId[] = [];
+    climbed.forEach((id) => { if (!prevClimbed.current.has(id)) added.push(id); });
+    prevClimbed.current = climbed;
+    if (added.length > 0) {
+      const id = added[0];
+      setJustLearnedId(id);
+      const t = setTimeout(() => setJustLearnedId(null), 1200);
+      return () => clearTimeout(t);
+    }
+  }, [climbed]);
+
   function handleNodeClick(id: NodeId) {
     setSelectedId((cur) => (cur === id ? null : id));
   }
 
   return (
     <Stage>
-      <TreeGraph onNodeClick={handleNodeClick} />
+      <TreeGraph
+        onNodeClick={handleNodeClick}
+        selectedId={selectedId}
+        justLearnedId={justLearnedId}
+      />
+      <HUD />
       <LegendBar />
-      <ResetProgress />
       <SidePanel selectedId={selectedId} onClose={() => setSelectedId(null)}>
         {selectedId && <PanelContent id={selectedId} onJumpTo={(id) => setSelectedId(id)} />}
       </SidePanel>

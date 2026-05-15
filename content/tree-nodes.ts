@@ -15,11 +15,17 @@ export interface ResourceLink {
   internal?: boolean;
 }
 
+export type Tier = 'root' | 'core' | 'mid' | 'deep';
+
 export interface TreeNode {
   id: NodeId;
   label: string;
   subtitle?: string;
   region: Region;
+  /** Skill-tree depth tier. Drives hex radius and visual emphasis. */
+  tier: Tier;
+  /** XP awarded when this node is climbed. Used by the HUD rank bar. */
+  xp: number;
   /** SVG viewBox coordinates (viewBox is 1400x660) */
   x: number;
   y: number;
@@ -49,6 +55,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'prompting',
     label: 'Prompting',
     region: 'root',
+    tier: 'root',
+    xp: 50,
     x: 700, y: 110,
     tag: 'The conversation.',
     timeToLearn: '~5 min to start',
@@ -71,6 +79,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     label: 'Claude Cowork',
     subtitle: '(Claude.ai Projects)',
     region: 'soft',
+    tier: 'core',
+    xp: 30,
     x: 380, y: 200,
     tag: 'Working with Claude like a knowledge base.',
     timeToLearn: '~an afternoon',
@@ -85,6 +95,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'scheduling',
     label: 'Scheduling',
     region: 'soft',
+    tier: 'mid',
+    xp: 20,
     x: 380, y: 320,
     tag: 'Tasks that run on a clock.',
     timeToLearn: '~an hour',
@@ -99,6 +111,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'connectors',
     label: 'Connectors',
     region: 'soft',
+    tier: 'deep',
+    xp: 30,
     x: 380, y: 440,
     tag: 'APIs, but you don\'t have to write code.',
     timeToLearn: '~a day',
@@ -113,6 +127,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'skills',
     label: 'Skills',
     region: 'cluster',
+    tier: 'core',
+    xp: 40,
     x: 700, y: 200,
     tag: 'Behaviour you can install.',
     timeToLearn: '~an hour to a day',
@@ -135,6 +151,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'superpowers',
     label: 'Superpowers',
     region: 'cluster',
+    tier: 'mid',
+    xp: 30,
     x: 580, y: 310,
     tag: 'A library of skills, opinionated.',
     timeToLearn: '~an evening',
@@ -151,6 +169,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'memory',
     label: 'Memory',
     region: 'cluster',
+    tier: 'mid',
+    xp: 30,
     x: 820, y: 310,
     tag: 'Knowledge you can install.',
     timeToLearn: '~a week minimum',
@@ -172,6 +192,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'knowledge',
     label: 'Knowledge',
     region: 'cluster',
+    tier: 'deep',
+    xp: 40,
     x: 700, y: 420,
     tag: 'Where behaviour and memory compound.',
     timeToLearn: '~ongoing',
@@ -186,6 +208,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'vibe',
     label: 'Vibe coding',
     region: 'tech',
+    tier: 'core',
+    xp: 30,
     x: 1020, y: 200,
     tag: 'Shipped software, easily.',
     timeToLearn: '~an afternoon',
@@ -207,6 +231,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'agents',
     label: 'Coding agents',
     region: 'tech',
+    tier: 'mid',
+    xp: 40,
     x: 1020, y: 290,
     tag: 'Pair-programming, asymmetric.',
     timeToLearn: '~a weekend',
@@ -228,6 +254,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'repo',
     label: 'Repo',
     region: 'tech',
+    tier: 'mid',
+    xp: 30,
     x: 1020, y: 380,
     tag: 'The working substrate.',
     timeToLearn: '~a weekend',
@@ -249,6 +277,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'apis',
     label: 'APIs',
     region: 'tech',
+    tier: 'deep',
+    xp: 30,
     x: 920, y: 470,
     tag: 'The model as a function in your codebase.',
     timeToLearn: '~a week',
@@ -270,6 +300,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     id: 'cron',
     label: 'Cron & scripts',
     region: 'tech',
+    tier: 'deep',
+    xp: 30,
     x: 1120, y: 470,
     tag: 'Engineering ops for AI workflows.',
     timeToLearn: '~a week',
@@ -285,6 +317,8 @@ export const NODES: Record<NodeId, TreeNode> = {
     label: 'Integrated',
     subtitle: '(knowledge-based systems)',
     region: 'tech',
+    tier: 'deep',
+    xp: 50,
     x: 1020, y: 570,
     tag: 'Agents with hands on your stack.',
     timeToLearn: '~a quarter',
@@ -332,4 +366,13 @@ export const EDGES: TreeEdge[] = [
   { from: 'memory', to: 'agents', kind: 'bridge' },
   { from: 'memory', to: 'repo', kind: 'bridge' },
   { from: 'knowledge', to: 'integrated', kind: 'bridge' },
+];
+
+/** Suggested learning order. Drives the gold dotted trail and the
+ *  "NEXT QUEST" banner in the HUD. */
+export const RECOMMENDED_PATH: NodeId[] = [
+  'prompting',
+  'skills', 'memory', 'superpowers', 'knowledge',
+  'cowork', 'scheduling', 'connectors',
+  'vibe', 'agents', 'repo', 'apis', 'cron', 'integrated',
 ];
