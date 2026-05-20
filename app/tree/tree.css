@@ -333,6 +333,8 @@
     transform: translateY(100%);
     transition: transform .25s ease, opacity .2s ease;
     padding-top: 14px;
+    padding-left: 18px;
+    padding-right: 18px;
   }
   .tree-panel-open { transform: translateY(0); }
   .tree-panel-handle {
@@ -344,9 +346,70 @@
     cursor: grab;
     touch-action: none;
   }
-  .tree-hud { grid-template-columns: 1fr; padding: 14px; gap: 10px; }
-  .hud-center, .hud-right { justify-content: flex-start; }
+
+  .tree-hud {
+    grid-template-columns: 1fr;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .hud-left, .hud-center, .hud-right { justify-content: flex-start; min-width: 0; }
   .tree-tabs { top: 56px; left: 14px; }
+
+  .brand-title { font-size: 20px; }
+  .brand-sub { font-size: 8.5px; letter-spacing: 0.2em; margin-bottom: 2px; }
+
+  .tree-quest {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    column-gap: 8px;
+    padding: 8px 12px;
+    font-size: 11px;
+    max-width: 100%;
+  }
+  .quest-label { font-size: 9px; letter-spacing: 0.2em; }
+  .quest-name { font-size: 15px; }
+  .quest-sub { font-size: 11px; }
+
+  .xp-block {
+    min-width: 0;
+    width: 100%;
+    padding: 8px 12px;
+    gap: 5px;
+  }
+  .xp-row { font-size: 10px; }
+  .xp-row-sm { font-size: 9px; }
+
+  .tree-legend {
+    bottom: 10px;
+    gap: 12px;
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    padding: 0 12px;
+    max-width: calc(100% - 24px);
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+  .tree-legend .leg-line { width: 20px; }
+
+  .cluster-header-text { font-size: 16px; }
+}
+
+@media (max-width: 480px) {
+  .tree-hud { padding: 10px 12px; gap: 8px; }
+  .brand-title { font-size: 18px; }
+  .tree-quest { font-size: 10.5px; padding: 7px 10px; }
+  .quest-name { font-size: 14px; }
+  .tree-legend { gap: 8px; font-size: 8px; }
+  .tree-legend .leg-line { width: 16px; }
+  .tree-panel { padding-left: 16px; padding-right: 16px; padding-bottom: 16px; }
+  .panel-name { font-size: 28px; }
+  .panel-tag { font-size: 14px; }
+  .panel-actions { flex-direction: column; }
+  .panel-actions .btn { padding: 11px; }
+  .dev-banner { padding: 20px 18px 18px; }
+  .dev-banner-title { font-size: 22px; }
+  .dev-banner-body { font-size: 13px; }
 }
 
 .panel-coming-soon .panel-body { color: rgba(230,234,245,0.55); font-style: italic; }

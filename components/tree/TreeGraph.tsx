@@ -18,9 +18,9 @@ type Section = {
 };
 
 const SECTIONS: Section[] = [
-  { x: 200, width: 290, label: 'General Productivity', accent: '#6BA0D6' },
-  { x: 490, width: 380, label: 'Essential Skills & Knowledge', accent: '#D97757' },
-  { x: 870, width: 390, label: 'Building Tools & Software', accent: '#E8C76A' },
+  { x: 200, width: 270, label: 'General Productivity', accent: '#6BA0D6' },
+  { x: 490, width: 370, label: 'Essential Skills & Knowledge', accent: '#D97757' },
+  { x: 880, width: 375, label: 'Building Tools & Software', accent: '#E8C76A' },
 ];
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -41,10 +41,10 @@ function ClusterBands() {
             y={20}
             width={s.width}
             height={620}
-            fill={hexToRgba(s.accent, 0.05)}
-            stroke={hexToRgba(s.accent, 0.18)}
+            fill={hexToRgba(s.accent, 0.06)}
+            stroke={hexToRgba(s.accent, 0.5)}
             strokeDasharray="3 6"
-            strokeWidth={1}
+            strokeWidth={1.4}
             rx={14}
           />
           <text

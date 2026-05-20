@@ -1465,6 +1465,7 @@ footer.site .wink .dot { color: var(--accent); }
   }
   .rung-stage { position: static; }
   .topbar { padding: 18px 20px; }
+  .topbar .mark { display: none; }
   .scene { padding: 12vh 0 8vh 0; }
   .bridge { padding: 10vh 0 12vh 0; }
   footer.site { grid-template-columns: 1fr; padding-left: 24px; padding-right: 24px; }
@@ -1472,13 +1473,112 @@ footer.site .wink .dot { color: var(--accent); }
   .rix-tag { display: none; }
 }
 @media (max-width: 600px) {
-  .hero h1 { font-size: 36px; }
-  .rung-numeral { font-size: 160px; }
-  .rung-numeral.sub { font-size: 96px; }
-  .climax .rung-numeral { font-size: 140px; }
-  .context-input input { font-size: 22px; }
-  .step-row { grid-template-columns: 1fr; gap: 6px; padding: 20px 4px; }
+  .scene-inner { padding: 0 20px; }
+  .scene { padding: 10vh 0 6vh 0; }
+
+  .topbar { padding: 14px 16px; }
+  .topbar-left { gap: 12px; }
+  .topbar .scene-readout { font-size: 10px; letter-spacing: 0.12em; }
+  .topbar .scene-readout .label { margin-left: 8px; }
+
+  .hero .scene-inner { padding-top: 5vh; gap: 4vh; }
+  .hero h1 { font-size: clamp(28px, 8.6vw, 38px); }
+  .hero .lede { font-size: 17px; line-height: 1.45; }
+  .hero .eyebrow { gap: 8px; font-size: 10px; letter-spacing: 0.16em; }
+
+  .defs { padding: 12px 14px; }
+  .defs-title { font-size: 14px; }
+  .defs-title em { font-size: 16px; }
+
+  .note { padding: 12px 14px; gap: 12px; }
+  .note-body { font-size: 14px; }
+  .note-body em { font-size: 16px; }
+
+  .context { padding: 22px 0 24px; }
+  .context-question { font-size: 24px; line-height: 1.18; }
+  .context-input { gap: 10px; }
+  .context-input .marker { font-size: 26px; }
+  .context-input input { font-size: 20px; }
+  .context-hint { gap: 8px; font-size: 10px; }
+  .context-hint button { padding: 4px 10px; }
+
+  .rix-row {
+    grid-template-columns: 40px 1fr 22px;
+    gap: 12px;
+    padding: 14px 4px 14px 14px;
+  }
+  .rix-row:hover { padding-left: 22px; }
+  .rix-row::before { width: 3px; }
+  .rix-num { font-size: 10px; letter-spacing: 0.12em; }
+  .rix-name { font-size: 22px; line-height: 1.05; }
+  .rix-arrow { font-size: 18px; }
+
+  .bridge { padding: 8vh 0 9vh 0; }
+  .bridge .line { font-size: clamp(26px, 7.5vw, 40px); }
+  .bridge .uptag { margin-bottom: 18px; font-size: 10px; letter-spacing: 0.16em; }
+
+  .rung-numeral { font-size: 140px; }
+  .rung-numeral.sub { font-size: 84px; }
+  .climax .rung-numeral { font-size: 120px; }
+  .rung-name { font-size: clamp(32px, 9vw, 44px); }
+  .rung-plain { font-size: 16px; padding-left: 10px; }
+  .rung-def { font-size: 18px; line-height: 1.4; }
+  .rung-meta { font-size: 10px; letter-spacing: 0.14em; }
+  .rung-tools { gap: 6px; }
+  .rung-tools .chip { padding: 4px 8px; font-size: 10px; }
+
+  .seed { padding: 14px 16px; max-width: none; }
+  .seed-text { font-size: 17px; }
+
+  .repo-cta { padding: 18px 18px 16px; gap: 8px; }
+  .repo-cta-title { font-size: 22px; }
+  .repo-cta-blurb { font-size: 14px; line-height: 1.45; }
+
+  .essay { padding: 14px 0; max-width: none; }
+  .essay summary { gap: 12px; }
+  .essay-title { font-size: 14px; min-width: 0; flex-basis: 100%; }
+  .essay-body { font-size: 15px; line-height: 1.6; }
+  .essay-body h3 { font-size: 22px; margin-bottom: 14px; }
+  .essay-body h4 { font-size: 17px; margin: 22px 0 10px; }
+
+  .generate { padding: 14px 18px; font-size: 11px; letter-spacing: 0.16em; gap: 10px; }
+  .generate .arrow { font-size: 16px; }
+
+  .stream { margin-top: 28px; padding-top: 20px; }
+  .stream-header { gap: 10px; font-size: 9px; }
+  .stream-body { font-size: 16px; line-height: 1.5; }
+  .climax .stream-body { font-size: 12px; padding: 16px 18px; }
+
+  .climax .crit { font-size: clamp(20px, 5.5vw, 26px); padding-left: 16px; margin-bottom: 28px; }
+  .climax-stamp { margin-bottom: 18px; font-size: 10px; letter-spacing: 0.16em; }
+
+  .skill-card { padding: 14px 16px; }
+  .skill-card .top { flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+  .skill-card .trigger { font-size: 14px; }
+
+  .shelf-head { font-size: 10px; letter-spacing: 0.16em; margin-bottom: 14px; }
+
+  .inspo { margin-top: 36px; padding-top: 20px; }
+  .inspo-label { font-size: 10px; letter-spacing: 0.16em; margin-bottom: 14px; }
+  .inspo-card { padding: 16px 18px; }
+  .inspo-media { width: calc(100% + 36px); margin: -16px -18px 12px; }
+  .inspo-card[data-has-media="true"] { padding-top: 0; }
+
+  .step .scene-inner { gap: 4vh; }
+  .step h2 { font-size: clamp(40px, 11vw, 60px); }
+  .step .step-lede { font-size: 17px; }
+  .step-row { grid-template-columns: 1fr; gap: 6px; padding: 18px 4px; }
+  .step-row:hover { padding-left: 10px; }
   .step-row .where { justify-self: start; }
+  .step-row .what { font-size: 20px; }
+
+  footer.site { padding: 40px 20px 36px; gap: 18px; font-size: 10px; }
+}
+@media (max-width: 420px) {
+  .topbar .scene-readout .label { display: none; }
+  .topbar .scene-readout .sep { margin: 0 2px; }
+  .rung-numeral { font-size: 120px; }
+  .climax .rung-numeral { font-size: 104px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
