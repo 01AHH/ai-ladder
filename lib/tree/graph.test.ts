@@ -55,7 +55,7 @@ describe('recommendedNext', () => {
   it('returns null when everything is climbed', () => {
     const all: NodeId[] = [
       'prompting','cowork','scheduling','connectors',
-      'skills','superpowers','memory','knowledge',
+      'skills','sessions','superpowers','memory','knowledge',
       'vibe','agents','repo','apis','cron','integrated',
     ];
     expect(recommendedNext(new Set(all))).toBeNull();
@@ -90,9 +90,15 @@ describe('cluster gating', () => {
     expect(stateOf('superpowers', new Set(['prompting', 'skills']))).toBe('available');
   });
 
-  it('memory requires skills', () => {
-    expect(prereqsOf('memory')).toEqual(['skills']);
-    expect(stateOf('memory', new Set(['skills']))).toBe('available');
+  it('memory requires skills and sessions', () => {
+    expect(prereqsOf('memory')).toEqual(['skills', 'sessions']);
+    expect(stateOf('memory', new Set(['skills']))).toBe('locked');
+    expect(stateOf('memory', new Set(['skills', 'sessions']))).toBe('available');
+  });
+
+  it('sessions requires skills', () => {
+    expect(prereqsOf('sessions')).toEqual(['skills']);
+    expect(stateOf('sessions', new Set(['skills']))).toBe('available');
   });
 
   it('knowledge requires both superpowers and memory', () => {
@@ -103,6 +109,7 @@ describe('cluster gating', () => {
 
   it('cluster nodes are not available on a fresh visit', () => {
     const fresh = new Set<NodeId>();
+    expect(stateOf('sessions', fresh)).toBe('locked');
     expect(stateOf('superpowers', fresh)).toBe('locked');
     expect(stateOf('memory', fresh)).toBe('locked');
     expect(stateOf('knowledge', fresh)).toBe('locked');

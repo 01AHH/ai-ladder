@@ -131,8 +131,8 @@ export const rungs: Rung[] = [
     seedExample: "",
     tools: ["Claude Code skills", ".claude/skills/", "superpowers"],
     sceneKey: "skills",
-    socraticBridge: "What if it didn't just *act* the same way every time, but *remembered* you between sessions?",
-    bridgeUptag: "Step five",
+    socraticBridge: "But what happens when your session fills up *before* the skill has done its work?",
+    bridgeUptag: "Step 4.5",
     crit:
       '"A prompt is something you write once. **A skill is something the model does forever.**"',
     skills: [
@@ -156,11 +156,35 @@ export const rungs: Rung[] = [
       },
     ],
     bridgeTarget: {
-      id: "memory",
-      hook: "You've installed behaviour. Now install context.",
+      id: "session-limits",
+      hook: "You've installed behaviour. Now learn to stretch the context window it runs inside.",
     },
     brief:
       "Skills are markdown files that change what Claude *does*, not what Claude *knows*. A skill lives in `~/.claude/skills/` (global to you) or `.claude/skills/` (per-repo). Each is a folder with a single `.md` file: frontmatter (`name`, `description`) plus a body of instructions. The `description` field is how the skill gets triggered. Claude matches the current task against it and decides whether to invoke. This repo ships nine real, MIT-licensed skills under `.claude/skills/`: brainstorming, bugfix, hygiene, simplest-path, sweeping-the-codebase, systematic-debugging, test-driven-development, verification-before-completion, writing-plans. Skills are the cheapest possible upgrade on the ladder: one folder, no repo restructure, no API call. The personalised output for this step should help the user identify one workflow they repeat ten or more times a week and sketch the single skill that would replace that repetition.",
+  },
+  {
+    id: "session-limits",
+    number: 4.5,
+    name: "Session limits",
+    tagline: "When you hit the wall",
+    time: "~10 min",
+    plain:
+      "What to do when a chat runs out of room: compact, split, swap models, and push the recurring context into files so the next session starts lighter.",
+    definition:
+      "Every long session eventually hits a wall. The context window fills up, the model starts forgetting decisions you made an hour ago, replies get vaguer, and you feel the cost climb. Most people respond by starting over and re-explaining everything; the better move is to make each token earn its keep.\n\nThe tricks are unglamorous and they compound. `/compact` collapses the chat into a summary and frees room to keep going. Start a fresh session for each new task instead of letting one chat carry every topic of the week. Drop a smaller model (Haiku) on grunt work, renames, and sweeps. Use subagents for big searches so the results don't pollute your main thread. And anything you find yourself re-explaining belongs in a `CLAUDE.md` or `/memory` file, not pasted at the top of every chat.\n\nThis rung is the bridge to Memory. Tactics buy you a few more turns. Memory removes the need to spend them at all.",
+    seedExample:
+      '"My session is 80% full and I still have three things to ship. Compact the chat, pin the open decisions to a scratch file, and start fresh for the next task."',
+    tools: ["/compact", "Haiku", "subagents", "/memory", "CLAUDE.md"],
+    sceneKey: "skills",
+    socraticBridge:
+      "What if you didn't have to re-explain who you are *at the start of every session* in the first place?",
+    bridgeUptag: "Step five",
+    bridgeTarget: {
+      id: "memory",
+      hook: "Tactics buy time. Memory buys context for free, every session.",
+    },
+    brief:
+      "Session limits is the practical rung about managing the context window and token budget of a real working session with Claude. Six concrete tactics: (1) `/compact` — collapses chat history into a summary, frees room to keep going. Run it before the window is full, not after. (2) Fresh sessions per task — don't let one chat carry every topic of the week; one task per session keeps each chat lean. (3) Drop to a smaller model (Haiku) for grunt work — renames, file moves, sweeps, simple lookups — anything that doesn't need Opus-grade reasoning. (4) Use subagents for big searches and explorations — keeps the noisy intermediate results out of the main thread's context. (5) Push recurring context into `CLAUDE.md` and `/memory` — anything you re-explain three times belongs in a file the model loads automatically. (6) Use scoped prompts — point Claude at one file or one function rather than the whole repo, so it only loads what it needs. This rung is meta: it's about being efficient with the substrate you've already built. The personalised output should help the user identify the single biggest leak in their current workflow (re-explaining who they are? letting one chat sprawl? using Opus for renames?) and the one tactic that fixes it.",
   },
   {
     id: "memory",

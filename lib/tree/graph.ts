@@ -36,7 +36,7 @@ const RECOMMENDATION_ORDER: NodeId[] = [
   'prompting',
   'vibe', 'agents', 'repo', 'apis', 'cron', 'integrated',
   'cowork', 'scheduling', 'connectors',
-  'skills', 'superpowers', 'memory', 'knowledge',
+  'skills', 'sessions', 'superpowers', 'memory', 'knowledge',
 ];
 
 export function recommendedNext(climbed: Set<NodeId>): NodeId | null {

@@ -5,7 +5,7 @@ export type Region = 'root' | 'soft' | 'cluster' | 'tech';
 export type NodeId =
   | 'prompting'
   | 'cowork' | 'scheduling' | 'connectors'
-  | 'skills' | 'superpowers' | 'memory' | 'knowledge'
+  | 'skills' | 'sessions' | 'superpowers' | 'memory' | 'knowledge'
   | 'vibe' | 'agents' | 'repo' | 'apis' | 'cron' | 'integrated';
 
 export interface ResourceLink {
@@ -145,6 +145,32 @@ export const NODES: Record<NodeId, TreeNode> = {
       { source: 'essay', title: 'Read the full rung on the essay', href: '/#skills', internal: true },
     ],
     essayAnchor: '#skills',
+  },
+
+  sessions: {
+    id: 'sessions',
+    label: 'Session limits',
+    subtitle: '(stretching the context window)',
+    region: 'cluster',
+    tier: 'core',
+    xp: 25,
+    x: 580, y: 130,
+    tag: 'When your chat runs out of room.',
+    timeToLearn: '~10 min',
+    chips: ['/compact', 'Haiku', 'subagents', '/memory'],
+    whatItIs:
+      'Every long session eventually hits the context wall. The model forgets decisions, replies blur, costs climb. The fix isn\'t a bigger model — it\'s making each token earn its keep.',
+    howToLearn: [
+      'Run /compact *before* the window is full, not after. Frees room to keep going.',
+      'One task per session. Don\'t let a single chat carry every topic of the week.',
+      'Drop to Haiku for renames, sweeps, lookups — anything Opus is overkill for.',
+      'Use subagents for big searches so noisy results stay out of the main thread.',
+      'Anything you re-explain three times belongs in CLAUDE.md or /memory.',
+    ],
+    resources: [
+      { source: 'essay', title: 'Read the full rung on the essay', href: '/#session-limits', internal: true },
+    ],
+    essayAnchor: '#session-limits',
   },
 
   superpowers: {
@@ -356,8 +382,10 @@ export const EDGES: TreeEdge[] = [
   { from: 'cron', to: 'integrated', kind: 'spine' },
 
   // Cluster diamond
+  { from: 'skills', to: 'sessions', kind: 'cluster' },
   { from: 'skills', to: 'superpowers', kind: 'cluster' },
   { from: 'skills', to: 'memory', kind: 'cluster' },
+  { from: 'sessions', to: 'memory', kind: 'cluster' },
   { from: 'superpowers', to: 'knowledge', kind: 'cluster' },
   { from: 'memory', to: 'knowledge', kind: 'cluster' },
 
@@ -372,7 +400,7 @@ export const EDGES: TreeEdge[] = [
  *  "NEXT QUEST" banner in the HUD. */
 export const RECOMMENDED_PATH: NodeId[] = [
   'prompting',
-  'skills', 'memory', 'superpowers', 'knowledge',
+  'skills', 'sessions', 'memory', 'superpowers', 'knowledge',
   'cowork', 'scheduling', 'connectors',
   'vibe', 'agents', 'repo', 'apis', 'cron', 'integrated',
 ];
