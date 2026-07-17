@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { rungs, type Rung as RungType } from "@/content/rungs";
-import { StreamedOutput } from "./StreamedOutput";
 import { InspirationGallery } from "./InspirationGallery";
+import { GenerateDemo } from "./GenerateDemo";
+import { renderInlineMarkdown } from "./markdown";
+import { EssayBlock, ClaudeMdSample, RepoCta } from "./RungExtras";
 
 type Props = {
   rung: RungType;
   getContext: () => string;
 };
-
-type State = "idle" | "streaming" | "done" | "error";
 
 const TOTAL = String(
   rungs.filter((r) => Number.isInteger(r.number)).length,
@@ -20,152 +19,8 @@ function fmtNum(n: number): string {
   return n < 10 ? `0${n}` : String(n);
 }
 
-const CLAUDE_MD_SAMPLE = `# CLAUDE.md
-
-A note for you, Claude, at the start of every session in this repo.
-
-## Who I am
-
-I'm Sam, a product manager at a B2B logistics startup. I work in 90-minute blocks and lose patience with vague answers. Default to direct, terse, founder-level prose. No corporate language. Lead with the point, not the context.
-
-## What we're building
-
-A pricing dashboard for the internal ops team. Next.js + Tailwind + Supabase. Production lives at pricing.acme.com, staging at staging.pricing.acme.com.
-
-## Standing rules
-
-- Never push directly to main. Always open a PR.
-- Tests live next to the file they test (\`*.test.ts\`).
-- Bump the migration version on any schema change.
-- Don't add a dependency to solve a problem one helper function could solve.
-
-## Where else to look
-
-- /memory — facts about the team, customers, decisions we've made
-- /docs/specs — feature specs (treat as ground truth)
-- /.claude/skills — the workflows I've already taught you`;
-
-function renderInlineMarkdown(text: string): React.ReactNode[] {
-  const out: React.ReactNode[] = [];
-  const re = /(\*\*[^*]+\*\*|\*[^*]+\*|\[[^\]]+\]\([^)]+\))/g;
-  let last = 0;
-  let match;
-  let key = 0;
-  while ((match = re.exec(text)) !== null) {
-    if (match.index > last) out.push(text.slice(last, match.index));
-    const token = match[0];
-    if (token.startsWith("**")) {
-      out.push(<strong key={key++}>{token.slice(2, -2)}</strong>);
-    } else if (token.startsWith("[")) {
-      const m = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(token);
-      if (m) {
-        out.push(
-          <a
-            key={key++}
-            href={m[2]}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            {m[1]}
-          </a>,
-        );
-      } else {
-        out.push(token);
-      }
-    } else {
-      out.push(<em key={key++}>{token.slice(1, -1)}</em>);
-    }
-    last = match.index + token.length;
-  }
-  if (last < text.length) out.push(text.slice(last));
-  return out;
-}
-
-function renderEssay(text: string): React.ReactNode[] {
-  const blocks = text.trim().split(/\n\n+/);
-  return blocks.map((raw, i) => {
-    const block = raw.trim();
-    if (block.startsWith("## ")) {
-      return <h4 key={i}>{renderInlineMarkdown(block.slice(3))}</h4>;
-    }
-    if (block.startsWith("# ")) {
-      return <h3 key={i}>{renderInlineMarkdown(block.slice(2))}</h3>;
-    }
-    const lines = block.split("\n");
-    if (lines.every((l) => l.trim().startsWith("- "))) {
-      return (
-        <ul key={i}>
-          {lines.map((l, j) => (
-            <li key={j}>{renderInlineMarkdown(l.replace(/^\s*-\s+/, ""))}</li>
-          ))}
-        </ul>
-      );
-    }
-    return <p key={i}>{renderInlineMarkdown(block)}</p>;
-  });
-}
-
 export function Rung({ rung, getContext }: Props) {
-  const [text, setText] = useState("");
-  const [state, setState] = useState<State>("idle");
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
-
   const isClimax = rung.id === "skills";
-
-  async function handleGenerate() {
-    const context = getContext();
-    if (!context.trim()) {
-      document.getElementById("context-input")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-      document.querySelector<HTMLInputElement>("#context-input input")?.focus();
-      return;
-    }
-
-    setText("");
-    setErrorMessage(undefined);
-    setState("streaming");
-
-    try {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ context, rung_id: rung.id }),
-      });
-
-      if (!res.ok || !res.body) {
-        const msg = await res.text();
-        setErrorMessage(msg || "Claude couldn't generate. Try again.");
-        setState("error");
-        return;
-      }
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buf = "";
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        buf += decoder.decode(value, { stream: true });
-        setText(buf);
-      }
-      setState("done");
-    } catch {
-      setErrorMessage("Claude couldn't generate. Try again.");
-      setState("error");
-    }
-  }
-
-  const buttonLabel =
-    state === "streaming"
-      ? "Streaming…"
-      : state === "done"
-      ? "Regenerate"
-      : isClimax
-      ? "Generate my skill"
-      : "Generate good personal example for me";
-  const buttonArrow = state === "streaming" ? "·" : state === "done" ? "↻" : "→";
 
   const meta = (
     <div className="rung-meta">
@@ -183,68 +38,6 @@ export function Rung({ rung, getContext }: Props) {
         </span>
       ))}
     </div>
-  );
-
-  const generate = (
-    <button
-      className="generate"
-      data-state={state === "idle" ? undefined : state}
-      onClick={handleGenerate}
-      disabled={state === "streaming"}
-    >
-      {buttonLabel}
-      <span className="arrow">{buttonArrow}</span>
-    </button>
-  );
-
-  const stream = (
-    <StreamedOutput text={text} state={state} errorMessage={errorMessage} />
-  );
-
-  const essayBlock = rung.essay && (
-    <details className="essay">
-      <summary>
-        <span className="essay-eyebrow">§ The long-form</span>
-        <span className="essay-title">
-          Read the essay: <em>Context Is the Compound Interest of AI</em>
-        </span>
-        <span className="essay-cue">expand ↓</span>
-      </summary>
-      <div className="essay-body">{renderEssay(rung.essay)}</div>
-    </details>
-  );
-
-  const sampleClaudeMd = rung.id === "claude-md" && (
-    <details className="essay">
-      <summary>
-        <span className="essay-eyebrow">§ Sample</span>
-        <span className="essay-title">
-          See a <em>good starter CLAUDE.md</em>
-        </span>
-        <span className="essay-cue">expand ↓</span>
-      </summary>
-      <div className="essay-body">{renderEssay(CLAUDE_MD_SAMPLE)}</div>
-    </details>
-  );
-
-  const repoCta = rung.id === "repo-structure" && (
-    <a
-      className="repo-cta"
-      href="https://github.com/01AHH/ai-ladder"
-      target="_blank"
-      rel="noreferrer noopener"
-    >
-      <span className="repo-cta-eyebrow">⌥ This repo, exactly</span>
-      <span className="repo-cta-title">
-        Browse <em>ai-ladder</em> on GitHub
-      </span>
-      <span className="repo-cta-blurb">
-        The site you're reading is structured the way the essay describes.
-        CLAUDE.md at the root, a /prompts folder, a /.claude/skills folder.
-        Clone it. Look at the files. See if the shape matches yours.
-      </span>
-      <span className="repo-cta-cue">github.com/01AHH/ai-ladder ↗</span>
-    </a>
   );
 
   if (isClimax) {
@@ -274,8 +67,7 @@ export function Rung({ rung, getContext }: Props) {
           <div className="rung-body">
             <p className="rung-def">{renderInlineMarkdown(rung.definition)}</p>
 
-            {generate}
-            {stream}
+            <GenerateDemo rung={rung} getContext={getContext} />
 
             <section className="inspo shelf-inspo">
               <div className="inspo-label">
@@ -353,14 +145,13 @@ export function Rung({ rung, getContext }: Props) {
             </div>
           )}
 
-          {repoCta}
+          <RepoCta rungId={rung.id} />
 
-          {essayBlock}
+          <EssayBlock essay={rung.essay} />
 
-          {sampleClaudeMd}
+          <ClaudeMdSample rungId={rung.id} />
 
-          {generate}
-          {stream}
+          <GenerateDemo rung={rung} getContext={getContext} />
 
           <InspirationGallery rungId={rung.id} />
         </div>

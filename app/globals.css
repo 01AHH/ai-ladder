@@ -1673,6 +1673,26 @@ footer.site .wink .dot { color: var(--accent); }
 
 .topbar-left { display: flex; gap: 16px; align-items: center; }
 .topbar-right { display: flex; align-items: center; gap: 16px; }
+.theme-toggle {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  transition: border-color 160ms, color 160ms;
+}
+.theme-toggle .on { color: var(--ink); }
+.theme-toggle .sep { opacity: 0.4; }
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 .climb-cta {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--accent);
@@ -1697,4 +1717,5 @@ footer.site .wink .dot { color: var(--accent); }
   .climb-cta { padding: 7px 12px; }
   .climb-cta .full { display: none; }
   .climb-cta .short { display: inline; }
+  .theme-toggle { padding: 5px 9px; letter-spacing: 0.1em; }
 }
