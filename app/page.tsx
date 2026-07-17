@@ -6,7 +6,8 @@ import { ContextInput } from "@/components/ContextInput";
 import { Definitions } from "@/components/Definitions";
 import { Rung } from "@/components/Rung";
 import { Bridge } from "@/components/Bridge";
-import { RungIndex } from "@/components/RungIndex";
+import { HeroMetrics } from "@/components/HeroMetrics";
+import { RungPipeline } from "@/components/RungPipeline";
 import { LadderViz } from "@/components/LadderViz";
 import { TabNav } from "@/components/tree/TabNav";
 
@@ -105,11 +106,18 @@ export default function Home() {
             THE&nbsp;AI&nbsp;LADDER<span className="dot">.</span>
           </div>
         </div>
-        <div className="scene-readout">
-          <span className="n">{SCENE_NUMS[activeScene] ?? "00"}</span>
-          <span className="sep">/</span>
-          <span>07</span>
-          <span className="label">{SCENE_LABELS[activeScene] ?? "Start"}</span>
+        <div className="topbar-right">
+          <div className="scene-readout">
+            <span className="n">{SCENE_NUMS[activeScene] ?? "00"}</span>
+            <span className="sep">/</span>
+            <span>07</span>
+            <span className="label">{SCENE_LABELS[activeScene] ?? "Start"}</span>
+          </div>
+          <a className="climb-cta" href="#rung-1">
+            <span className="full">Start climbing</span>
+            <span className="short">Climb</span>
+            <span aria-hidden="true">↑</span>
+          </a>
         </div>
       </header>
 
@@ -153,6 +161,8 @@ export default function Home() {
               looked like. This is the map.
             </p>
 
+            <HeroMetrics />
+
             <aside className="note">
               <span className="note-eyebrow">On order</span>
               <p className="note-body">
@@ -164,7 +174,7 @@ export default function Home() {
 
             <ContextInput value={context} onChange={setContext} />
 
-            <RungIndex />
+            <RungPipeline activeScene={activeScene} />
 
             <div className="scroll-hint">
               <span>Or just scroll</span>

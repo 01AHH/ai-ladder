@@ -89,7 +89,7 @@ Applied to `.skill-card`, `.inspo-card`, `.seed`, `.repo-cta`, `.defs`, `.note`:
 
 - Corner radius: 12px (from the current 2–4px).
 - Ambient shadow: `0 2px 8px` using the scene ink at low opacity. Implemented via a
-  new palette token `--shadow` registered with `@property` and defined per scene
+  new palette token `--shadow-color` (a `<color>`) registered with `@property` and defined per scene
   (dark scenes get a slightly stronger value so the shadow reads on saturated
   backgrounds).
 - Hover (interactive cards only — `.skill-card`, `.inspo-card`, `.repo-cta`):
@@ -105,7 +105,7 @@ Note: `.repo-cta` currently references undefined variables `--paper`/`--paper-2`
 ## Files touched
 
 - `app/globals.css` — nav, metrics, pipeline, card pass; delete `.rix-*` block; add
-  `--shadow` token to `@property` registrations, `:root`, and every `body.scene-*`.
+  `--shadow-color` token to `@property` registrations, `:root`, and every `body.scene-*`.
 - `app/page.tsx` — render `HeroMetrics` + `RungPipeline` (passing `activeScene`),
   remove `RungIndex`, add CTA pill to the topbar.
 - `components/HeroMetrics.tsx` — new.
